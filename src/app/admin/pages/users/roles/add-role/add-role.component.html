@@ -1,0 +1,132 @@
+<ngx-spinner></ngx-spinner>
+<!-- <div class="row">
+  <div class="col-12">
+    <div class="content-header">{{ "labels.Users" | translate }}</div>
+  </div>
+</div> -->
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "labels.AddRole" | translate }}
+      </mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="myForm" class="form-container">
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.Name" | translate }} </mat-label>
+                    <input matInput type="text" formControlName="roleName" />
+                    <mat-error *ngIf="roleNameCtrl.errors?.required">
+                      {{ "labels.mustEnterValue" | translate }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          #addBtn
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="onSubmit()"
+        >
+          {{ "General.Add" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title> {{ "Navbar.Roles" | translate }}</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex. ium"
+            #input
+          />
+        </mat-form-field>
+
+        <div class="mat-elevation-z8 f-w">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- # Column -->
+            <ng-container matColumnDef="#">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+              <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Name" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let role">{{ role.roleName }}</td>
+            </ng-container>
+
+            <!-- actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let role">
+                <ng-container *ngFor="let fun of rowFunctions">
+                  <a
+                    *ngIf="fun.functionName === 'Update'"
+                    (click)="editRole(role)"
+                    class="success p-0"
+                  >
+                    <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                  </a>
+
+                  <a
+                    *ngIf="fun.functionName === 'Delete'"
+                    (click)="openDeleateDialog(role)"
+                    class="danger p-0"
+                  >
+                    <i class="ft-trash font-medium-3 mr-2"></i>
+                  </a>
+
+                  <a
+                    routerLink="/dashboard/role-fuctions/{{ role.Id }}"
+                    [queryParams]="{ parentId: functionId, functionId: fun.Id }"
+                    *ngIf="fun.functionName === 'Functions'"
+                    class="info p-0"
+                    matTooltip="add functions"
+                  >
+                    <i class="ft-git-branch font-medium-3 mr-2"></i>
+                  </a>
+                </ng-container>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+            aria-label="Select page of users"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

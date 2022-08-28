@@ -1,0 +1,650 @@
+<ngx-spinner></ngx-spinner>
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">
+      {{ Exams?.specificSubject?.subject_ar_name }}
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-md-3">
+    <mat-card class="card">
+      <mat-card-content>
+        <div class="media">
+          <div class="media-body text-left">
+            <h3 class="mb-1 primary">{{ Exams?.matCount }}</h3>
+            <span class="primary">{{ "Material.Videos" | translate }}</span>
+          </div>
+          <div class="media-right align-self-center">
+            <i class="ft-play primary font-large-2 float-right"></i>
+          </div>
+        </div>
+        <div class="progress" style="height: 4px">
+          <div
+            class="progress-bar bg-primary"
+            role="progressbar"
+            [attr.aria-valuenow]="Exams?.matCount"
+            [attr.aria-valuemin]="Exams?.matCount"
+            attr.aria-valuemax="100"
+            [style]="{ width: Exams?.matCount + '%' }"
+          ></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-md-3">
+    <mat-card class="card">
+      <mat-card-content>
+        <div class="media">
+          <div class="media-body text-left">
+            <h3 class="mb-1 warning">{{ Exams?.examCount }}</h3>
+            <span class="warning">{{ "Material.Exams" | translate }}</span>
+          </div>
+          <div class="media-right align-self-center">
+            <i class="ft-book-open warning font-large-2 float-right"></i>
+          </div>
+        </div>
+        <div class="progress" style="height: 4px">
+          <div
+            class="progress-bar bg-warning"
+            role="progressbar"
+            [attr.aria-valuenow]="Exams?.examCount"
+            [attr.aria-valuemin]="Exams?.examCount"
+            attr.aria-valuemax="100"
+            [style]="{ width: Exams?.examCount + '%' }"
+          ></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-md-3">
+    <mat-card class="card">
+      <mat-card-content>
+        <div class="media">
+          <div class="media-body text-left">
+            <h3 class="mb-1 success">{{ Exams?.studentExamCount }}</h3>
+            <span class="success">
+              {{ "Material.SolvedExams" | translate }}
+            </span>
+          </div>
+          <div class="media-right align-self-center">
+            <i class="ft-check success font-large-2 float-right"></i>
+          </div>
+        </div>
+        <div class="progress" style="height: 4px">
+          <div
+            class="progress-bar bg-success"
+            [attr.aria-valuenow]="Exams?.studentExamCount"
+            [attr.aria-valuemin]="Exams?.studentExamCount"
+            attr.aria-valuemax="100"
+            [style]="{ width: Exams?.studentExamCount + '%' }"
+          ></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-md-3">
+    <mat-card class="card">
+      <mat-card-content>
+        <div class="media">
+          <div class="media-body text-left">
+            <h3 class="mb-1 danger">
+              {{ achievments | round }}
+              %
+            </h3>
+            <span class="danger">
+              {{ "Material.Achievments" | translate }}
+            </span>
+          </div>
+          <div class="media-right align-self-center">
+            <i class="ft-trending-up danger font-large-2 float-right"></i>
+          </div>
+        </div>
+        <div class="progress" style="height: 4px">
+          <div
+            class="progress-bar bg-danger"
+            role="progressbar"
+            [attr.aria-valuenow]="achievments | round"
+            [attr.aria-valuemin]="achievments | round"
+            attr.aria-valuemax="100"
+            [style]="{ width: achievments + '%' }"
+          ></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-md-6">
+    <mat-card class="card">
+      <mat-card-content>
+        <mat-tab-group mat-align-tabs="start">
+          <mat-tab label="Solved Exams">
+            <div class="d-flex">
+              <ul
+                ngbNav
+                #Solved="ngbNav"
+                class="nav-pills"
+                orientation="vertical"
+              >
+                <li ngbNavItem="Subject">
+                  <a class="nav-link" ngbNavLink>Subject Exams</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Degree</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let exam of Exams?.solvedExams?.subject_exams;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ exam.examName }}</td>
+                          <td>{{ exam.studentGrade }}/{{ exam.examGrade }}</td>
+                          <td class="text-truncate">
+                            <a
+                              routerLink="/student/exam/{{ exam.examID }}"
+                              class="info p-0"
+                            >
+                              Show
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+                <li ngbNavItem="Unit">
+                  <a class="nav-link" ngbNavLink>Unit Exams</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Degree</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let exam of Exams?.solvedExams?.unit_exams;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ exam.examName }}</td>
+                          <td>{{ exam.studentGrade }}/{{ exam.examGrade }}</td>
+                          <td class="text-truncate">
+                            <a
+                              routerLink="/student/exam/{{ exam.examID }}"
+                              class="info p-0"
+                            >
+                              Show
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+                <li ngbNavItem="Lesson">
+                  <a class="nav-link" ngbNavLink>Lesson Exams</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Degree</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let exam of Exams?.solvedExams?.lesson_exams;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ exam.examName }}</td>
+                          <td>{{ exam.studentGrade }}/{{ exam.examGrade }}</td>
+                          <td class="text-truncate">
+                            <a
+                              routerLink="/student/exam/{{ exam.examID }}"
+                              class="info p-0"
+                            >
+                              Show
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+                <li ngbNavItem="quizzes">
+                  <a class="nav-link" ngbNavLink>Quizzes </a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Degree</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let exam of Exams?.solvedExams?.quizzes;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ exam.examName }}</td>
+                          <td>{{ exam.studentGrade }}/{{ exam.examGrade }}</td>
+                          <td class="text-truncate">
+                            <a
+                              routerLink="/student/exam/{{ exam.examID }}"
+                              class="info p-0"
+                            >
+                              Show
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div [ngbNavOutlet]="Solved" class="ml-4"></div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Unsolved Exams">
+            <div class="d-flex">
+              <ul
+                ngbNav
+                #Unsolved="ngbNav"
+                class="nav-pills"
+                orientation="vertical"
+              >
+                <li ngbNavItem="Subject2">
+                  <a class="nav-link" ngbNavLink>Subject Exams</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Degree</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let exam of Exams?.unSolvedExams?.subject_exams;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ exam.examName }}</td>
+                          <td>{{ exam.studentGrade }}/{{ exam.examGrade }}</td>
+                          <td class="text-truncate">
+                            <a
+                              routerLink="/student/exam/{{ exam.examID }}"
+                              class="info p-0"
+                            >
+                              Show
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+                <li ngbNavItem="Unit2">
+                  <a class="nav-link" ngbNavLink>Unit Exams</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Degree</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let exam of Exams?.unSolvedExams?.unit_exams;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ exam.examName }}</td>
+                          <td>{{ exam.studentGrade }}/{{ exam.examGrade }}</td>
+                          <td class="text-truncate">
+                            <a
+                              routerLink="/student/exam/{{ exam.examID }}"
+                              class="info p-0"
+                            >
+                              Show
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+                <li ngbNavItem="Lesson2">
+                  <a class="nav-link" ngbNavLink>Lesson Exams</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Degree</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let exam of Exams?.unSolvedExams?.lesson_exams;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ exam.examName }}</td>
+                          <td>{{ exam.studentGrade }}/{{ exam.examGrade }}</td>
+                          <td class="text-truncate">
+                            <a
+                              routerLink="/student/exam/{{ exam.examID }}"
+                              class="info p-0"
+                            >
+                              Show
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table></ng-template
+                  >
+                </li>
+                <li ngbNavItem="quizzes2">
+                  <a class="nav-link" ngbNavLink>Quizzes</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Degree</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let exam of Exams?.unSolvedExams?.quizzes;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ exam.examName }}</td>
+                          <td>{{ exam.studentGrade }}/{{ exam.examGrade }}</td>
+                          <td class="text-truncate">
+                            <a
+                              routerLink="/student/exam/{{ exam.examID }}"
+                              class="info p-0"
+                            >
+                              Show
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table></ng-template
+                  >
+                </li>
+              </ul>
+
+              <div [ngbNavOutlet]="Unsolved" class="ml-4"></div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-12 col-md-6">
+    <mat-card class="card">
+      <mat-card-content>
+        <mat-tab-group mat-align-tabs="start">
+          <mat-tab label="Subscribed Lectures">
+            <div class="d-flex">
+              <ul
+                ngbNav
+                #Subscribed="ngbNav"
+                class="nav-pills"
+                orientation="vertical"
+              >
+                <li ngbNavItem="Videos">
+                  <a class="nav-link" ngbNavLink> Videos</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Subject</th>
+                          <th>Teacher</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let material of Materials?.subscribedLectures
+                              ?.online;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ material.materialName }}</td>
+                          <td>{{ material.subjectName }}</td>
+                          <td>{{ material.teacherName }}</td>
+                          <td class="text-truncate">
+                            <a
+                              r
+                              routerLink="/student/teacher/{{
+                                material.teacherUserId
+                              }}/teacher-subject/{{
+                                material?.teacher_subject
+                              }}/{{ subjectId }}/material/{{ material?.id }}"
+                              class="info p-0"
+                            >
+                              <i class="ft-play font-medium-1 mr-1"></i>
+                              Enter
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+                <li ngbNavItem="Offline">
+                  <a class="nav-link" ngbNavLink>Offline</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Subject</th>
+                          <th>Teacher</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let material of Materials?.subscribedLectures
+                              ?.offline;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ material.materialName }}</td>
+                          <td>{{ material.subjectName }}</td>
+                          <td>{{ material.teacherName }}</td>
+                          <td class="text-truncate">
+                            <a
+                              r
+                              routerLink="/student/teacher/{{
+                                material.teacherUserId
+                              }}/teacher-subject/{{
+                                material?.teacher_subject
+                              }}/{{ subjectId }}/material/{{ material?.id }}"
+                              class="info p-0"
+                            >
+                              <i class="ft-play font-medium-1 mr-1"></i>
+                              Enter
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div [ngbNavOutlet]="Subscribed" class="ml-4"></div>
+            </div>
+          </mat-tab>
+          <mat-tab
+            label="Unsubscribed Lectures
+"
+          >
+            <div class="d-flex">
+              <ul
+                ngbNav
+                #Unsubscribed="ngbNav"
+                class="nav-pills"
+                orientation="vertical"
+              >
+                <li ngbNavItem="Videos">
+                  <a class="nav-link" ngbNavLink> Videos</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Subject</th>
+                          <th>Teacher</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let material of Materials?.unSubscribedLectures
+                              ?.online;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ material.materialName }}</td>
+                          <td>{{ material.subjectName }}</td>
+                          <td>{{ material.teacherName }}</td>
+                          <td class="text-truncate">
+                            <a
+                              r
+                              routerLink="/student/teacher/{{
+                                material.teacherUserId
+                              }}/teacher-subject/{{
+                                material?.teacher_subject
+                              }}/{{ subjectId }}/material/{{ material?.id }}"
+                              class="info p-0"
+                            >
+                              <i class="ft-play font-medium-1 mr-1"></i>
+                              Enter
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+                <li ngbNavItem="Offline">
+                  <a class="nav-link" ngbNavLink>Offline</a>
+                  <ng-template ngbNavContent>
+                    <table class="table text-center m-0 table-sm">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Subject</th>
+                          <th>Teacher</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let material of Materials?.unSubscribedLectures
+                              ?.offline;
+                            let i = index
+                          "
+                        >
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ material.materialName }}</td>
+                          <td>{{ material.subjectName }}</td>
+                          <td>{{ material.teacherName }}</td>
+                          <td class="text-truncate">
+                            <a
+                              r
+                              routerLink="/student/teacher/{{
+                                material.teacherUserId
+                              }}/teacher-subject/{{
+                                material?.teacher_subject
+                              }}/{{ subjectId }}/material/{{ material?.id }}"
+                              class="info p-0"
+                            >
+                              <i class="ft-play font-medium-1 mr-1"></i>
+                              Enter
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div [ngbNavOutlet]="Unsubscribed" class="ml-4"></div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

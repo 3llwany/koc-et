@@ -1,0 +1,16 @@
+@media (min-width: 320px) and (max-width: 750px) {
+  .new-msg {
+    position: absolute;
+    top: 70px;
+    width: 100%;
+  }
+
+  .new-msg form {
+    display: block !important;
+  }
+
+  .new-msg .form-control {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

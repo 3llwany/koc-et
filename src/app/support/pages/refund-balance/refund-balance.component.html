@@ -1,0 +1,138 @@
+<div class="row">
+  <div class="col-12">
+    <mat-card class="example-card">
+      <mat-card-title>Refund Balance </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="myForm" class="form-container form-horizontal">
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <mat-label class="primary">Name</mat-label>
+              <input
+                disabled
+                class="form-control bg-light-primary"
+                readonly
+                [value]="user?.ar_name"
+              />
+            </div>
+
+            <div class="col-sm-4">
+              <mat-label class="primary">Email</mat-label>
+              <input
+                disabled
+                class="form-control bg-light-primary"
+                readonly
+                [value]="user?.account_email"
+              />
+            </div>
+
+            <div class="col-sm-4">
+              <mat-label class="primary">Mobile</mat-label>
+              <input
+                disabled
+                class="form-control bg-light-primary"
+                readonly
+                [value]="user?.mobile"
+              />
+            </div>
+          </div>
+
+          <div class="row f-w">
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>Center</mat-label>
+                <mat-select
+                  formControlName="EduCompId"
+                  (selectionChange)="
+                    getTeachersByEducompId(FormCtrls.EduCompId.value)
+                  "
+                >
+                  <mat-option>Choose</mat-option>
+                  <mat-option
+                    *ngFor="let eduComp of EduComps"
+                    [value]="eduComp.Id"
+                  >
+                    {{ eduComp.Name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="FormCtrls.EduCompId.hasError('required')">
+                  {{ "labels.MustChoosevalue" | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>Teacher</mat-label>
+                <mat-select
+                  formControlName="teacherUserId"
+                  (selectionChange)="getStudentBalanceForTeacher()"
+                >
+                  <mat-option>Choose</mat-option>
+                  <mat-option
+                    *ngFor="let teacher of Teachers"
+                    [value]="teacher.teacherUserId"
+                  >
+                    {{ teacher.teacher_ar_name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="FormCtrls.teacherUserId.hasError('required')">
+                  {{ "labels.MustChoosevalue" | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="fill">
+                <mat-label> Balance</mat-label>
+                <input
+                  matInput
+                  class="readonly"
+                  type="text"
+                  readonly
+                  [value]="Balance"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label> Refund amount</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  formControlName="withdraw"
+                  [value]=""
+                  placeholder="Enter refund amount"
+                />
+                <mat-hint
+                  class="danger"
+                  *ngIf="
+                    FormCtrls.withdraw.invalid &&
+                    (FormCtrls.withdraw.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.withdraw.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrls.withdraw.errors?.bigZero">
+                    {{ "labels.MustEnterCorrectValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="RefundBalance()"
+        >
+          Refund
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>

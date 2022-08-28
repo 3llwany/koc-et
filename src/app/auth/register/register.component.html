@@ -1,0 +1,226 @@
+<!--Registration Page Starts-->
+<section id="regestration" class="auth-height">
+  <div class="row full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body auth-img">
+            <div class="row m-0">
+              <div
+                class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center text-center auth-img-bg py-2"
+              >
+                <img
+                  src="assets/img/gallery/register.png"
+                  alt=""
+                  class="img-fluid"
+                  width="350"
+                  height="230"
+                />
+              </div>
+              <div class="col-lg-6 col-md-12 px-4 py-3">
+                <h4 class="card-title mb-2">
+                  {{ "auth.CreateAccount" | translate }}
+                </h4>
+                <p>
+                  {{ "auth.FillFormMsg" | translate }}
+                </p>
+
+                <ngb-alert
+                  type="light-danger"
+                  class="mb-2"
+                  *ngIf="isFailed"
+                  (close)="isFailed = false"
+                >
+                  <p class="mb-0">{{ errMsg }}</p>
+                </ngb-alert>
+
+                <form [formGroup]="myForm">
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.Name" | translate }}</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="ar_name"
+                      placeholder="Name"
+                    />
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.ar_name.invalid &&
+                        (FormCtrls.ar_name.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.ar_name.errors?.required">
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                      <span
+                        *ngIf="
+                          FormCtrls.ar_name.errors?.whiteSpace ||
+                          FormCtrls.ar_name.errors?.pattern
+                        "
+                      >
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.mustEnterCorrectValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.Mobile" | translate }}</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="mobile"
+                      placeholder="Mobile"
+                    />
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.mobile.invalid &&
+                        (FormCtrls.mobile.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span
+                        *ngIf="
+                          FormCtrls.mobile.errors?.required ||
+                          FormCtrls.mobile.errors?.whiteSpace ||
+                          FormCtrls.mobile.errors?.pattern
+                        "
+                      >
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+
+                      <span
+                        *ngIf="
+                          FormCtrls.mobile.errors?.minlength ||
+                          FormCtrls.mobile.errors?.maxlength
+                        "
+                      >
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.MobileLength" | translate }}
+                      </span>
+                      <span *ngIf="FormCtrls.mobile.errors?.startsWith">
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.NumberMustStartWith" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.Email" | translate }}</mat-label>
+                    <input
+                      matInput
+                      type="email"
+                      placeholder="Email"
+                      formControlName="account_email"
+                    />
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.account_email.invalid &&
+                        (FormCtrls.account_email.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.account_email.errors?.required">
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Password" | translate }}</mat-label>
+                    <input
+                      matInput
+                      type="password"
+                      placeholder="password"
+                      formControlName="account_password"
+                    />
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.account_password.invalid &&
+                        (FormCtrls.account_password.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.account_password.errors?.required">
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="legacy">
+                    <mat-label>
+                      {{ "labels.ConfirmPassword" | translate }}
+                    </mat-label>
+                    <input
+                      matInput
+                      type="password"
+                      placeholder="Confirm Password"
+                      formControlName="confirmPassword"
+                    />
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.confirmPassword.invalid &&
+                        (FormCtrls.confirmPassword.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.confirmPassword.errors?.required">
+                        <i class="ft-alert-circle align-middle"></i>
+                        You must enter a confirm password.
+                      </span>
+                      <span *ngIf="FormCtrls.confirmPassword.errors?.mustMatch">
+                        <i class="ft-alert-circle align-middle"></i>
+                        Password and confirm not match
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <mat-radio-group formControlName="userTypeId" class="row">
+                    <div class="col-6">
+                      <mat-radio-button [value]="2">
+                        {{ "labels.Studnt" | translate }}
+                      </mat-radio-button>
+                    </div>
+
+                    <div class="col-6">
+                      <mat-radio-button [value]="1">
+                        {{ "labels.Parent" | translate }}
+                      </mat-radio-button>
+                    </div>
+                  </mat-radio-group>
+                </form>
+
+                <br />
+                <div
+                  class="d-flex justify-content-between flex-sm-row flex-column"
+                >
+                  <a
+                    mat-raised-button
+                    (click)="onSubmit()"
+                    class="btn btn-primary"
+                  >
+                    {{ "auth.CreateAccount" | translate }}
+                  </a>
+                  <a
+                    mat-raised-button
+                    routerLink="/auth/login"
+                    class="btn bg-light-primary mb-2 mb-sm-0"
+                  >
+                    {{ "auth.BackToLogin" | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Registration Page Ends-->
+<ngx-spinner></ngx-spinner>

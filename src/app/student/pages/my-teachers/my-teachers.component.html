@@ -1,0 +1,88 @@
+<mat-card class="card">
+  <!-- <mat-card-title>My Subjects</mat-card-title> -->
+  <mat-card-content>
+    <mat-tab-group animationDuration="0ms">
+      <mat-tab label="{{ 'labels.SubscribedTeachers' | translate }}">
+        <div class="mt pr-10 scrolled350">
+          <ng-container *ngIf="myTeachers?.length > 0; else emptyMyTeachers">
+            <div
+              class="media pt-0 pb-2 mt-20"
+              *ngFor="let teacher of myTeachers"
+            >
+              <img
+                class="mr-3 avatar rounded"
+                src="mozakretyapi/{{ teacher.profilePic }}"
+                alt="Avatar"
+                width="35"
+              />
+              <div class="media-body">
+                <h4 class="font-medium-1 mb-0">{{ teacher?.arName }}</h4>
+                <p class="grey font-small-3 m-0">{{ teacher?.subjectName }}</p>
+              </div>
+              <a
+                mat-raised-button
+                routerLink="/student/teacher/{{
+                  teacher.userId
+                }}/teacher-subject/{{ teacher?.teacherSubjectId }}/{{
+                  teacher?.subjectId
+                }}"
+                type="button"
+                class="btn btn-primary"
+              >
+                <i class="ft-more-vertical"></i>
+                {{ "General.Visite" | translate }}
+              </a>
+            </div>
+          </ng-container>
+          <ng-template #emptyMyTeachers>
+            <span class="alert bg-light-warning">
+              Subscribed Teachers is empty
+            </span>
+          </ng-template>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{ 'labels.OthersTeachers' | translate }}">
+        <div class="mt pr-10 scrolled350">
+          <ng-container
+            *ngIf="othersTeachers?.length > 0; else emptyOthersTeachers"
+          >
+            <div
+              class="media pt-0 pb-2 mt-20"
+              *ngFor="let teacher of othersTeachers"
+            >
+              <img
+                class="mr-3 avatar rounded"
+                src="mozakretyapi/{{ teacher.profilePic }}"
+                alt="Avatar"
+                width="35"
+              />
+              <div class="media-body">
+                <h4 class="font-medium-1 mb-0">{{ teacher?.arName }}</h4>
+                <p class="grey font-small-3 m-0">{{ teacher?.subjectName }}</p>
+              </div>
+              <a
+                mat-raised-button
+                routerLink="/student/teacher/{{
+                  teacher.userId
+                }}/teacher-subject/{{ teacher?.teacherSubjectId }}/{{
+                  teacher?.subjectId
+                }}"
+                type="button"
+                class="btn btn-primary"
+              >
+                <i class="ft-more-vertical"></i>
+                {{ "General.Visite" | translate }}
+              </a>
+            </div>
+          </ng-container>
+          <ng-template #emptyOthersTeachers>
+            <span class="alert bg-light-warning">
+              Others Teachers is empty
+            </span>
+          </ng-template>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+<ngx-spinner></ngx-spinner>

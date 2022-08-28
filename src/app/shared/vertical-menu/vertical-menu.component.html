@@ -1,0 +1,406 @@
+<!-- Sidebar Header starts -->
+<div class="sidebar-header" *ngIf="config?.layout.menuPosition === 'Side'">
+  <div class="logo clearfix">
+    <a [routerLink]="['/page']" class="logo-text float-left">
+      <div class="logo-img">
+        <img [src]="logoUrl" alt="Mozakrety logo" />
+      </div>
+      <span class="text align-middle">Mozakrety</span>
+    </a>
+    <a
+      class="nav-toggle d-none d-lg-none d-xl-block"
+      id="sidebarToggle"
+      href="javascript:;"
+      (click)="toggleSidebar()"
+    >
+      <i
+        #toggleIcon
+        [ngClass]="{
+          'ft-toggle-left': config.layout.sidebar.collapsed,
+          'ft-toggle-right': !config.layout.sidebar.collapsed
+        }"
+        class="toggle-icon"
+      ></i>
+    </a>
+    <a
+      class="nav-close d-block d-lg-block d-xl-none"
+      id="sidebarClose"
+      href="javascript:;"
+      (click)="CloseSidebar()"
+    >
+      <i class="ft-x"></i>
+    </a>
+  </div>
+</div>
+<!-- Sidebar Header Ends -->
+
+<!-- Sidebar Content starts -->
+<div
+  class="sidebar-content main-menu-content"
+  [perfectScrollbar]
+  [disabled]="!perfectScrollbarEnable"
+>
+  <div class="nav-container">
+    <!-- Start Student Menu -->
+    <ul *ngIf="AuthService.isStudent()" appSidebarDropdown class="navigation">
+      <!-- <app-student-menu></app-student-menu> -->
+      <li
+        appSidebarlink
+        parent="Home"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a routerLink="/home">
+          <i class="ft-home"></i>
+          <span>{{ "Navbar.Home" | translate }}</span>
+        </a>
+      </li>
+
+      <li
+        appSidebarlink
+        parent="My Space"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a routerLink="/student/mySpace">
+          <i class="ft-user"></i>
+          <span>{{ "Navbar.mySpace" | translate }}</span>
+        </a>
+      </li>
+
+      <li
+        appSidebarlink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a routerLink="/student/recharge">
+          <i class="fa fa-money"></i>
+
+          <span>{{ "Navbar.Recharge" | translate }}</span>
+        </a>
+      </li>
+
+      <!-- <li
+        appSidebarlink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a routerLink="/student/reservation/22/2/1/48HFR6/1">
+          <i class="fa fa-ticket"></i>
+          <span>{{ "Navbar.Reservation" | translate }}</span>
+        </a>
+      </li> -->
+
+      <li
+        appSidebarlink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a routerLink="/student/educational-stage">
+          <i class="fa fa-graduation-cap"></i>
+          <span>{{ "Navbar.EducationalStage" | translate }}</span>
+        </a>
+      </li>
+      <!--
+      <li
+        appSidebarlink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a routerLink="/student/refund-lecture">
+          <i class="fa fa-retweet"></i>
+          <span>{{ "Navbar.RefundLecture" | translate }}</span>
+        </a>
+      </li> -->
+      <!--
+      <li
+        appSidebarlink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/student/create-exam"
+
+        >
+          <i class="fa fa-book"></i>
+          <span>{{ "labels.CreateExam" | translate }}</span>
+        </a>
+      </li> -->
+    </ul>
+
+    <!-- EduComps And Braanches  -->
+    <ul
+      *ngIf="
+        !(AuthService.isStudent() || AuthService.isSupport()) &&
+        AuthService.isUser()
+      "
+      appSidebarDropdown
+    >
+      <li appSidebarlink class="dropdown nav-item">
+        <select
+          class="form-control"
+          [(ngModel)]="EduCompId"
+          [disabled]="EducationalComps?.length == 1"
+          (change)="onChangeEduCompId(EduCompId)"
+        >
+          <option value="">
+            {{ "labels.Center" | translate }}
+          </option>
+          <option
+            *ngFor="let eduComp of EducationalComps"
+            [selected]="eduComp.Id == EduCompId"
+            [value]="eduComp.Id"
+          >
+            {{ eduComp.Name }}
+          </option>
+        </select>
+      </li>
+      <li appSidebarlink class="dropdown nav-item">
+        <select
+          class="form-control"
+          [(ngModel)]="branchId"
+          [disabled]="!EduCompId"
+          (change)="changebranchId()"
+        >
+          <option value="">
+            {{ "labels.Branch" | translate }}
+          </option>
+          <option
+            *ngFor="let branch of Branches"
+            [selected]="branch.Id == branchId"
+            [value]="branch.Id"
+          >
+            {{ branch.Name }}
+          </option>
+        </select>
+      </li>
+    </ul>
+
+    <!-- Dynamic Links For Admins -->
+    <ul
+      class="navigation"
+      appSidebarDropdown
+      *ngIf="
+        !(AuthService.isStudent() || AuthService.isSupport()) &&
+        menuItems &&
+        AuthService.isUser()
+      "
+    >
+      <!-- First level menu -->
+      <li
+        appSidebarlink
+        *ngFor="let menuItem of menuItems"
+        [parent]="menuItem.title"
+        [path]="menuItem.path"
+        level="{{ level + 1 }}"
+        [hasSub]="menuItem.class.includes('has-sub') ? true : false"
+        [ngClass]="{
+          'has-sub': menuItem.class.includes('has-sub') ? true : false
+        }"
+        [routerLinkActive]="menuItem.submenu?.length != 0 ? 'open' : 'active'"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
+        <a appSidebarAnchorToggle>
+          <i [ngClass]="[menuItem.icon]"></i>
+          <span class="menu-title">{{ menuItem.title | translate }}</span>
+          <span
+            *ngIf="menuItem.badge && menuItem.badge != ''"
+            [ngClass]="[menuItem.badgeClass]"
+            >{{ menuItem.badge }}</span
+          >
+        </a>
+
+        <!-- <a
+          appSidebarAnchorToggle
+          *ngIf="menuItem.submenu?.length > 0 && !menuItem.isExternalLink"
+        >
+          <i [ngClass]="[menuItem.icon]"></i>
+          <span class="menu-title">{{ menuItem.title | translate }}</span>
+          <span
+            *ngIf="menuItem.badge && menuItem.badge != ''"
+            [ngClass]="[menuItem.badgeClass]"
+            >{{ menuItem.badge }}</span
+          >
+        </a>
+        <a
+          appSidebarAnchorToggle
+          routerLink="{{ menuItem.path }}"
+          *ngIf="menuItem.submenu?.length === 0 && !menuItem.isExternalLink"
+        >
+          <i [ngClass]="[menuItem.icon]"></i>
+          <span class="menu-title">{{ menuItem.title | translate }}</span>
+          <span
+            *ngIf="menuItem.badge && menuItem.badge != ''"
+            [ngClass]="[menuItem.badgeClass]"
+            >{{ menuItem.badge }}</span
+          >
+        </a>
+        <a
+          [href]="[menuItem.path]"
+          target="_blank"
+          *ngIf="menuItem.isExternalLink"
+        >
+          <i [ngClass]="[menuItem.icon]"></i>
+          <span class="menu-title">{{ menuItem.title | translate }}</span>
+          <span
+            *ngIf="menuItem.badge && menuItem.badge != ''"
+            [ngClass]="[menuItem.badgeClass]"
+            >{{ menuItem.badge }}</span
+          >
+        </a> -->
+        <!-- Second level menu -->
+        <ul
+          appSidebarDropdown
+          class="menu-content"
+          *ngIf="menuItem.submenu?.length > 0"
+        >
+          <li
+            appSidebarlink
+            *ngFor="let menuSubItem of menuItem.submenu"
+            [parent]="menuItem.title"
+            [hasSub]="menuSubItem.class.includes('has-sub') ? true : false"
+            [path]="menuSubItem.path"
+            level="{{ level + 2 }}"
+            [ngClass]="{
+              'has-sub': menuSubItem.class.includes('has-sub') ? true : false
+            }"
+            [routerLinkActive]="
+              menuSubItem.submenu?.length != 0 ? 'open' : 'active'
+            "
+          >
+            <a
+              appSidebarAnchorToggle
+              routerLink="{{ menuSubItem.path }}"
+              [queryParams]="{ functionId: menuSubItem.functionId }"
+            >
+              <i [ngClass]="[menuSubItem.icon]"></i>
+              <span class="menu-title">{{
+                menuSubItem.title | translate
+              }}</span>
+              <span
+                *ngIf="menuSubItem.badge && menuSubItem.badge != ''"
+                [ngClass]="[menuSubItem.badgeClass]"
+                >{{ menuSubItem.badge }}</span
+              >
+            </a>
+            <!-- <a
+              appSidebarAnchorToggle
+              *ngIf="
+                menuSubItem.submenu?.length > 0 && !menuSubItem.isExternalLink
+              "
+            >
+              <i [ngClass]="[menuSubItem.icon]"></i>
+              <span class="menu-title">{{
+                menuSubItem.title | translate
+              }}</span>
+              <span
+                *ngIf="menuSubItem.badge && menuSubItem.badge != ''"
+                [ngClass]="[menuSubItem.badgeClass]"
+                >{{ menuSubItem.badge }}</span
+              >
+            </a>
+
+            <a
+              appSidebarAnchorToggle
+              routerLink="{{ menuSubItem.path }}"
+              *ngIf="
+                menuSubItem.submenu?.length === 0 && !menuSubItem.isExternalLink
+              "
+            >
+              <i [ngClass]="[menuSubItem.icon]"></i>
+              <span class="menu-title">{{
+                menuSubItem.title | translate
+              }}</span>
+              <span
+                *ngIf="menuSubItem.badge && menuSubItem.badge != ''"
+                [ngClass]="[menuSubItem.badgeClass]"
+                >{{ menuSubItem.badge }}</span
+              >
+            </a>
+            <a
+              routerLink="{{ menuSubItem.path }}"
+              target="_blank"
+              *ngIf="menuSubItem.isExternalLink"
+            >
+              <i [ngClass]="[menuSubItem.icon]"></i>
+              <span class="menu-title">{{
+                menuSubItem.title | translate
+              }}</span>
+              <span
+                *ngIf="menuSubItem.badge && menuSubItem.badge != ''"
+                [ngClass]="[menuSubItem.badgeClass]"
+                >{{ menuSubItem.badge }}</span
+              >
+            </a> -->
+            <!-- Third level menu -->
+            <ul
+              appSidebarDropdown
+              class="menu-content"
+              *ngIf="menuSubItem.submenu?.length > 0"
+            >
+              <li
+                appSidebarlink
+                *ngFor="let menuSubsubItem of menuSubItem.submenu"
+                [parent]="menuItem.title"
+                [hasSub]="false"
+                [path]="menuSubsubItem.path"
+                level="{{ level + 3 }}"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [ngClass]="
+                  config.layout.menuPosition === 'Side'
+                    ? menuSubsubItem.class
+                    : ''
+                "
+              >
+                <a
+                  appSidebarAnchorToggle
+                  routerLink="{{ menuSubsubItem.path }}"
+                  *ngIf="
+                    !menuSubsubItem.isExternalLink;
+                    else externalSubSubLinkBlock
+                  "
+                >
+                  <i [ngClass]="[menuSubsubItem.icon]"></i>
+                  <span class="menu-title">{{
+                    menuSubsubItem.title | translate
+                  }}</span>
+                  <span
+                    *ngIf="menuSubsubItem.badge && menuSubsubItem.badge != ''"
+                    [ngClass]="[menuSubsubItem.badgeClass]"
+                    >{{ menuSubsubItem.badge }}</span
+                  >
+                </a>
+                <ng-template #externalSubSubLinkBlock>
+                  <a routerLink="{{ menuSubsubItem.path }}" target="_blank">
+                    <i [ngClass]="[menuSubsubItem.icon]"></i>
+                    <span class="menu-title">{{
+                      menuSubsubItem.title | translate
+                    }}</span>
+                    <span
+                      *ngIf="menuSubsubItem.badge && menuSubsubItem.badge != ''"
+                      [ngClass]="[menuSubsubItem.badgeClass]"
+                      >{{ menuSubsubItem.badge }}</span
+                    >
+                  </a>
+                </ng-template>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- Sidebar Content Ends -->

@@ -1,0 +1,194 @@
+<!--Registration Page Starts-->
+<section id="regestration" class="auth-height">
+  <div class="row full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body auth-img">
+            <div class="row m-0">
+              <div
+                class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center text-center auth-img-bg py-2"
+              >
+                <img
+                  src="assets/img/gallery/register.png"
+                  alt=""
+                  class="img-fluid"
+                  width="350"
+                  height="230"
+                />
+              </div>
+              <div class="col-lg-6 col-md-12 px-4 py-3">
+                <h4 class="card-title mb-2">
+                  {{ "auth.ConfirmRegister" | translate }}
+                </h4>
+                <p>
+                  {{ "auth.CompleteRegisterMsg" | translate }}
+                </p>
+
+                <ngb-alert
+                  type="light-danger"
+                  class="mb-2"
+                  *ngIf="isFailed"
+                  (close)="isFailed = false"
+                >
+                  <p class="mb-0">{{ errMsg }}</p>
+                </ngb-alert>
+
+                <form [formGroup]="myForm">
+                  <mat-form-field appearance="fill">
+                    <mat-label> {{ "labels.Stage" | translate }}</mat-label>
+                    <mat-select
+                      formControlName="stageID"
+                      [errorStateMatcher]="matcher"
+                      (selectionChange)="
+                        getEduYearByStageId(FormCtrls.stageID?.value)
+                      "
+                    >
+                      <mat-option>
+                        {{ "General.Choose" | translate }}
+                      </mat-option>
+                      <mat-option
+                        *ngFor="let stage of EduStages"
+                        [value]="stage.stage_id"
+                      >
+                        {{ stage.stage_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.stageID.invalid &&
+                        (FormCtrls.stageID.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.stageID.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label> {{ "labels.Year" | translate }}</mat-label>
+                    <mat-select
+                      formControlName="EduYearID"
+                      [errorStateMatcher]="matcher"
+                    >
+                      <mat-option>
+                        {{ "General.Choose" | translate }}</mat-option
+                      >
+                      <mat-option
+                        *ngFor="let year of EduYears"
+                        [value]="year.educational_year_id"
+                      >
+                        {{ year.educational_year_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.EduYearID.invalid &&
+                        (FormCtrls.EduYearID.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.EduYearID.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="legacy">
+                    <mat-label>
+                      {{ "labels.ParentName" | translate }}
+                    </mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="parentName"
+                      placeholder="Parent Name"
+                    />
+
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.parentName.invalid &&
+                        (FormCtrls.parentName.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.parentName.errors?.required">
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                      <span
+                        *ngIf="
+                          FormCtrls.parentName.errors?.whiteSpace ||
+                          FormCtrls.parentName.errors?.pattern
+                        "
+                      >
+                        {{ "labels.mustEnterCorrectValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="legacy">
+                    <mat-label>
+                      {{ "labels.ParentMobile" | translate }}
+                    </mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      formControlName="parentPhoneNumber"
+                      placeholder="Parent Mobile"
+                    />
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.parentPhoneNumber.invalid &&
+                        (FormCtrls.parentPhoneNumber.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span
+                        *ngIf="
+                          FormCtrls.parentPhoneNumber.errors?.required ||
+                          FormCtrls.parentPhoneNumber.errors?.whiteSpace ||
+                          FormCtrls.parentPhoneNumber.errors?.pattern
+                        "
+                      >
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+
+                      <span
+                        *ngIf="
+                          FormCtrls.parentPhoneNumber.errors?.minlength ||
+                          FormCtrls.parentPhoneNumber.errors?.maxlength
+                        "
+                      >
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.MobileLength" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </form>
+
+                <br />
+                <div
+                  class="d-flex justify-content-between flex-sm-row flex-column"
+                >
+                  <a
+                    mat-raised-button
+                    class="btn btn-primary"
+                    (click)="SaveStudenStage()"
+                  >
+                    {{ "General.Confirm" | translate }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Page Ends-->
+<ngx-spinner></ngx-spinner>

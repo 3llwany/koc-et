@@ -1,0 +1,324 @@
+<ngx-spinner></ngx-spinner>
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "General.Search" | translate }}
+
+        <a
+          mat-raised-button
+          routerLink="../add-exam"
+          class="btn btn-info bg-light-info float-right"
+        >
+          <i class="fa fa-plus-square"></i>
+          {{ "General.Add" | translate }}
+        </a>
+
+        <a
+          mat-raised-button
+          (click)="getAllExams(1)"
+          class="btn btn-info float-right"
+        >
+          <i class="fa fa-search"></i>
+          {{ "General.Search" | translate }}
+        </a>
+      </mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="myForm">
+              <div class="row">
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Country" | translate }}</mat-label>
+                    <mat-select
+                      formControlName="countryId"
+                      (selectionChange)="onSelectCountry()"
+                    >
+                      <mat-option>{{
+                        "General.Choose" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let country of countries"
+                        [value]="country.country_id"
+                      >
+                        {{ country.country_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Stage" | translate }}</mat-label>
+                    <mat-select
+                      formControlName="stageId"
+                      (selectionChange)="onSelectStages()"
+                    >
+                      <mat-option>{{
+                        "General.Choose" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let stage of stages"
+                        [value]="stage.id"
+                      >
+                        {{ stage.stage_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Year" | translate }}</mat-label>
+                    <mat-select
+                      formControlName="educationYearId"
+                      (selectionChange)="onSelectEducationYears()"
+                    >
+                      <mat-option>{{
+                        "General.Choose" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let year of educationYears"
+                        [value]="year.id"
+                      >
+                        {{ year.Educational_year_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Subject" | translate }}</mat-label>
+                    <mat-select
+                      formControlName="subjectId"
+                      (selectionChange)="onSelectSubjects()"
+                    >
+                      <mat-option>{{
+                        "General.Choose" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let sub of subjects"
+                        [value]="sub.subject_id"
+                      >
+                        {{ sub.subject_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Teacher" | translate }}</mat-label>
+                    <mat-select formControlName="teacherUserId">
+                      <mat-option>{{
+                        "General.Choose" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let teach of teachers"
+                        [value]="teach.Id"
+                      >
+                        {{ teach.Name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title> {{ "Navbar.Exams" | translate }}</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex. ium"
+            #input
+          />
+        </mat-form-field>
+
+        <div class="mat-elevation-z8 f-w">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- # Column -->
+            <ng-container matColumnDef="#">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+              <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+            </ng-container>
+
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ ".labels.Name" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.Name }}</td>
+            </ng-container>
+
+            <!-- subject Column -->
+            <ng-container matColumnDef="subject">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Subject" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.Subject }}</td>
+            </ng-container>
+
+            <!-- year Column -->
+            <ng-container matColumnDef="year">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Year" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">
+                {{ ele.Year }}
+              </td>
+            </ng-container>
+
+            <!-- teacher Column -->
+            <ng-container matColumnDef="teacher">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Teacher" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.Teacher }}</td>
+            </ng-container>
+
+            <!-- publish Column -->
+            <ng-container matColumnDef="publish">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.ThePublish" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let exam">
+                <span *ngIf="exam?.IsPublish">
+                  {{ "labels.Published" | translate }}
+                  <i class="fa fa-check-circle success ml-1" aria-hidden="true">
+                  </i>
+                </span>
+                <span *ngIf="!exam?.IsPublish">
+                  {{ "labels.UnPublished" | translate }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let exam">
+                <div ngbDropdown class="d-inline-block">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    id="dropdownBasic1"
+                    ngbDropdownToggle
+                  >
+                    actions
+                    <!-- <i class="fa fa-ellipsis-h"></i> -->
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <ng-container *ngFor="let fun of rowFunctions">
+                      <a
+                        *ngIf="fun.functionName === 'publish'"
+                        (click)="onPublishExam(exam)"
+                        ngbDropdownItem
+                      >
+                        <span *ngIf="!exam.IsPublish">
+                          <i class="ft-upload font-medium-3 mr-2"></i>
+                          {{ "labels.Publish" | translate }}
+                        </span>
+
+                        <span *ngIf="exam.IsPublish">
+                          <i class="ft-download font-medium-3 mr-2"></i>
+                          {{ "labels.Unpublish" | translate }}
+                        </span>
+                      </a>
+
+                      <a
+                        *ngIf="fun.functionName === 'Edit'"
+                        ngbDropdownItem
+                        routerLink="../add-exam"
+                        [queryParams]="{
+                          examId: exam.Id,
+                          functionId: functionId
+                        }"
+                      >
+                        <i class="fa fa-edit mr-2"></i>
+                        {{ "General.Edit" | translate }}
+                      </a>
+
+                      <a
+                        ngbDropdownItem
+                        *ngIf="fun.functionName === 'Delete'"
+                        (click)="openDeleateDialog(exam)"
+                      >
+                        <i class="fa fa-times mr-2"></i>
+                        {{ "General.Delete" | translate }}
+                      </a>
+
+                      <!--
+                    <a
+                      *ngIf="fun.functionName === 'Show'"
+                      ngbDropdownItem
+                      target="_blank"
+                      routerLink="../view-exam-details/{{ exam.Id }}"
+                    >
+                      <i class="icon md-shopping mr-2"> </i>
+                      {{ "General.View" | translate }}
+                    </a> -->
+
+                      <a
+                        ngbDropdownItem
+                        *ngIf="fun.functionName === 'Points'"
+                        routerLink="../exam-points/{{ exam.Id }}"
+                        ><i class="fa fa-gift mr-2"></i>النقاط</a
+                      >
+                      <a
+                        *ngIf="fun.functionName === 'Grades'"
+                        ngbDropdownItem
+                        routerLink="/dashboard/educational-setup/subjects/upload-exam-student-grades/{{
+                          exam.Id
+                        }}"
+                      >
+                        <i class="fa fa-upload mr-2"></i>
+                        {{ "Exam.StudentGradesUpload" | translate }}
+                      </a>
+                    </ng-container>
+                  </div>
+                </div>
+              </td></ng-container
+            >
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              [class.bg-light-info]="!row?.IsPublish"
+            ></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[10]"
+            (page)="getAllExams($event.pageIndex + 1)"
+            [length]="totalItems"
+            [pageSize]="10"
+            showFirstLastButtons
+            aria-label="Select page of users"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,2 @@
+-add folder "chartist", "apexcharts" to node_modules
+-add folder "animations" to node_modules/ngx-spinner

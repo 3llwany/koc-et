@@ -1,0 +1,139 @@
+<ngx-spinner></ngx-spinner>
+<!-- <div class="row">
+  <div class="col-12">
+    <div class="content-header">
+      {{ "Navbar.SendWhatsappMsg" | translate }}
+    </div>
+  </div>
+</div> -->
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "Navbar.SendWhatsappMsg" | translate }}
+      </mat-card-title>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="myForm" class="form-container">
+              <div class="row">
+                <div class="col-12">
+                  <mat-label>
+                    {{ "labels.MustHasColCodes" | translate }}
+                  </mat-label>
+                  <input
+                    (change)="onChange($event)"
+                    type="file"
+                    accept=".xlsx,.xls"
+                    class="form-control"
+                  />
+                  <mat-hint
+                    class="text-danger"
+                    *ngIf="
+                      fileCtrl?.invalid && (fileCtrl?.touched || isSubmitted)
+                    "
+                  >
+                    <span *ngIf="fileCtrl?.errors?.required">
+                      You must select file.
+                    </span>
+                  </mat-hint>
+                </div>
+
+                <div class="col-12">
+                  <div class="row check-box">
+                    <mat-label class="col-12">
+                      {{ "labels.SendMessageTo" | translate }}
+                    </mat-label>
+                    <div class="col-md-4 co-12">
+                      <mat-checkbox
+                        formControlName="sendToStudentWhatsApp"
+                        [value]="true"
+                      >
+                        {{ "labels.ForStudentsWhatsapp" | translate }}
+                      </mat-checkbox>
+                    </div>
+                    <div class="col-md-4 co-12">
+                      <mat-checkbox
+                        formControlName="sendToFatherWhatsApp"
+                        [value]="true"
+                      >
+                        {{ "labels.ForFatherWhatsapp" | translate }}
+                      </mat-checkbox>
+                    </div>
+                    <div class="col-md-4 co-12">
+                      <mat-checkbox
+                        formControlName="sendToMotherWhatsApp"
+                        [value]="true"
+                      >
+                        {{ "labels.ForMotherWhatsapp" | translate }}
+                      </mat-checkbox>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.Message" | translate }} </mat-label>
+                    <textarea matInput type="text" formControlName="msg">
+                    </textarea>
+                    <mat-hint
+                      class="text-danger"
+                      *ngIf="
+                        msgCtrl?.invalid && (msgCtrl?.touched || isSubmitted)
+                      "
+                    >
+                      <span *ngIf="msgCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                      <span *ngIf="msgCtrl?.errors?.whiteSpace">
+                        {{ "labels.mustEnterCorrectValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-12">
+                  <div class="alert bg-light-warning mb-2" role="alert">
+                    أقصي عدد يمكن الإرسال له في المره الواحده:
+                    <a class="alert-link"> 9999</a>.
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <mat-card-actions align="end">
+              <button
+                mat-raised-button
+                class="btn btn-primary"
+                (click)="onSubmit()"
+              >
+                {{ "General.Send" | translate }}
+              </button>
+            </mat-card-actions>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="errors?.length > 0">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "Labels.FailureList" | translate }}
+      </mat-card-title>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-6">
+            <ul class="list-group">
+              <li class="list-group-item disabled" *ngFor="let err of errors">
+                {{ err }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

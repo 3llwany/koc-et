@@ -1,0 +1,54 @@
+<!-- <mat-card class="card">
+  <mat-card-title>Evaluation By Materials</mat-card-title>
+  <mat-card-content>
+    <div id="line-chart2" class="lineChart2 lineChart2Shadow">
+      <x-chartist
+      *ngIf="subjectsEvaluation.length>0"
+        class="height-350"
+        [data]="lineChart2.data"
+        [type]="lineChart2.type"
+        [options]="lineChart2.options"
+        [responsiveOptions]="lineChart2.responsiveOptions"
+        [events]="lineChart2.events"
+      >
+      </x-chartist>
+    </div>
+  </mat-card-content>
+</mat-card> -->
+
+<mat-card class="card">
+  <mat-card-title>{{
+    "Material.EvaluationByMaterials" | translate
+  }}</mat-card-title>
+  <mat-card-content>
+    <div class="scrolled350">
+      <div *ngFor="let subject of subjectsEvaluation">
+        <h5 class="subject-name font-medium-1 d-inline">
+          {{ subject.subject_ar_name }}
+        </h5>
+        <span class="badge bg-light-info d-inline float-right"
+          >{{
+            subject.currentSubjectExamsCount == 0
+              ? 0
+              : ((subject.currentSubjectStudentExamsCount /
+                  subject.currentSubjectExamsCount) *
+                  100 | round)
+          }}
+          %</span
+        >
+        <mat-progress-bar
+          mode="determinate"
+          [value]="
+            subject.currentSubjectExamsCount == 0
+              ? 0
+              : (subject.currentSubjectStudentExamsCount /
+                  subject.currentSubjectExamsCount) *
+                100
+          "
+        ></mat-progress-bar>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ngx-spinner></ngx-spinner>

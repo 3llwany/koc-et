@@ -1,0 +1,332 @@
+<div class="row">
+    <div class="col-12 col-md-4">
+        <mat-card class="card card-inverse bg-info">
+            <mat-card-content>
+                <div class="media">
+                    <div class="media-body text-left">
+                        <h4 class="card-text">
+                            {{ "Balance.CurrentBalance" | translate }}
+                        </h4>
+                        <h5>{{ userBalance?.userBalance?.ActualBalance }} LE</h5>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-12 col-md-4">
+        <mat-card class="card card-inverse bg-secondary">
+            <mat-card-content>
+                <div class="media">
+                    <div class="media-body text-left">
+                        <h4 class="card-text">{{ "Balance.Services" | translate }}</h4>
+                        <h5>{{ userBalance?.userBalance?.Expenses }} LE</h5>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-12 col-md-4">
+        <mat-card class="card card-inverse bg-light">
+            <mat-card-content>
+                <div class="media">
+                    <div class="media-body text-left">
+                        <h4 class="card-text dark">{{ "Balance.TotalCharges" | translate }}</h4>
+                        <h5 class="dark">{{ userBalance?.userBalance?.Balance }} LE</h5>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <mat-card>
+            <mat-card-title>{{ "Balance.TheRecharge" | translate }}</mat-card-title>
+            <mat-card-content>
+                <!-- Start Fawry Code -->
+                <form [formGroup]="myForm" class="form-container form-horizontal">
+                    <div class="row f-w">
+                        <div class="col-md-4 col-12">
+                            <mat-form-field appearance="legacy">
+                                <mat-label>
+                                    {{ "Balance.PaymentMethod" | translate }}
+                                </mat-label>
+                                <mat-select formControlName="methodId" (selectionChange)="
+                    msgShow = false;
+                    FormCtrls.amount.setValue('');
+                    codeValidators()
+                  ">
+                                    <mat-option>{{ "General.Choose" | translate }}</mat-option>
+                                    <mat-option [value]="3">
+                                        {{ "General.Fawry" | translate }}</mat-option>
+                                    <!-- <mat-option [value]="0">
+                    {{ "General.Code" | translate }}</mat-option
+                  > -->
+                                    <!-- <mat-option [value]="4">Meeza</mat-option>
+                  <mat-option [value]="2">Credit Card</mat-option> -->
+                                </mat-select>
+                                <mat-hint class="danger" *ngIf="
+                    FormCtrls.methodId.invalid &&
+                    (FormCtrls.methodId.touched || submitted)
+                  ">
+                                    <span *ngIf="FormCtrls.methodId.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                        <ng-container *ngIf="FormCtrls.methodId.value && FormCtrls.methodId.value != 0">
+                            <div class="col-md-4 col-12">
+                                <mat-form-field appearance="legacy">
+                                    <mat-label> {{ "Material.Teacher" | translate }} </mat-label>
+                                    <mat-select formControlName="teacherId" (selectionChange)="
+                      msgShow = false; FormCtrls.amount.setValue('')
+                    ">
+                                        <mat-option>
+                                            {{ "General.Choose" | translate }}
+                                        </mat-option>
+                                        <mat-option *ngFor="let teacher of Teachers" [value]="teacher.teacherUserId">
+                                            {{ teacher.ar_name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-hint class="danger" *ngIf="
+                      FormCtrls.teacherId.invalid &&
+                      (FormCtrls.teacherId.touched || submitted)
+                    ">
+                                        <span *ngIf="FormCtrls.teacherId.errors?.required">
+                      {{ "labels.MustChoosevalue" | translate }}
+                    </span>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <mat-form-field appearance="legacy">
+                                    <mat-label> {{ "Balance.Amount" | translate }} </mat-label>
+                                    <input matInput type="text" formControlName="amount" (keyup)="ShowMsg(FormCtrls.teacherId.value)" placeholder="1EGP - 1000EGP" />
+                                    <mat-hint class="danger" *ngIf="
+                      FormCtrls.amount.invalid &&
+                      (FormCtrls.amount.touched || submitted)
+                    ">
+                                        <span *ngIf="
+                        FormCtrls.amount.errors?.required ||
+                        FormCtrls.amount.errors?.rchargeAmount
+                      ">
+                      {{ "Balance.RchargeAmountMsg" | translate }}
+                    </span>
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="FormCtrls.methodId.value === 0">
+                            <div class="col-md-4 col-12">
+                                <mat-form-field appearance="legacy">
+                                    <mat-label> {{ "Balance.Code" | translate }} </mat-label>
+                                    <input matInput type="text" formControlName="code" />
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="alert bg-light-warning mb-2" *ngIf="msgShow && myForm.valid">
+                        {{ msg }}
+                    </div>
+                </form>
+
+                <!-- Start Credits  -->
+                <form [formGroup]="CreditForm" class="form-container form-horizontal d-none">
+                    <div class="row f-w">
+                        <div class="col-md-4 col-12">
+                            <mat-form-field appearance="legacy">
+                                <mat-label> Card Number</mat-label>
+                                <input matInput type="number" formControlName="card_number" />
+                                <mat-hint class="danger" *ngIf="
+                    CreditFormCtrls.card_number.invalid &&
+                    (CreditFormCtrls.card_number.touched || CreditSubmitted)
+                  ">
+                                    <span *ngIf="CreditFormCtrls.card_number.errors?.required">
+                    must enter a value
+                  </span>
+                                    <span *ngIf="CreditFormCtrls.card_number.errors?.noSpace">
+                    must enter a correct value
+                  </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4 col-12">
+                            <mat-form-field appearance="legacy">
+                                <mat-label> Expire Year</mat-label>
+                                <input matInput type="number" formControlName="expiry_year" />
+                                <mat-hint class="danger" *ngIf="
+                    CreditFormCtrls.expiry_year.invalid &&
+                    (CreditFormCtrls.expiry_year.touched || CreditSubmitted)
+                  ">
+                                    <span *ngIf="CreditFormCtrls.expiry_year.errors?.required">
+                    must enter a value
+                  </span>
+                                    <span *ngIf="CreditFormCtrls.expiry_year.errors?.noSpace">
+                    must enter a correct value
+                  </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4 col-12">
+                            <mat-form-field appearance="legacy">
+                                <mat-label> Expire Month</mat-label>
+                                <input matInput type="number" formControlName="expiry_month" />
+                                <mat-hint class="danger" *ngIf="
+                    CreditFormCtrls.expiry_month.invalid &&
+                    (CreditFormCtrls.expiry_month.touched || CreditSubmitted)
+                  ">
+                                    <span *ngIf="CreditFormCtrls.expiry_month.errors?.required">
+                    must enter a value
+                  </span>
+                                    <span *ngIf="CreditFormCtrls.expiry_month.errors?.noSpace">
+                    must enter a correct value
+                  </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4 col-12">
+                            <mat-form-field appearance="legacy">
+                                <mat-label> cvv</mat-label>
+                                <input matInput type="number" formControlName="cvv" />
+                                <mat-hint class="danger" *ngIf="
+                    CreditFormCtrls.cvv.invalid &&
+                    (CreditFormCtrls.cvv.touched || CreditSubmitted)
+                  ">
+                                    <span *ngIf="CreditFormCtrls.cvv.errors?.required">
+                    must enter a value
+                  </span>
+                                    <span *ngIf="CreditFormCtrls.cvv.errors?.noSpace">
+                    must enter a correct value
+                  </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4 col-12">
+                            <mat-form-field appearance="legacy">
+                                <mat-label> {{ "Balance.Amount" | translate }}</mat-label>
+                                <input matInput type="number" formControlName="amount" (change)="ShowMsg(CreditFormCtrls.teacherId.value)" placeholder="1EGP - 1000EGP" />
+                                <mat-hint class="danger" *ngIf="
+                    CreditFormCtrls.amount.invalid &&
+                    (CreditFormCtrls.amount.touched || submitted)
+                  ">
+                                    <span *ngIf="
+                      CreditFormCtrls.amount.errors?.required ||
+                      CreditFormCtrls.amount.errors?.rchargeAmount
+                    ">
+                    {{ "labels.mustEnterValue" | translate }} between 10 and
+                    1000
+                  </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <ng-container *ngIf="FormCtrls.methodId.value != 0">
+                    <button #RechargeBtn mat-raised-button class="btn btn-primary" (click)="checkTeacher()">
+            {{ "Balance.Recharge" | translate }}
+          </button>
+                    <button #ResetBtn mat-raised-button class="btn btn-primary" (click)="Reset()">
+            {{ "General.Reset" | translate }}
+          </button>
+                </ng-container>
+
+                <ng-container *ngIf="FormCtrls.methodId.value === 0">
+                    <button mat-raised-button class="btn btn-primary" (click)="applyBalanceCode()">
+            Apply Code
+            <!-- {{ "Balance.Recharge" | translate }} -->
+          </button>
+                </ng-container>
+            </mat-card-actions>
+
+            <!-- START REQUEST CODE RESAULTS TABLE -->
+            <table class="table m-0" *ngIf="results?.PaymentGatewayReferenceId">
+                <thead>
+                    <tr class="table-info">
+                        <th>{{ "Balance.RechargeCode" | translate }}</th>
+                        <th>{{ "Balance.Amount" | translate }}</th>
+                        <th>{{ "Balance.Services" | translate }}</th>
+                        <th>{{ "Balance.ServicesCode" | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!--  Code if fawry or Meeza -->
+                        <td>
+                            {{ results?.PaymentGatewayReferenceId }}
+                        </td>
+
+                        <!-- Amount -->
+                        <td>{{ FormCtrls.amount.value }}</td>
+
+                        <!-- Link if credit card -->
+                        <td id="PaymentGatewayId" *ngIf="
+                FormCtrls.methodId.value == 2 &&
+                results?.PaymentGatewayReferenceId.search(
+                  'https://app.fawaterk.com'
+                ) != -1
+              ">
+                            <a [href]="PaymentGatewayReferenceId" target="_blank" class="control-label">
+                {{ "General.ClickHere" | translate }}
+              </a> {{ "Balance.CompleteRecharge" | translate }}
+                        </td>
+
+                        <!-- credit card img  -->
+                        <td *ngIf="FormCtrls.methodId.value == 2">
+                            <img src="/assets/images/credit.png" style="height: 25px" /> &emsp; Credit Card
+                        </td>
+
+                        <!--  Fawry img  -->
+                        <td *ngIf="FormCtrls.methodId.value == 3">
+                            <img style="width: 50px; height: 25px" src="/assets/images/fawrypay.png" /> &emsp; Fawry Pay
+                        </td>
+
+                        <!--  Meeza img  -->
+                        <td *ngIf="FormCtrls.methodId.value == 4">
+                            <img style="width: 50px; height: 25px" src="/assets/images/Meeza.png" /> &emsp; Meeza
+                        </td>
+
+                        <td>{{ results?.ServiceCode }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-card>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <mat-card>
+            <mat-card-title>
+                {{ "Balance.RechargeHistory" | translate }}
+            </mat-card-title>
+            <mat-card-content>
+                <app-student-payments></app-student-payments>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <mat-card>
+            <mat-card-title>
+                {{ "Balance.PaymentsHistory" | translate }}
+            </mat-card-title>
+            <mat-card-content>
+                <app-student-payments-history></app-student-payments-history>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<ngx-spinner></ngx-spinner>

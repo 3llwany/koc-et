@@ -1,0 +1,242 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">
+      {{ "Navbar.ReservationList" | translate }} -
+      {{ "labels.StudentStatusEdit" | translate }} - {{ userName }}
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <mat-card class="example-card">
+      <mat-card-title>
+        {{ "labels.StudentStatusEdit" | translate }}
+        <button
+          mat-raised-button
+          class="btn btn-warning bg-light-warning float-right"
+          routerLink="/dashboard/reservation/index"
+          [queryParams]="{ functionId: functionId }"
+        >
+          {{ "General.Back" | translate }}
+        </button>
+      </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="myForm" class="form-container">
+          <div class="row">
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.Name" | translate }} </mat-label>
+                <input matInput type="text" [value]="userName" readonly="" />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.CenterCode" | translate }}
+                </mat-label>
+                <input matInput type="Code" formControlName="Code" />
+              </mat-form-field>
+            </div>
+            <ng-container formGroupName="EduCompUser_Status">
+              <div class="col-md-4 col-12">
+                <mat-form-field appearance="legacy">
+                  <mat-label>{{ "labels.Status" | translate }} </mat-label>
+                  <mat-select
+                    formControlName="statusId"
+                    (selectionChange)="getReasonsByStatusId(statusId?.value)"
+                  >
+                    <mat-option> {{ "General.Choose" | translate }}</mat-option>
+                    <mat-option
+                      *ngFor="let status of statuses"
+                      [value]="status.Id"
+                    >
+                      {{ status.Ar_Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-4 col-12">
+                <mat-form-field appearance="legacy">
+                  <mat-label>{{ "labels.Group" | translate }} </mat-label>
+                  <mat-select formControlName="groupId">
+                    <mat-option> {{ "General.Choose" | translate }}</mat-option>
+                    <mat-option
+                      *ngFor="let group of studyingGroups"
+                      [value]="group.Id"
+                    >
+                      {{ group.groupName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div
+                class="col-md-4 col-12"
+                *ngIf="
+                  statusId?.value == 2 ||
+                  statusId?.value == 4 ||
+                  statusId?.value == 5
+                "
+              >
+                <mat-form-field appearance="legacy">
+                  <mat-label>{{ "labels.Reason" | translate }} </mat-label>
+                  <mat-select formControlName="statusReasonId">
+                    <mat-option> {{ "General.Choose" | translate }}</mat-option>
+                    <mat-option
+                      *ngFor="let reason of Reasons"
+                      [value]="reason.Id"
+                    >
+                      {{ reason.reasonText }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-8">
+                <mat-form-field appearance="legacy">
+                  <mat-label> {{ "labels.Notes" | translate }} </mat-label>
+                  <textarea matInput type="text" formControlName="note">
+                  </textarea>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="SubmitReservationStatus()"
+        >
+          {{ "General.Update" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "labels.StudentStatus" | translate }}
+      </mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex. ium"
+            #input
+          />
+        </mat-form-field>
+
+        <div class="mat-elevation-z8 f-w">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- # Column -->
+            <ng-container matColumnDef="#">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+              <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+            </ng-container>
+
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Name" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.Name }}</td>
+            </ng-container>
+
+            <!-- code Column -->
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.CenterCode" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.Code }}</td>
+            </ng-container>
+
+            <!-- status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Status" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.Status?.Ar_Name }}</td>
+            </ng-container>
+
+            <!-- reason Column -->
+            <ng-container matColumnDef="reason">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Reason" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.reasonText }}</td>
+            </ng-container>
+
+            <!-- group Column -->
+            <ng-container matColumnDef="group">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Group" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.groupName }}</td>
+            </ng-container>
+
+            <!-- from Column -->
+            <ng-container matColumnDef="from">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.FromDate" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let data">
+                {{ data?.FromDate | NewDate }} {{ data?.FromDate | Time }}
+              </td>
+            </ng-container>
+
+            <!-- to Column -->
+            <ng-container matColumnDef="to">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.ToDate" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let data">
+                {{ data?.ToDate | NewDate }} {{ data?.ToDate | Time }}
+              </td>
+            </ng-container>
+
+            <!-- note Column -->
+            <ng-container matColumnDef="note">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Notes" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.Note }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <!--    appMatPaginatorStyle
+            [showTotalPages]="3" -->
+          <mat-paginator
+            [pageSizeOptions]="[10]"
+            (page)="ReservationStatusPaging($event.pageIndex + 1)"
+            [length]="itemsCount"
+            [pageSize]="10"
+            showFirstLastButtons
+            aria-label="Select page of users"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ngx-spinner></ngx-spinner>

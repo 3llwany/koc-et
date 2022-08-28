@@ -1,0 +1,124 @@
+<!--Login Page Starts-->
+<section id="login">
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body auth-img">
+            <div class="row m-0">
+              <div
+                class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center auth-img-bg p-3"
+              >
+                <img
+                  src="assets/img/gallery/login.png"
+                  alt=""
+                  class="img-fluid"
+                  width="300"
+                  height="230"
+                />
+              </div>
+              <div class="col-lg-6 col-12 px-4 py-3">
+                <h4 class="mb-2 card-title">{{ "auth.Login" | translate }}</h4>
+                <p>{{ "auth.WelcomeBackMsg" | translate }}</p>
+
+                <ngb-alert
+                  type="light-danger"
+                  class="mb-2"
+                  *ngIf="isFailed"
+                  (close)="isFailed = false"
+                >
+                  <p class="mb-0">{{ errMsg }}</p>
+                </ngb-alert>
+
+                <form [formGroup]="loginForm">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Email" | translate }}</mat-label>
+                    <input
+                      matInput
+                      type="email"
+                      placeholder="Email"
+                      formControlName="account_email"
+                    />
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.account_email.invalid &&
+                        (FormCtrls.account_email.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.account_email.errors?.required">
+                        <i class="ft-alert-circle align-middle"></i>
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span></mat-hint
+                    >
+                  </mat-form-field>
+
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.Password" | translate }}</mat-label>
+                    <input
+                      matInput
+                      type="password"
+                      placeholder="password"
+                      formControlName="account_password"
+                    />
+                    <mat-hint
+                      *ngIf="
+                        FormCtrls.account_password.invalid &&
+                        (FormCtrls.account_password.touched || submitted)
+                      "
+                      class="text-danger"
+                    >
+                      <span *ngIf="FormCtrls.account_password.errors?.required">
+                        <i class="ft-alert-circle align-middle"></i>
+                        This is required
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+
+                  <br />
+
+                  <div
+                    class="d-sm-flex justify-content-between mb-3 font-small-2"
+                  >
+                    <a routerLink="/auth/reset-password">
+                      {{ "auth.ForgotPassword" | translate }}</a
+                    >
+                  </div>
+                  <div
+                    class="d-flex justify-content-between flex-sm-row flex-column"
+                  >
+                    <a
+                      mat-raised-button
+                      class="btn btn-primary"
+                      (click)="login()"
+                    >
+                      {{ "auth.Login" | translate }}
+                    </a>
+                    <a
+                      mat-raised-button
+                      routerLink="/auth/register"
+                      class="btn bg-light-primary mb-2 mb-sm-0"
+                    >
+                      {{ "auth.CreateAccount" | translate }}
+                    </a>
+                  </div>
+                </form>
+                <hr />
+                <ngx-spinner></ngx-spinner>
+                <!-- <div class="d-flex justify-content-between align-items-center">
+                  <h6 class="text-primary m-0">Or Login With</h6>
+
+                  <div class="login-options">
+                    <a class="btn btn-sm btn-social-icon btn-facebook mr-1"><span class="fa fa-facebook"></span></a>
+                    <a class="btn btn-sm btn-social-icon btn-twitter mr-1"><span class="fa fa-twitter"></span></a>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Login Page Ends-->

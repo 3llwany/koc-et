@@ -1,0 +1,95 @@
+<h1 mat-dialog-title>{{ "Reservation.ReservationDetails" | translate }}</h1>
+<div mat-dialog-content>
+  <div class="table-responsive">
+    <table class="table table-striped m-0" *ngIf="reservation">
+      <thead>
+        <tr>
+          <th>{{ "labels.Name" | translate }}</th>
+          <th>{{ "labels.Email" | translate }}</th>
+          <th>{{ "labels.Religion" | translate }}</th>
+          <th>{{ "labels.Gender" | translate }}</th>
+          <th>{{ "labels.EducationType" | translate }}</th>
+          <th>{{ "Reservation.AreaReservation" | translate }}</th>
+          <th>{{ "labels.branchName" | translate }}</th>
+          <th>{{ "labels.Hobbies" | translate }}</th>
+          <th>{{ "labels.Competitions" | translate }}</th>
+          <th>{{ "labels.Workshops" | translate }}</th>
+          <th>{{ "labels.SchoolName" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ reservation?.Name }}</td>
+
+          <td>{{ reservation?.Email }}</td>
+
+          <td>{{ reservation?.Religion.Ar_Name }}</td>
+
+          <td>{{ reservation?.Gender.gender_ar_name }}</td>
+
+          <td>{{ reservation?.EducationType.Ar_Name }}</td>
+
+          <td>{{ reservation?.Area.Ar_Name }}</td>
+
+          <td>{{ reservation?.CenterBranch }}</td>
+
+          <td>{{ reservation?.Hobbies }}</td>
+
+          <td>{{ reservation?.Competitions }}</td>
+
+          <td>{{ reservation?.Workshops }}</td>
+
+          <td>
+            {{ reservation?.SchoolName }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-striped m-0" *ngIf="reservation">
+      <thead>
+        <tr>
+          <th>{{ "labels.GuardianJob" | translate }}</th>
+          <th>{{ "labels.FatherMobile" | translate }}</th>
+          <th>{{ "labels.FatherWhatsapp" | translate }}</th>
+          <th>{{ "labels.MotherMobile" | translate }}</th>
+          <th>{{ "labels.MotherWhatsapp" | translate }}</th>
+          <th>{{ "labels.StudentNumber" | translate }}</th>
+          <th>{{ "labels.StudentWhatsapp" | translate }}</th>
+          <th>{{ "labels.HomeTelephone" | translate }}</th>
+          <th>{{ "labels.Address" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ reservation?.GuardianJob }}</td>
+
+          <td>{{ reservation?.FatherMobile }}</td>
+
+          <td>{{ reservation?.FatherWhatsAppNumber.Ar_Name }}</td>
+
+          <td>{{ reservation?.MotherMobile }}</td>
+
+          <td>{{ reservation?.MotherWhatsAppNumber }}</td>
+
+          <td>{{ reservation?.StudentNumber }}</td>
+
+          <td>{{ reservation?.StudentWhatsAppNumber }}</td>
+
+          <td>{{ reservation?.HomeTelephon }}</td>
+
+          <td>{{ reservation?.Address }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button
+    mat-button
+    [mat-dialog-close]="false"
+    class="btn btn-danger float-right"
+  >
+    Close
+  </button>
+</div>

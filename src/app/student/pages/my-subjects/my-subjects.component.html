@@ -1,0 +1,19 @@
+<mat-card class="card">
+  <mat-card-title>{{ "Material.MySubjects" | translate }}</mat-card-title>
+  <mat-card-content>
+    <ul class="list-group mb-3 scrolled350">
+      <li class="list-group-item" *ngFor="let subject of mySubjects">
+        <span>{{ subject.subject_ar_name }}</span>
+        <a
+          mat-raised-button
+          routerLink="../subject-evaluation/{{ subject.subject_id }}"
+          type="button"
+          class="btn btn-primary float-right"
+        >
+          <i class="ft-more-vertical"></i> {{ "General.Visite" | translate }}
+        </a>
+        <!-- <span class="badge bg-light-primary float-right"> Visite </span> -->
+      </li>
+    </ul>
+  </mat-card-content>
+</mat-card>

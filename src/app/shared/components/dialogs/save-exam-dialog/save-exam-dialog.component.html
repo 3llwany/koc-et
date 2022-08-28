@@ -1,0 +1,29 @@
+<h1 mat-dialog-title class="primary-color">
+  {{ "labels.ExamRuselts" | translate }}
+  {{ data.title }}
+</h1>
+<hr />
+<div mat-dialog-content>
+  <p class="primary">
+    <strong>
+      {{ "labels.StudentMark" | translate }} : ({{
+        data.solvidResults.result
+      }}
+      / {{ data.solvidResults.total_mark }})
+    </strong>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button [mat-dialog-close]="false" class="btn btn-warning" routerLink="/home">
+    {{ "General.BackToHome" | translate }}
+  </button>
+
+  <button
+    [mat-dialog-close]="true"
+    id="btnSubmit"
+    class="btn btn-primary bg-light-primary"
+    *ngIf="data.solvidResults && data.solvidResults.repeatable"
+  >
+    {{ "Material.ResetExam" | translate }}
+  </button>
+</div>

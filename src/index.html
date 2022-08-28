@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mozakrety</title>
+    <base href="/" />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="assets/img/elements/b1.png"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link href="assets/fonts/feather/style.min.css" rel="stylesheet" />
+    <link href="assets/fonts/simple-line-icons/style.css" rel="stylesheet" />
+    <link
+      href="assets/fonts/weathericons/css/weather-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="assets/fonts/weathericons/css/weather-icons-wind.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700&family=Tajawal:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900|Montserrat:300,400,500,600,700,800,900"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="assets/vendor/pace/themes/black/pace-theme-flash.css"
+    />
+
+    <style type="text/css">
+      .pace .pace-activity {
+        top: 19px;
+        right: 19px;
+        display: none;
+      }
+
+      .page-loading {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        background: rgba(51, 51, 51, 1);
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        z-index: -1;
+      }
+
+      .loading-icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 38px;
+        height: 38px;
+        margin-left: -19px;
+        margin-top: -19px;
+      }
+
+      app-root:empty ~ .page-loading {
+        opacity: 1;
+        z-index: 1;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css/mozakretynewcolors.css"
+    />
+  </head>
+  <!-- // bodyrtl class for body  -->
+
+  <body class="bodyrtl">
+    <!-- rtl styles  -->
+    <!-- <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/bootstrap-extended.css"
+    />
+    <link rel="stylesheet" type="text/css" href="assets/css-rtl/colors.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/components.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/themes/layout-dark.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/plugins/switchery.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/custom-rtl.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/core/menu/horizontal-menu.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/pages/dashboard1.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="assets/css-rtl/style-rtl.css"
+    /> -->
+    <!-- rtl styles  -->
+    <app-root></app-root>
+    <div class="page-loading">
+      <img src="assets/img/oval.svg" class="loading-icon" />
+    </div>
+
+    <script>
+      function changeStyle() {
+        var currentLang = sessionStorage.getItem("currentLang");
+        console.log("currentLang", currentLang);
+        const head = this.document.getElementsByTagName("head")[0];
+        const style1 = this.document.createElement("link");
+        style1.id = "style1";
+        style1.rel = "stylesheet";
+        style1.href = "assets/css-rtl/bootstrap.css";
+        //----------------
+        const style2 = this.document.createElement("link");
+        style2.id = "style2";
+        style2.rel = "stylesheet";
+        style2.href = "assets/css-rtl/bootstrap-extended.css";
+        //----------------
+        const style3 = this.document.createElement("link");
+        style3.id = "style3";
+        style3.rel = "stylesheet";
+        style3.href = "assets/css-rtl/colors.css";
+        //----------------
+        const style4 = this.document.createElement("link");
+        style4.id = "style4";
+        style4.rel = "stylesheet";
+        style4.href = "assets/css-rtl/components.css";
+        //----------------
+        const style5 = this.document.createElement("link");
+        style5.id = "style5";
+        style5.rel = "stylesheet";
+        style5.href = "assets/css-rtl/themes/layout-dark.css";
+        //----------------
+        const style6 = this.document.createElement("link");
+        style6.id = "style6";
+        style6.rel = "stylesheet";
+        style6.href = "assets/css-rtl/plugins/switchery.css";
+        //----------------
+        const style7 = this.document.createElement("link");
+        style7.id = "style7";
+        style7.rel = "stylesheet";
+        style7.href = "assets/css-rtl/custom-rtl.css";
+        //----------------
+        const style8 = this.document.createElement("link");
+        style8.id = "style8";
+        style8.rel = "stylesheet";
+        style8.href = "assets/css-rtl/core/menu/horizontal-menu.css";
+        //----------------
+        const style9 = this.document.createElement("link");
+        style9.id = "style9";
+        style9.rel = "stylesheet";
+        style9.href = "assets/css-rtl/pages/dashboard1.css";
+        //----------------
+        const style10 = this.document.createElement("link");
+        style10.id = "style10";
+        style10.rel = "stylesheet";
+        style10.href = "assets/css-rtl/style-rtl.css";
+        if (currentLang == "ar") {
+          head.appendChild(style1);
+          head.appendChild(style2);
+          head.appendChild(style3);
+          head.appendChild(style4);
+          head.appendChild(style5);
+          head.appendChild(style6);
+          head.appendChild(style7);
+          head.appendChild(style8);
+          head.appendChild(style9);
+          head.appendChild(style10);
+        }
+        if (currentLang == "en") {
+          document.getElementById("style1").remove();
+          document.getElementById("style2").remove();
+          document.getElementById("style3").remove();
+          document.getElementById("style4").remove();
+          document.getElementById("style5").remove();
+          document.getElementById("style6").remove();
+          document.getElementById("style7").remove();
+          document.getElementById("style8").remove();
+          document.getElementById("style9").remove();
+          document.getElementById("style10").remove();
+        }
+      }
+    </script>
+
+    <script src="assets/vendor/js/swiper.min.js"></script>
+    <script src="assets/vendor/js/ex-component-swiper.js"></script>
+    <!-- <script src="assets/sprout/sprout.js"></script> -->
+    <script
+      type="text/javascript"
+      src="https://c.sproutvideo.com/player_api.js"
+    ></script>
+  </body>
+</html>

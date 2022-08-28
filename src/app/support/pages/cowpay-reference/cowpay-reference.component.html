@@ -1,0 +1,37 @@
+<ngx-spinner></ngx-spinner>
+<h1 mat-dialog-title>CowPay</h1>
+<div mat-dialog-content>
+  <form [formGroup]="myForm" class="form-container">
+    <div class="col-12">
+      <mat-form-field appearance="legacy">
+        <mat-label>invoice number</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="cowPayId"
+          required
+          placeholder="Pleace Enter Id"
+        />
+      </mat-form-field>
+    </div>
+    <div class="alert bg-light-warning mb-2 text-center" *ngIf="Results">
+      <p class="mb-0">{{ Results }}</p>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button
+    mat-button
+    [mat-dialog-close]="false"
+    class="btn btn-danger float-right"
+  >
+    Close
+  </button>
+  <button
+    mat-raised-button
+    class="btn btn-primary"
+    (click)="CowpayReferenceSearch()"
+  >
+    Search
+  </button>
+</div>

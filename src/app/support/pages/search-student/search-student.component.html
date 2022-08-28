@@ -1,0 +1,205 @@
+<ngx-spinner></ngx-spinner>
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Technical Support</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card class="example-card">
+      <mat-card-title>Search Student </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="myForm" class="form-container">
+          <div class="row f-w">
+            <div class="col">
+              <mat-form-field appearance="legacy">
+                <mat-label>Student Email</mat-label>
+                <input matInput type="text" formControlName="email" />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="legacy">
+                <mat-label>Student phone</mat-label>
+                <input matInput type="text" formControlName="mobile" />
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="searchStudent()"
+        >
+          Search
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title> Results:</mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-7" *ngIf="studentData?.user?.user_ID">
+            <form class="form-horizontal">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label"> اسم الطالب </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary font-dro"
+                    [value]="studentData?.user?.ar_name"
+                  />
+                </div>
+                <label class="col-sm-2 col-form-label"> الموبايل </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary font-dro"
+                    [value]="studentData?.user?.mobile"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">
+                  البريد الاليكترونى
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary font-dro"
+                    [value]="studentData?.user?.account_email"
+                  />
+                </div>
+                <label class="col-sm-2 col-form-label"> الرصيد </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary font-dro"
+                    [value]="studentData?.user?.credits"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label"> السنة الدراسية </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary font-dro"
+                    [value]="studentData?.year"
+                  />
+                </div>
+
+                <label class="col-sm-2 col-form-label">
+                  المراكز التعليمية
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary font-dro"
+                    [value]="studentData?.center_names"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-5 problems">
+            <div class="row">
+              <a
+                routerLink="/support/tickets/{{ studentData?.user?.user_ID }}"
+                target="_blank"
+                mat-raised-button
+                class="btn btn-primary col-3"
+                *ngIf="studentData?.user?.user_ID"
+              >
+                فتح تذكرة دعم فنى
+              </a>
+
+              <button
+                mat-raised-button
+                class="btn btn-secondary col-3"
+                (click)="openCowpayDialog()"
+              >
+                مشكلة كاو باى
+              </button>
+
+              <a
+                mat-raised-button
+                class="btn btn-danger col-3"
+                routerLink="/support/search-code"
+                target="_blank"
+              >
+                مشكلة الكود
+              </a>
+
+              <button
+                mat-raised-button
+                class="btn btn-info col-3"
+                (click)="openResetPasswordDialog()"
+              >
+                إعادة تعيين كلمة المرور
+              </button>
+
+              <a
+                routerLink="/support/refund-balance/{{
+                  studentData?.user?.user_ID
+                }}"
+                target="_blank"
+                mat-raised-button
+                class="btn btn-warning col-3"
+                *ngIf="studentData?.user?.user_ID"
+              >
+                خصم الرصيد
+              </a>
+
+              <a
+                routerLink="/support/balance-details/{{
+                  studentData?.user?.user_ID
+                }}"
+                target="_blank"
+                mat-raised-button
+                class="btn btn-primary col-3"
+                *ngIf="studentData?.user?.user_ID"
+              >
+                تفاصيل الرصيد
+              </a>
+
+              <a
+                routerLink="/support/generate-code/{{
+                  studentData?.user?.user_ID
+                }}"
+                target="_blank"
+                mat-raised-button
+                class="btn btn-secondary col-3"
+                *ngIf="studentData?.user?.user_ID"
+              >
+                إنشاء كود للطالب
+              </a>
+
+              <a
+                mat-raised-button
+                class="btn btn-danger col-3"
+                routerLink="/support/refund-lecture/{{
+                  studentData?.user?.user_ID
+                }}"
+                target="_blank"
+                *ngIf="studentData?.user?.user_ID"
+              >
+                إسترجاع المحاضرة
+              </a>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

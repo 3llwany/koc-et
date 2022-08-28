@@ -1,0 +1,106 @@
+<h1 mat-dialog-title>{{ "Reservation.ReservationDone" | translate }}</h1>
+<div mat-dialog-content>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>
+          تم تأكيد الاشتراك بنجاح في عضويه Physics Academy في مادة الPhysics مع
+          د. تامر القاضي
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label class="control-label"> الطالب / </label>
+          {{ studentData?.studentName }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="control-label"> موبايل الطالب / </label>
+          {{ studentData?.studentNumber }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="control-label">رقم ال ID / </label>
+          {{ studentData?.studentCode }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label class="control-label"> المجموعة /</label>
+          {{ studentData?.groupName }}
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          هام جدا،، برجاء الاطلاع على اللينك المرفق ⬇️⬇️
+          <br />
+          <a
+            href="
+https://drive.google.com/file/d/1VWkqQC-PlFjs4HQSi52SxL8GfZah2qFH/view?usp=sharing
+"
+            target="_blank"
+            >https://drive.google.com/file/d/1VWkqQC-PlFjs4HQSi52SxL8GfZah2qFH/view?usp=sharing</a
+          >
+          <br />
+          موضح به👆👆
+          <br />
+          ١- سياسة الأكاديمية
+          <br />
+          ٢- سياسة الاعفاءات
+          <br />
+          ٣- مميزات اشتراك عضويه الأكاديمية
+          <br />
+          <br />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          🛑 للاستفسارات يرجي التواصل مع ارقام فروع الاكاديميه :- 👇👇
+          <br />
+          ▪️فرع المعادي 01110228861
+          <br />
+          ▪️ فرع مصر الجديدة 01101114707
+          <br />
+          ▪️فرع مدينة نصر 01101114727
+          <br />
+          ▪️فرع شبرا - سانت تريزا 01101114737
+          <br />
+          ▪️الدعم الفني لموقع مذاكرتي 01102365120
+          <br />
+          ▪️ صفحه الاكاديميه Physics Academy 👇
+
+          <br />((<a href="https://www.facebook.com/physicsacademyeg"
+            >https://www.facebook.com/physicsacademyeg</a
+          >
+          ))
+        </td>
+      </tr>
+
+      <tr class="text-left">
+        <td>
+          Physics Academy <br />
+          Dr. Tamer El-Kady
+        </td>
+      </tr>
+
+      <tr class="text-right">
+        <td>
+          تم إرسال هذه البيانات الي ارقام الواتساب الخاصة بالطالب و ولي الامر
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div mat-dialog-actions align="end">
+  <button
+    mat-button
+    [mat-dialog-close]="false"
+    class="btn btn-danger float-right"
+  >
+    {{ "General.Close" | translate }}
+  </button>
+</div>

@@ -1,0 +1,143 @@
+<ngx-spinner></ngx-spinner>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card class="example-card">
+      <mat-card-title>Search Code </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="myForm" class="form-container">
+          <div class="row f-w">
+            <div class="col">
+              <mat-form-field appearance="legacy">
+                <mat-label>code</mat-label>
+                <input matInput type="text" formControlName="code" />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field appearance="legacy">
+                <mat-label> Serial</mat-label>
+                <input matInput type="text" formControlName="counter" />
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="searchCodes()"
+        >
+          Search
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="CodeDetails">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title> Results:</mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <form class="form-horizontal">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right">
+                  السريال
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary"
+                    [value]="CodeDetails?.serial"
+                  />
+                </div>
+                <label class="col-sm-2 col-form-label text-right">
+                  الكود
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary"
+                    [value]="CodeDetails?.code"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right">
+                  المدرس
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary"
+                    [value]="CodeDetails?.teacher_ar_name"
+                  />
+                </div>
+                <label class="col-sm-2 col-form-label text-right">
+                  المحاضرة
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary"
+                    [value]="CodeDetails?.material_name"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right">
+                  كود الطالب
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary"
+                    [value]="CodeDetails?.userId"
+                  />
+                </div>
+                <label class="col-sm-2 col-form-label text-right">
+                  اسم الطالب
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary"
+                    [value]="CodeDetails?.user_ar_name"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right">
+                  الموبايل
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary"
+                    [value]="CodeDetails?.mobile"
+                  />
+                </div>
+                <label class="col-sm-2 col-form-label text-right">
+                  البريد الاليكترونى
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    disabled
+                    class="form-control bg-light-primary"
+                    [value]="CodeDetails?.account_email"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

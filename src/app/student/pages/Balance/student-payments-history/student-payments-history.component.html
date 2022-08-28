@@ -1,0 +1,79 @@
+<div class="mat-elevation-z8 f-w">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!-- # Column -->
+    <ng-container matColumnDef="#">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+      <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+    </ng-container>
+
+    <!-- lectureType Column -->
+    <ng-container matColumnDef="lectureType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "Balance.ServiceType" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let ele">{{ ele?.item_type_name }}</td>
+    </ng-container>
+
+    <!-- lectureName Column -->
+    <ng-container matColumnDef="lectureName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "Balance.Services" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let ele">{{ ele?.material_name }}</td>
+    </ng-container>
+
+    <!-- teacher Column -->
+    <ng-container matColumnDef="teacher">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "Material.Teacher" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let ele">{{ ele?.teacherName }}</td>
+    </ng-container>
+
+    <!-- subject Column -->
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "Material.Subject" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let ele">{{ ele?.subject_name }}</td>
+    </ng-container>
+
+    <!-- paymentMethod Column -->
+    <ng-container matColumnDef="paymentMethod">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "Balance.PaymentMethod" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let ele">{{ ele?.payment_method }}</td>
+    </ng-container>
+
+    <!-- date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "labels.Date" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let ele">{{ ele?.date | NewDate }}</td>
+    </ng-container>
+
+    <!-- amount Column -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "Balance.Amount" | translate }}
+      </th>
+      <td mat-cell *matCellDef="let ele">{{ ele?.amount }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[10]"
+    (page)="getPaymentsHistory($event.pageIndex + 1)"
+    [length]="itemsCount"
+    showFirstLastButtons
+    aria-label="Select page of users"
+  >
+  </mat-paginator>
+</div>
+
+<ngx-spinner></ngx-spinner>

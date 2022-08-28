@@ -1,0 +1,216 @@
+.navlogo {
+    color: #fff !important;
+}
+
+.horizontal-layout nav.navbar {
+    background-color: #33a7d5 !important;
+    border-color: #33a7d5 !important;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.text-lightcolor {
+    color: #fff !important;
+}
+
+.navbar-light .navbar-nav .nav-link.mncolorbnew {
+    color: #fff !important;
+}
+
+.navbar.header-navbar.navbar-horizontal,
+.pace .pace-progress {
+    background-color: #4c556a !important;
+}
+
+.pace .pace-progress-inner {
+    box-shadow: 0 0 10px #fff, 0 0 5px #fff !important;
+}
+
+.horizontal-menu .navbar-horizontal .main-menu-content>ul>li.active:not(.dropdown-submenu) {
+    background-color: #fff !important;
+    border-radius: 0 !important;
+}
+
+.horizontal-menu .navbar-horizontal .main-menu-content>ul>li.active:not(.dropdown-submenu) a {
+    color: #4c556a !important;
+}
+
+.horizontal-menu .navbar-horizontal .main-menu-content>ul>li:hover:not(.active) {
+    background-color: transparent !important;
+}
+
+.horizontal-menu .navbar-horizontal .main-menu-content>ul>li:hover:not(.active) a {
+    color: #4c556a !important;
+    background: #fff;
+}
+
+.app-sidebar[data-background-color='man-of-steel'] {
+    background-image: linear-gradient(-135deg, #33a7d5, #303c62) !important;
+}
+
+.app-sidebar[data-background-color='man-of-steel'] .sidebar-background:after {
+    background-image: linear-gradient(-135deg, #33a7d5, #303c62) !important;
+}
+
+.ser-reg-btn {
+    color: #33a7d5 !important;
+    border: 1px solid #33a7d5 !important;
+    transition: all 0.24s ease-in-out !important;
+}
+
+.ser-reg-btn:hover {
+    background: #33a7d5 !important;
+    color: #fff !important;
+}
+
+.mats1 {
+    background-color: #33a7d5 !important;
+}
+
+.mats2 {
+    background-color: #efedee !important;
+}
+
+.mats4 {
+    background-color: #788094 !important;
+}
+
+.mats1 .mat-desc h2,
+.mats1 .mat-desc p {
+    color: #fff !important;
+}
+
+.bg-newdesignser {
+    background-color: #929cb1 !important;
+}
+
+.bg-newdesignser .ct,
+.bg-newdesignser .cd {
+    color: #fff;
+}
+
+.mats2 .mat-desc h2,
+.mats2 .mat-desc p {
+    color: #33a7d5 !important;
+}
+
+
+/*  setup new design  */
+
+.horizontal-menu .navbar-horizontal .main-menu-content .nav-link {
+    padding: 0.6rem 1.5rem !important;
+}
+
+.navbar.header-navbar {
+    padding: 0 1.5rem 0 1rem !important;
+}
+
+.navbar.header-navbar.navbar-horizontal {
+    padding: 0 0 0 0!important;
+}
+
+.horizontal-menu .navbar-horizontal .main-menu-content {
+    margin: 0 18px 0 18px!important;
+    padding: 0 !important;
+}
+
+.horizontal-menu .navbar-horizontal .main-menu-content>ul>li {
+    margin: 0 !important;
+}
+
+.horizontal-menu .navbar-horizontal .main-menu-content>ul>li:hover:not(.active) {
+    border-radius: 0 !important;
+}
+
+.horizontal-menu .navbar-horizontal .main-menu-content>ul>li a {
+    transition: all 0.24s ease-in-out;
+}
+
+.bannermain {
+    margin-top: -30px;
+    margin-right: -30px;
+    margin-left: -30px;
+}
+
+.mats1 .mat-desc p,
+.mats2 .mat-desc p,
+.mats4 .mat-desc p {
+    font-size: 18px;
+}
+
+.stagec,
+.teachers,
+.services,
+.mats1,
+.mats2,
+.mats4,
+.about-se {
+    margin-right: -30px !important;
+    margin-left: -30px !important;
+}
+
+.card-img.overlap>img {
+    height: 130px !important;
+}
+
+.services .hed {
+    margin-bottom: 40px;
+}
+
+.card .card-img.overlap.new {
+    margin-top: -65px;
+}
+
+.mat-imgd {
+    height: 300px !important;
+}
+
+.mat-desc {
+    margin-top: 70px !important;
+}
+
+.bg-newdesignser .ct {
+    font-size: 25px !important;
+}
+
+.mats2 .img-group {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+.mats2 .img-group .mat-imggroup2 {
+    position: absolute;
+    top: -70px;
+    height: 250px;
+    left: 20px;
+}
+
+.mats2 .img-group .mat-imggroup1 {
+    position: absolute;
+    bottom: -70px;
+    height: 250px;
+    right: 20px;
+}
+
+.mats2 .mat-desc h2 {
+    font-size: 25px !important;
+}
+
+.mats2 .mat-desc p {
+    font-size: 18px !important;
+}
+
+.app-tit {
+    color: #33a7d5 !important;
+}
+
+.btn-danger {
+    color: #fff;
+    border-color: #33a7d5;
+    background-color: #33a7d5;
+}
+
+.btn-danger:hover {
+    border-color: #33a7d5;
+    background-color: #33a7d5;
+}

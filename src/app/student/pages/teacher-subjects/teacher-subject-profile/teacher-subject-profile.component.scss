@@ -1,0 +1,22 @@
+::ng-deep .mat-card {
+  padding: 22px !important;
+}
+::ng-deep .mat-card-title {
+  font-size: 15px;
+}
+
+::ng-deep .mat-tab-header {
+  overflow: auto !important;
+}
+
+::ng-deep
+  .mat-tab-header-pagination-controls-enabled
+  .mat-tab-header-pagination {
+  display: none;
+}
+
+::ng-deep .mat-tab-label {
+  padding: 0 10px !important;
+  min-width: 120px !important;
+  width: auto !important;
+}

@@ -1,0 +1,418 @@
+<ngx-spinner></ngx-spinner>
+<div
+  class="chat-application overflow-hidden"
+  *ngIf="accepted !== null; else noChat"
+>
+  <div
+    class="app-content-overlay"
+    #contentOverlay
+    class="app-content-overlay"
+    [ngClass]="{ show: isContentOverlay }"
+    (click)="onContentOverlay()"
+  ></div>
+  <!-- Left Col: Msgs List-->
+  <div class="chat-sidebar d-md-block" #chatSidebar>
+    <span
+      class="sidebar-close-icon d-md-none"
+      (click)="isContentOverlay = false"
+    >
+      <i class="ft-x"></i>
+    </span>
+    <div class="chat-sidebar-content">
+      <mat-tab-group>
+        <!-- Opend Msgs List -->
+        <mat-tab label="{{ 'labels.Opend' | translate }}">
+          <div id="users-list" class="list-group">
+            <div class="users-list-padding position-relative">
+              <a
+                class="list-group-item"
+                *ngFor="
+                  let msg of opendMsgs
+                    | paginate
+                      : {
+                          itemsPerPage: 5,
+                          currentPage: p,
+                          totalItems: openMsgsCount,
+                          id: 'opend'
+                        }
+                "
+                (click)="selectMsg(msg)"
+                id="msg-{{ msg.Id }}"
+                [ngClass]="{
+                  'selected-chat': msg.Id == FormCtrl.threadId.value
+                }"
+              >
+                <div class="media align-items-center py-1">
+                  <span class="avatar avatar-md mr-2">
+                    <img
+                      src="mozakretyapi/{{ currentUserPicPath }}"
+                      alt="Avatar"
+                    />
+
+                    <!-- <span class="avatar-status-online"></span> -->
+                  </span>
+                  <div class="media-body">
+                    <h6 class="list-group-item-heading mb-1">
+                      {{ msg.ThreadText }}
+                      <span class="font-small-2 float-right grey darken-1">
+                        {{ msg.ThreadUpdateDate | date: "dd/MM/yyyy" }} -
+                        {{ msg.ThreadUpdateDate | Time }}
+                      </span>
+                    </h6>
+                    <p class="list-group-item-text grey darken-2 m-0">
+                      <!-- <i class="ft-check primary font-small-2 mr-1"></i> -->
+                      <span>{{ msg.LastReply }}</span>
+                      <!-- <span class="float-right primary"></span> -->
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <div class="pagination-box" *ngIf="opendMsgs?.length > 5">
+                <pagination-controls
+                  dir="ltr"
+                  (pageChange)="p = $event; getOpenedMsgs(p, TeacherSubjectId)"
+                  previousLabel=""
+                  nextLabel=""
+                  id="opend"
+                >
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <!-- Closed Msgs List -->
+        <mat-tab label="{{ 'labels.Closed' | translate }}">
+          <div id="users-list" class="list-group">
+            <div class="users-list-padding position-relative">
+              <a
+                class="list-group-item"
+                *ngFor="
+                  let msg of closedMsgs
+                    | paginate
+                      : {
+                          itemsPerPage: 5,
+                          currentPage: p,
+                          totalItems: openMsgsCount,
+                          id: 'closed'
+                        }
+                "
+                (click)="selectMsg(msg)"
+                id="msg-{{ msg.Id }}"
+                [ngClass]="{
+                  'selected-chat': msg.Id == FormCtrl.threadId.value
+                }"
+              >
+                <div class="media align-items-center py-1">
+                  <span class="avatar avatar-md mr-2">
+                    <img
+                      src="mozakretyapi/{{ currentUserPicPath }}"
+                      alt="Avatar"
+                    />
+                    <!-- <span class="avatar-status-online"></span> -->
+                  </span>
+                  <div class="media-body">
+                    <h6 class="list-group-item-heading mb-1">
+                      {{ msg.ThreadText }}
+                      <span class="font-small-2 float-right grey darken-1">
+                        {{ msg.ThreadUpdateDate | date: "dd/MM/yyyy" }} -
+                        {{ msg.ThreadUpdateDate | Time }}
+                      </span>
+                    </h6>
+                    <p class="list-group-item-text grey darken-2 m-0">
+                      <!-- <i class="ft-check primary font-small-2 mr-1"></i> -->
+                      <span>{{ msg.LastReply }}</span>
+                      <!-- <span class="float-right primary"></span> -->
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <div class="pagination-box" *ngIf="closedMsgs?.length > 5">
+                <pagination-controls
+                  dir="ltr"
+                  (pageChange)="p = $event; getClosedMsgs(p, TeacherSubjectId)"
+                  previousLabel=""
+                  nextLabel=""
+                  id="closed"
+                >
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+
+  <!-- Right Col: Chat content -->
+  <!-- Top Header -->
+  <div class="chat-name p-2">
+    <div class="media p-1 align-items-center">
+      <span
+        (click)="onSidebarToggle()"
+        class="chat-app-sidebar-toggle ft-menu font-medium-4 mr-3 d-block d-md-none"
+      >
+      </span>
+      <div class="media-body">
+        <!-- <img
+          src="assets/img/portrait/small/avatar-s-8.png"
+          width="37"
+          class="avatar mr-1"
+          alt="avatar"
+        /> -->
+
+        <a
+          mat-raised-button
+          class="btn bg-light-primary"
+          (click)="FormCtrl.threadId.setValue(null)"
+        >
+          {{ "General.NewMessage" | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section class="chat-app-window position-relative">
+    <div class="chats" *ngIf="FormCtrl.threadId.value != null">
+      <div
+        class="chat"
+        *ngFor="let msg of MsgReplaies"
+        [ngClass]="{
+          'chat-right': msg.userId == currentUserId,
+          'chat-left': msg.userId != currentUserId,
+          'msg-not-seen': !msg.isShown
+        }"
+        id="replay-{{ msg.Id }}"
+      >
+        <div class="chat-avatar">
+          <div class="avatar avatar-md">
+            <!-- user picture -->
+            <img src="mozakretyapi/{{ msg.UserprofilePicture }}" alt="avatar" />
+          </div>
+        </div>
+        <div class="chat-body">
+          <div class="chat-content">
+            <!-- username -->
+            <p class="username">
+              {{ msg.Username }}
+            </p>
+            <!-- msg replay -->
+            <div
+              class="replay-box rounded bg-light-secondary"
+              *ngIf="msg.ParentReply.Id != null"
+            >
+              <p class="content replytext" *ngIf="!msg.ParentReply.IsDelete">
+                <span style="display: block">
+                  <i class="ft-repeat"></i>
+                  <strong> {{ msg.ParentReply.Username }}:</strong>
+                </span>
+
+                <span>
+                  {{ msg.ParentReply.Message }}
+                </span>
+
+                <!-- msg replay Attach -->
+                <img
+                  *ngIf="msg.ParentReply.Attach"
+                  src="mozakretyapi/{{ msg.ParentReply.Attach }}"
+                  style="width: 50px; height: 50px"
+                />
+              </p>
+              <!-- deleted msg -->
+              <p class="content replytext" *ngIf="msg.ParentReply.IsDelete">
+                <span class="deleted-msg"
+                  ><i class="fa fa-ban"></i>
+                  {{ "labels.MsgDeleted" | translate }}
+                </span>
+              </p>
+            </div>
+
+            <!-- not deleted Message content -->
+            <p *ngIf="!msg.IsDelete" class="content">
+              {{ msg.Message }}
+            </p>
+
+            <p *ngIf="msg.IsDelete" class="content" class="content replytext">
+              <span class="deleted-msg">
+                <i class="fa fa-ban"></i> {{ "labels.MsgDeleted" | translate }}
+              </span>
+            </p>
+
+            <!-- not deleted Message Attach -->
+            <div *ngIf="msg.Attach && !msg.IsDelete">
+              <a
+                href="mozakretyapi/{{ msg.Attach | sliceExamPic }}"
+                target="_blank"
+                data-lightbox="image-1"
+                data-title=""
+              >
+                <img
+                  class="img-responsive"
+                  src="mozakretyapi/{{ msg.Attach | sliceExamPic }}"
+                />
+              </a>
+            </div>
+
+            <hr />
+            <p class="msg-time">
+              <!-- not deleted time and date -->
+              <span>
+                {{ msg.Date | date: "dd/MM/yyyy" }} -
+                {{ msg.Date | Time }}
+              </span>
+
+              <!--  Replay msg icon -->
+              <span class="cursor-pointer" (click)="getParentReplyId(msg)">
+                <i
+                  class="ft-repeat"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="Reply To This Message"
+                >
+                </i>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Replay Options -->
+  <section
+    class="chat-app-form chat-replay-options bg-light-primary"
+    *ngIf="this.attachecFilePath != null || selectedMsgToReplay != null"
+  >
+    <div class="row">
+      <button class="escprev" (click)="escpreview()" mat-mini-fab color="warn">
+        <mat-icon>clear</mat-icon>
+      </button>
+      <div
+        class="col-4"
+        *ngIf="this.attachecFilePath != null"
+        class="img-responsive"
+      >
+        <img
+          class="img-responsive"
+          src="mozakretyapi/{{ attachecFilePath }}"
+          alt="Photo attached"
+        />
+      </div>
+      <div class="col-6" *ngIf="selectedMsgToReplay != null">
+        <textarea disabled class="rplayedMsg">
+        {{ selectedMsgToReplay.Message }}
+        </textarea>
+      </div>
+    </div>
+  </section>
+
+  <!-- Replay to msg form -->
+  <section
+    class="chat-app-form px-3 py-2"
+    *ngIf="FormCtrl.threadId.value != null"
+  >
+    <form [formGroup]="myForm" class="d-flex align-items-center">
+      <input
+        formControlName="ReplyText"
+        type="text"
+        class="form-control chat-message-send mr-2"
+        placeholder="Type your replay here"
+      />
+
+      <button (click)="fileInput.click()" mat-mini-fab color="warn">
+        <mat-icon>attachment</mat-icon>
+      </button>
+      <input
+        hidden
+        (change)="attacheReplayPic($event)"
+        #fileInput
+        type="file"
+        accept="image/*"
+        id="file"
+      />
+      <button
+        (click)="ReplayToMessage()"
+        [disabled]="FormCtrl.threadId.value == null"
+        type="submit"
+        class="btn btn-primary d-lg-flex align-items-center"
+      >
+        <i class="ft-send"></i>
+        <span class="d-none d-lg-block ml-1">
+          {{ "General.Send" | translate }}</span
+        >
+      </button>
+    </form>
+  </section>
+
+  <!-- New msg form -->
+  <section
+    class="chat-app-form px-3 py-2 new-msg"
+    *ngIf="FormCtrl.threadId.value == null"
+  >
+    <form [formGroup]="newMsgForm" class="d-flex align-items-center">
+      <input
+        formControlName="ThreadText"
+        type="text"
+        class="form-control chat-message-send mr-2"
+        placeholder="Type your title"
+      />
+
+      <input
+        formControlName="ReplyText"
+        type="text"
+        class="form-control chat-message-send mr-2"
+        placeholder="Type your message here"
+      />
+
+      <button (click)="fileInputNewmsg.click()" mat-mini-fab color="warn">
+        <mat-icon>attachment</mat-icon>
+      </button>
+      <input
+        hidden
+        (change)="attachNewMsgPic($event)"
+        #fileInputNewmsg
+        type="file"
+        accept="image/*"
+        id="file"
+      />
+      <button
+        (click)="createNewMsg()"
+        type="submit"
+        class="btn btn-primary d-lg-flex align-items-center"
+      >
+        <i class="ft-send"></i>
+        <span class="d-none d-lg-block ml-1">
+          {{ "General.Send" | translate }}</span
+        >
+      </button>
+    </form>
+  </section>
+</div>
+
+<ng-template #noChat>
+  <section id="error">
+    <div class="container-fluid">
+      <div class="row auth-height full-height-vh">
+        <div class="col-12 d-flex align-items-center justify-content-center">
+          <div class="row">
+            <div class="col-12 text-center">
+              <img
+                src="assets/img/gallery/maintenance.png"
+                alt=""
+                class="img-fluid error-img mt-2"
+                height="300"
+                width="400"
+              />
+              <h1 class="mt-4">
+                {{ "labels.ChatNotAllowed" | translate }}
+              </h1>
+              <div class="w-75 error-text mx-auto mt-4"></div>
+              <a [routerLink]="['/']" class="btn btn-warning my-2">
+                {{ "General.BackToHome" | translate }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-template>

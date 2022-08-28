@@ -1,0 +1,407 @@
+<ngx-spinner></ngx-spinner>
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">
+      {{ "Navbar.EducationalSubjects" | translate }} -
+      {{ "labels.Materials" | translate }}
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "General.Search" | translate }}
+
+        <!-- Add -->
+        <a
+          mat-raised-button
+          class="btn btn-primary bg-light-primary float-right"
+          routerLink="/dashboard/educational-setup/subjects/add-material"
+          [queryParams]="{
+            subjectId: subjectId,
+            functionId: functionId,
+            parentId: parentId
+          }"
+        >
+          {{ "General.AddMaterial" | translate }}
+        </a>
+
+        <!-- Back -->
+        <a
+          mat-raised-button
+          class="btn btn-warning bg-light-warning float-right"
+          routerLink="/dashboard/educational-setup/subjects"
+          [queryParams]="{ functionId: parentId }"
+        >
+          {{ "General.Back" | translate }}
+        </a>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="myForm" class="form-container">
+              <div class="row">
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Teacher" | translate }} </mat-label>
+                    <mat-select formControlName="searchedTeacherId">
+                      <mat-option>
+                        {{ "General.Choose" | translate }}</mat-option
+                      >
+                      <mat-option
+                        *ngFor="let teacher of Teachers"
+                        [value]="teacher.teacherUserId"
+                      >
+                        {{ teacher.teacher_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-8 col-6">
+                  <mat-radio-group
+                    formControlName="searchedItemType"
+                    class="row"
+                  >
+                    <div class="col-md-4 col-12">
+                      <mat-radio-button [value]="1">
+                        {{ "labels.Subject" | translate }}
+                      </mat-radio-button>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <mat-radio-button [value]="2">
+                        {{ "labels.Unit" | translate }}
+                      </mat-radio-button>
+                    </div>
+                    <div class="col-md-4 col-12">
+                      <mat-radio-button [value]="3">
+                        {{ "labels.Lesson" | translate }}
+                      </mat-radio-button>
+                    </div>
+                  </mat-radio-group>
+                </div>
+
+                <div
+                  class="col-md-6 col-12"
+                  *ngIf="
+                    FomCtrls.searchedItemType?.value == 2 ||
+                    FomCtrls.searchedItemType?.value == 3
+                  "
+                >
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Unit" | translate }} </mat-label>
+                    <mat-select
+                      formControlName="unitId"
+                      (selectionChange)="
+                        returnSearchedLessonsByUnitId(FomCtrls.unitId?.value)
+                      "
+                    >
+                      <mat-option>
+                        {{ "General.Choose" | translate }}</mat-option
+                      >
+                      <mat-option *ngFor="let unit of units" [value]="unit.id">
+                        {{ unit.unit_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div
+                  class="col-md-6 col-12"
+                  *ngIf="FomCtrls.searchedItemType.value == 3"
+                >
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Lesson" | translate }} </mat-label>
+                    <mat-select formControlName="lessonId">
+                      <mat-option>
+                        {{ "General.Choose" | translate }}</mat-option
+                      >
+                      <mat-option
+                        *ngFor="let lesson of Lessons"
+                        [value]="lesson.id"
+                      >
+                        {{ lesson.lesson_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="searcheMaterial()"
+        >
+          {{ "General.Search" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "Material.Subjects" | translate }}
+      </mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex. ium"
+            #input
+          />
+        </mat-form-field>
+
+        <div class="mat-elevation-z8 f-w">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- # Column -->
+            <ng-container matColumnDef="#">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+              <td mat-cell *matCellDef="let material; let i = index">
+                {{ i + 1 }}
+              </td>
+            </ng-container>
+
+            <!-- lecName Column -->
+            <ng-container matColumnDef="lecName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Name" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let material">
+                {{ material.material_name }}
+              </td>
+            </ng-container>
+
+            <!-- price Column -->
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Price" | translate }}
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let material"
+                id="Material-{{ material.id }}"
+              >
+                {{ material.price }}
+              </td>
+            </ng-container>
+
+            <!-- type Column -->
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Type" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let material">
+                <span *ngIf="material?.attach_type_id == 1">
+                  {{ "labels.Video" | translate }}
+                  <i class="ft-play-circle danger ml-1"></i>
+                </span>
+
+                <span *ngIf="material?.attach_type_id == 2">
+                  {{ "labels.Malzem" | translate }}
+                  <i class="fa-book info ml-1"></i>
+                </span>
+
+                <span *ngIf="material?.attach_type_id == 3">
+                  {{ "labels.Offline" | translate }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- publish Column -->
+            <ng-container matColumnDef="publish">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.ThePublish" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let material">
+                <span *ngIf="material?.IsPublish">
+                  {{ "labels.Published" | translate }}
+                  <i class="fa fa-check-circle success ml-1" aria-hidden="true">
+                  </i>
+                </span>
+                <span *ngIf="!material?.IsPublish">
+                  {{ "labels.UnPublished" | translate }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>actions</th>
+              <td mat-cell *matCellDef="let material">
+                <div class="dropdown btn-group mr-1 mb-1" ngbDropdown>
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-primary bg-light-primary dropdown-toggle"
+                    ngbDropdownToggle
+                  >
+                    actions
+                    <span class="caret"></span>
+                  </button>
+                  <div
+                    ngbDropdownMenu
+                    class="dropdown-menu"
+                    role="menu"
+                    *ngIf="rowFunctions.length > 0"
+                  >
+                    <ng-container *ngFor="let fun of rowFunctions">
+                      <!-- publish Material -->
+                      <a
+                        (click)="publishMaterial(material.id)"
+                        *ngIf="fun.functionName === 'publishMaterial'"
+                        class="dropdown-item"
+                      >
+                        <span *ngIf="!material.IsPublish">
+                          <i class="ft-upload font-medium-3 mr-2"></i>
+                          {{ "labels.Publish" | translate }}
+                        </span>
+
+                        <span *ngIf="material.IsPublish">
+                          <i class="ft-download font-medium-3 mr-2"></i>
+                          {{ "labels.Unpublish" | translate }}
+                        </span>
+                      </a>
+
+                      <!-- Edit Material -->
+                      <a
+                        routerLink="/dashboard/educational-setup/subjects/add-material"
+                        [queryParams]="{
+                          subjectId: subjectId,
+                          materialId: material?.id,
+                          functionId: functionId,
+                          parentId: parentId
+                        }"
+                        *ngIf="fun.functionName === 'EditMaterial'"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                        {{ "General.Edit" | translate }}
+                      </a>
+
+                      <!-- upload Attendance -->
+                      <a
+                        *ngIf="
+                          fun.functionName === 'uploadAttendance' &&
+                          !material.IsOnline
+                        "
+                        routerLink="/dashboard/educational-setup/subjects/upload-attendance/{{
+                          material.id
+                        }}"
+                        [queryParams]="{
+                          subjectId: subjectId,
+                          functionId: functionId
+                        }"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-upload font-medium-3 mr-2"></i>
+                        {{ "labels.UploadAttendance" | translate }}
+                      </a>
+
+                      <!--Download Attendance -->
+                      <a
+                        *ngIf="
+                          fun.functionName === 'DownloadAttendance' &&
+                          !material.IsOnline
+                        "
+                        (click)="dawnloadLectureAttendees(material.id)"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-download font-medium-3 mr-2"></i>
+                        {{ "labels.DownloadAttendance" | translate }}
+                      </a>
+
+                      <!-- update Attendance Manually -->
+                      <a
+                        routerLink="/dashboard/educational-setup/subjects/manually-attendance/{{
+                          material.id
+                        }}"
+                        [queryParams]="{
+                          functionId: functionId,
+                          subjectId: subjectId
+                        }"
+                        *ngIf="
+                          fun.functionName === 'updateAttendanceManually' &&
+                          !material.IsOnline
+                        "
+                        class="dropdown-item"
+                      >
+                        <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                        {{ "labels.updateAttendanceManually" | translate }}
+                      </a>
+
+                      <!--  add Material Points-->
+                      <a
+                        routerLink="/dashboard/educational-setup/subjects/material-points/{{
+                          material.id
+                        }}"
+                        [queryParams]="{ functionId: functionId }"
+                        *ngIf="fun.functionName === 'addMaterialPoints'"
+                        class="dropdown-item"
+                      >
+                        <i class="icon-present font-medium-3 mr-2"></i>
+                        {{ "labels.addPoints" | translate }}
+                      </a>
+
+                      <!-- show Video Material -->
+                      <!-- <a
+                        (click)="showVideoByMaterialId(material.id)"
+                        *ngIf="fun.functionName === 'showVideo'"
+                        class="dropdown-item"
+                      >
+                        <i class="icon-control-play font-medium-3 mr-2"></i>
+                        {{ "labels.showVideo" | translate }}
+                      </a> -->
+
+                      <!-- Delete Material -->
+                      <a
+                        *ngIf="fun.functionName === 'DeleteMaterial'"
+                        (click)="openDeleateDialog(material)"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-trash font-medium-3 mr-2"></i>
+                        {{ "General.Delete" | translate }}
+                      </a>
+                    </ng-container>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              [class.bg-light-info]="!row?.IsPublish"
+            ></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            [length]="totalItems"
+            [pageSize]="10"
+            showFirstLastButtons
+            aria-label="Select page of users"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

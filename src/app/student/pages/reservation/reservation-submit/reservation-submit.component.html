@@ -1,0 +1,601 @@
+<div class="row">
+  <div class="col-12">
+    <mat-card class="example-card">
+      <mat-card-title>{{ "labels.StudentData" | translate }} </mat-card-title>
+      <mat-card-content>
+        <div class="form-container form-horizontal">
+          <div class="form-group row">
+            <div class="col-sm-4">
+              <mat-label class="primary">{{
+                "labels.CenterName" | translate
+              }}</mat-label>
+              <input
+                disabled
+                class="form-control bg-light-primary"
+                readonly
+                [value]="userData?.EduCompName"
+              />
+            </div>
+
+            <div class="col-sm-4">
+              <mat-label class="primary">{{
+                "labels.Name" | translate
+              }}</mat-label>
+              <input
+                disabled
+                class="form-control bg-light-primary"
+                readonly
+                [value]="userData?.userName"
+              />
+            </div>
+
+            <div class="col-sm-4">
+              <mat-label class="primary">{{
+                "labels.Code" | translate
+              }}</mat-label>
+              <input
+                disabled
+                class="form-control bg-light-primary"
+                readonly
+                [value]="userData?.userId"
+              />
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <mat-card class="example-card">
+      <mat-card-title>
+        {{ "Reservation.ReservationData" | translate }}
+      </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="myForm" class="form-container form-horizontal">
+          <div class="row f-w">
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.Name" | translate }} </mat-label>
+                <input matInput type="text" formControlName="UserName" />
+                <mat-hint
+                  class="danger"
+                  *ngIf="
+                    FormCtrls.UserName.invalid &&
+                    (FormCtrls.UserName.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.UserName.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrls.UserName.errors?.bigZero">
+                    {{ "labels.MustEnterCorrectValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.Religion" | translate }} </mat-label>
+                <mat-select formControlName="Religion">
+                  <mat-option>{{ "General.Choose" | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let Religion of Religions"
+                    [value]="Religion.Id"
+                  >
+                    {{ Religion.Ar_Name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.Religion.invalid &&
+                    (FormCtrls.Religion.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.Religion.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-2 col-6">
+              <button
+                type="button"
+                class="btn btn-danger"
+                mat-raised-button
+                (click)="fileInput.click()"
+              >
+                {{ "labels.ProfilePicture" | translate }}
+              </button>
+              <input
+                hidden
+                (change)="onChange($event)"
+                #fileInput
+                type="file"
+                accept="image/*"
+                id="file"
+              />
+            </div>
+
+            <div class="col-md-2 col-6">
+              <div class="media">
+                <img
+                  class="rounded mr-3"
+                  src="{{ previewImg }}"
+                  width="70"
+                  height="70"
+                  alt="avatar"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.Gender" | translate }} </mat-label>
+                <mat-select formControlName="Gender">
+                  <mat-option> {{ "General.Choose" | translate }} </mat-option>
+                  <mat-option
+                    *ngFor="let Gender of Genders"
+                    [value]="Gender.gender_id"
+                  >
+                    {{ Gender.gender_ar_name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.Gender.invalid &&
+                    (FormCtrls.Gender.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.Gender.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.EducationType" | translate }}
+                </mat-label>
+                <mat-select
+                  formControlName="EducationTypeId"
+                  (selectionChange)="
+                    returnBranchesByEducTypeId(FormCtrls.EducationTypeId.value)
+                  "
+                >
+                  <mat-option>{{ "General.Choose" | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let EducationType of EducationTypes"
+                    [value]="EducationType.Id"
+                  >
+                    {{ EducationType.Ar_Name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.EducationTypeId.invalid &&
+                    (FormCtrls.EducationTypeId.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.EducationTypeId.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.CenterBranch" | translate }}
+                </mat-label>
+                <mat-select formControlName="CenterBranchId">
+                  <mat-option> {{ "General.Choose" | translate }} </mat-option>
+                  <mat-option
+                    *ngFor="let CenterBranche of CenterBranches"
+                    [value]="CenterBranche.Id"
+                  >
+                    {{ CenterBranche.Name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.CenterBranchId.invalid &&
+                    (FormCtrls.CenterBranchId.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.CenterBranchId.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.SchoolName" | translate }} </mat-label>
+                <input matInput type="text" formControlName="SchoolName" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.SchoolName.invalid &&
+                    (FormCtrls.SchoolName.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.SchoolName.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrls.SchoolName.errors?.whiteSpace">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.EducationalDivision" | translate }}
+                </mat-label>
+                <mat-select formControlName="EducationalDivision">
+                  <mat-option>{{ "General.Choose" | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let EducationalDivision of EducationalDivisions"
+                    [value]="EducationalDivision.Id"
+                  >
+                    {{ EducationalDivision.Ar_Name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.EducationalDivision.invalid &&
+                    (FormCtrls.EducationalDivision.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.EducationalDivision.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.GuardianJob" | translate }}
+                </mat-label>
+                <input matInput type="text" formControlName="GuardianJob" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.GuardianJob.invalid &&
+                    (FormCtrls.GuardianJob.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.GuardianJob.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrls.GuardianJob.errors?.whiteSpace">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.StudentNumber" | translate }}
+                </mat-label>
+                <input matInput type="text" formControlName="StudentNumber" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.StudentNumber.invalid &&
+                    (FormCtrls.StudentNumber.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.StudentNumber.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      FormCtrls.StudentNumber.errors?.maxlength ||
+                      FormCtrls.StudentNumber.errors?.minlength
+                    "
+                  >
+                    You must enter 11 number.
+                  </span>
+                  <span *ngIf="FormCtrls.StudentNumber.errors?.pattern">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrls.StudentNumber.errors?.startsWith">
+                    {{ "labels.NumberMustStartWith" | translate }} .
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.StudentWhatsapp" | translate }}
+                </mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="StudentWhatsAppNumber"
+                />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.StudentWhatsAppNumber.invalid &&
+                    (FormCtrls.StudentWhatsAppNumber.touched || submitted)
+                  "
+                >
+                  <span
+                    *ngIf="FormCtrls.StudentWhatsAppNumber.errors?.required"
+                  >
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      FormCtrls.StudentWhatsAppNumber.errors?.maxlength ||
+                      FormCtrls.StudentWhatsAppNumber.errors?.minlength
+                    "
+                  >
+                    You must enter 11 number.
+                  </span>
+                  <span *ngIf="FormCtrls.StudentWhatsAppNumber.errors?.pattern">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="FormCtrls.StudentWhatsAppNumber.errors?.startsWith"
+                  >
+                    {{ "labels.NumberMustStartWith" | translate }} .
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.HomeTelephone" | translate }}
+                </mat-label>
+                <input matInput type="text" formControlName="HomeTelephone" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.HomeTelephone.invalid &&
+                    (FormCtrls.HomeTelephone.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.HomeTelephone.errors?.pattern">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.FatherMobile" | translate }}
+                </mat-label>
+                <input matInput type="text" formControlName="FatherMobile" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.FatherMobile.invalid &&
+                    (FormCtrls.FatherMobile.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.FatherMobile.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      FormCtrls.FatherMobile.errors?.maxlength ||
+                      FormCtrls.FatherMobile.errors?.minlength
+                    "
+                  >
+                    You must enter 11 number.
+                  </span>
+                  <span *ngIf="FormCtrls.FatherMobile.errors?.pattern">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrls.FatherMobile.errors?.startsWith">
+                    {{ "labels.NumberMustStartWith" | translate }} .
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.FatherWhatsapp" | translate }}
+                </mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="FatherWhatsAppNumber"
+                />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.FatherWhatsAppNumber.invalid &&
+                    (FormCtrls.FatherWhatsAppNumber.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.FatherWhatsAppNumber.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      FormCtrls.FatherWhatsAppNumber.errors?.maxlength ||
+                      FormCtrls.FatherWhatsAppNumber.errors?.minlength
+                    "
+                  >
+                    You must enter 11 number.
+                  </span>
+                  <span *ngIf="FormCtrls.FatherWhatsAppNumber.errors?.pattern">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="FormCtrls.FatherWhatsAppNumber.errors?.startsWith"
+                  >
+                    {{ "labels.NumberMustStartWith" | translate }} .
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.MotherMobile" | translate }}
+                </mat-label>
+                <input matInput type="text" formControlName="MotherMobile" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.MotherMobile.invalid &&
+                    (FormCtrls.MotherMobile.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.MotherMobile.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      FormCtrls.MotherMobile.errors?.maxlength ||
+                      FormCtrls.MotherMobile.errors?.minlength
+                    "
+                  >
+                    You must enter 11 number.
+                  </span>
+                  <span *ngIf="FormCtrls.MotherMobile.errors?.pattern">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrls.MotherMobile.errors?.startsWith">
+                    {{ "labels.NumberMustStartWith" | translate }} .
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.MotherWhatsapp" | translate }}
+                </mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="MotherWhatsAppNumber"
+                />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.MotherWhatsAppNumber.invalid &&
+                    (FormCtrls.MotherWhatsAppNumber.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.MotherWhatsAppNumber.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="
+                      FormCtrls.MotherWhatsAppNumber.errors?.maxlength ||
+                      FormCtrls.MotherWhatsAppNumber.errors?.minlength
+                    "
+                  >
+                    You must enter 11 number.
+                  </span>
+                  <span *ngIf="FormCtrls.MotherWhatsAppNumber.errors?.pattern">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                  <span
+                    *ngIf="FormCtrls.MotherWhatsAppNumber.errors?.startsWith"
+                  >
+                    {{ "labels.NumberMustStartWith" | translate }} .
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "Reservation.AreaReservation" | translate }}
+                </mat-label>
+                <mat-select formControlName="Area">
+                  <mat-option>{{ "General.Choose" | translate }}</mat-option>
+                  <mat-option *ngFor="let area of Areas" [value]="area.Id">
+                    {{ area.Ar_Name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.Area.invalid &&
+                    (FormCtrls.Area.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.Area.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-8 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.Address" | translate }}
+                </mat-label>
+                <input matInput type="text" formControlName="Address" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrls.Address.invalid &&
+                    (FormCtrls.Address.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrls.Address.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrls.Address.errors?.whiteSpace">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="SubmitStaticReservation()"
+        >
+          {{ "General.Submit" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>

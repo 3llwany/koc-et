@@ -1,0 +1,227 @@
+<ngx-spinner></ngx-spinner>
+<div class="row">
+  <div class="col-12">
+    <mat-card class="example-card">
+      <mat-card-title>{{ "Navbar.EditProfile" | translate }} </mat-card-title>
+      <mat-card-content>
+        <div>
+          <div class="media">
+            <img
+              src="{{ picturePath }}"
+              alt="avatar"
+              class="users-avatar-shadow avatar mr-3 rounded-circle"
+              height="64"
+              width="64"
+            />
+            <div class="media-body">
+              <h4>{{ username }}</h4>
+              <div
+                class="d-flex flex-sm-row flex-column justify-content-start px-0 mb-sm-2"
+              >
+                <button
+                  type="button"
+                  class="btn btn-sm bg-light-primary mb-1 mb-sm-0"
+                  mat-raised-button
+                  (click)="fileInput.click()"
+                >
+                  {{ "labels.ProfilePicture" | translate }}
+                </button>
+                <input
+                  hidden
+                  (change)="onChange($event)"
+                  #fileInput
+                  type="file"
+                  accept="image/*"
+                  id="file"
+                />
+              </div>
+            </div>
+          </div>
+
+          <form [formGroup]="myForm" class="form-container">
+            <div class="row">
+              <div class="col-md-6 col-12">
+                <mat-form-field appearance="legacy">
+                  <mat-label> {{ "labels.Name" | translate }} </mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    formControlName="ar_name"
+                    autocomplete="new-password"
+                  />
+                  <mat-hint
+                    class="text-danger"
+                    *ngIf="
+                      FormCtrls.ar_name.invalid &&
+                      (FormCtrls.ar_name.touched || submitted)
+                    "
+                  >
+                    <span
+                      *ngIf="
+                        FormCtrls.ar_name.errors?.required ||
+                        FormCtrls.ar_name.errors?.whiteSpace
+                      "
+                    >
+                      <i class="ft-alert-circle align-middle"></i>
+                      {{ "labels.mustEnterValue" | translate }}
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <mat-form-field appearance="legacy">
+                  <mat-label> {{ "labels.Mobile" | translate }} </mat-label>
+                  <input matInput type="text" formControlName="mobile" />
+                  <mat-hint
+                    *ngIf="
+                      FormCtrls.mobile.invalid &&
+                      (FormCtrls.mobile.touched || submitted)
+                    "
+                    class="text-danger"
+                  >
+                    <span
+                      *ngIf="
+                        FormCtrls.mobile.errors?.required ||
+                        FormCtrls.mobile.errors?.whiteSpace ||
+                        FormCtrls.mobile.errors?.pattern
+                      "
+                    >
+                      <i class="ft-alert-circle align-middle"></i> This is
+                      required
+                    </span>
+
+                    <span
+                      *ngIf="
+                        FormCtrls.mobile.errors?.minlength ||
+                        FormCtrls.mobile.errors?.maxlength
+                      "
+                    >
+                      <i class="ft-alert-circle align-middle"></i>
+                      {{ "labels.MobileLength" | translate }}
+                    </span>
+                    <span *ngIf="FormCtrls.mobile.errors?.startsWith">
+                      <i class="ft-alert-circle align-middle"></i>
+                      {{ "labels.NumberMustStartWith" | translate }}
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <mat-form-field appearance="legacy">
+                  <mat-label> {{ "labels.Email" | translate }} </mat-label>
+                  <input
+                    matInput
+                    type="email"
+                    formControlName="account_email"
+                    autocomplete="new-password"
+                  />
+                  <mat-hint
+                    *ngIf="
+                      FormCtrls.account_email.invalid &&
+                      (FormCtrls.account_email.touched || submitted)
+                    "
+                    class="text-danger"
+                  >
+                    <span *ngIf="FormCtrls.account_email.errors?.required">
+                      <i class="ft-alert-circle align-middle"></i> This is
+                      required
+                    </span>
+                    <span *ngIf="FormCtrls.account_email.errors?.email">
+                      <i class="ft-alert-circle align-middle"></i>
+                      Enter correct Email
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <mat-form-field appearance="legacy">
+                  <mat-label> {{ "labels.Password" | translate }} </mat-label>
+                  <input
+                    matInput
+                    type="password"
+                    formControlName="account_password"
+                    autocomplete="new-password"
+                  />
+                  <mat-hint
+                    *ngIf="
+                      FormCtrls.account_password.invalid &&
+                      (FormCtrls.account_password.touched || submitted)
+                    "
+                    class="text-danger"
+                  >
+                    <span *ngIf="FormCtrls.account_password.errors?.required">
+                      <i class="ft-alert-circle align-middle"></i> This is
+                      required
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <mat-form-field appearance="legacy">
+                  <mat-label>
+                    {{ "labels.NewPassword" | translate }}
+                  </mat-label>
+                  <input
+                    matInput
+                    type="password"
+                    formControlName="newPassword"
+                  />
+                  <mat-hint
+                    *ngIf="
+                      FormCtrls.newPassword.invalid &&
+                      (FormCtrls.newPassword.touched || submitted)
+                    "
+                    class="text-danger"
+                  >
+                    <span *ngIf="FormCtrls.newPassword.errors?.required">
+                      <i class="ft-alert-circle align-middle"></i> This is
+                      required
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 col-12">
+                <mat-form-field appearance="legacy">
+                  <mat-label>
+                    {{ "labels.ConfirmPassword" | translate }}
+                  </mat-label>
+                  <input
+                    matInput
+                    type="password"
+                    formControlName="ConfirmPassword"
+                  />
+                  <mat-hint
+                    *ngIf="
+                      FormCtrls.ConfirmPassword.invalid &&
+                      (FormCtrls.ConfirmPassword.touched || submitted)
+                    "
+                    class="text-danger"
+                  >
+                    <span *ngIf="FormCtrls.ConfirmPassword.errors?.mustMatch">
+                      <i class="ft-alert-circle align-middle"></i>
+                      New Password and Confirm Password not match
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="editProfile()"
+        >
+          {{ "General.Save" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

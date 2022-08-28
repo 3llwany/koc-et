@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>{{ data.title | translate }}</h1>
+<div mat-dialog-content>
+  <p>{{ data.msg | translate }}</p>
+
+  <mat-form-field appearance="fill">
+    <mat-label>{{ "labels.Code" | translate }}</mat-label>
+    <input matInput #dataInput required [(ngModel)]="code" />
+    <mat-error *ngIf="dataInput.error?.required">
+      {{ data.msg | translate }}
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="false" class="btn btn-danger">
+    {{ "General.NoThanks" | translate }}
+  </button>
+  <button
+    mat-raised-button
+    [mat-dialog-close]="code"
+    cdkFocusInitial
+    class="btn btn-primary"
+  >
+    {{ "General.Subscribe" | translate }}
+  </button>
+</div>

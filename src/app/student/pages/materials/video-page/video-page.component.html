@@ -1,0 +1,1046 @@
+<section id="media-player-wrapper" class="media-wrapper">
+  <div class="row">
+    <div
+      *ngIf="
+        (isPurchased ||
+          materialData.price == 0 ||
+          MatPrice - priceDiscount - (MatPrice * CustomDiscount) / 100 == 0) &&
+        IsAvaliable
+      "
+      class="col-4"
+    >
+      <div class="card">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h4 class="card-title m-0">
+            {{ "labels.LecturesPart" | translate }}
+          </h4>
+          <span class="cursor-pointer"><i class="ft-more-vertical-"></i></span>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <ul class="list-unstyled m-0">
+              <li
+                *ngFor="let part of parts"
+                (click)="getPartPath(part.Id)"
+                id="part-({{ part.Id }})"
+                class="d-flex pb-1 pt-1 bbdashed"
+              >
+                <i
+                  class="ft-play primary font-medium-2 mr-2 mt-0"
+                  style="padding: 3px"
+                ></i>
+                <span>
+                  <a>{{ part.Name }}</a></span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h4 class="card-title m-0">
+            {{ "labels.BooksAndFiles" | translate }}
+          </h4>
+          <span class="cursor-pointer"><i class="ft-more-vertical-"></i></span>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <ul class="list-unstyled m-0">
+              <p *ngIf="materials_attach.length == 0">
+                {{ "Material.NoFilesFound" | translate }}
+              </p>
+              <li
+                *ngFor="let file of materials_attach"
+                class="d-flex pb-1 pt-1 bbdashed"
+              >
+                <i
+                  class="ft-book primary font-medium-2 mr-2 mt-0"
+                  style="padding: 3px"
+                ></i>
+                <span>
+                  <!-- <span>API: {{environment}} </span> -->
+                  <a href="/mozakretyapi{{ file.Path }}" target="_blank">{{
+                    file.Name
+                  }}</a>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <h4 class="card-title m-0">{{ "Material.Exams" | translate }}</h4>
+          <span class="cursor-pointer"><i class="ft-more-vertical-"></i></span>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <p
+              *ngIf="AttachedExams.length == 0 && AttachedTemplates.length == 0"
+            >
+              {{ "Material.NoExamsFound" | translate }}
+            </p>
+            <div class="media bg-may" *ngFor="let exam of AttachedExams">
+              <div class="media-body mr-3">
+                <h5 class="primary">
+                  {{ exam.exam_ar_name | lowercase }}
+                  <i class="ft-book-open"></i>
+                </h5>
+                <ng-container>
+                  <!-- if Discount Public  -->
+                  <ng-container
+                    *ngIf="exam.DiscountType == 1 || exam.DiscountType == 0"
+                  >
+                    <!-- If Custom Discount Applied -->
+                    <ng-container *ngIf="exam.CustomDiscountApplied">
+                      <span
+                        *ngIf="
+                          exam.price > 0 &&
+                          exam.Discount >= 0 &&
+                          exam.CustomDiscount >= 0 &&
+                          exam.price -
+                            exam.Discount -
+                            ((exam.price - exam.Discount) *
+                              exam.CustomDiscount) /
+                              100 >
+                            0
+                        "
+                        class="badge bg-light-primary mb-1"
+                        >{{ "labels.Price" | translate }} :
+                        {{
+                          exam.price -
+                            exam.Discount -
+                            ((exam.price - exam.Discount) *
+                              exam.CustomDiscount) /
+                              100
+                        }}</span
+                      >
+                      <span
+                        *ngIf="
+                          exam.price > 0 &&
+                          exam.Discount == null &&
+                          exam.CustomDiscount == 0
+                        "
+                        class="badge bg-light-primary mb-1"
+                        >{{ "labels.Price" | translate }} :
+                        {{ exam.price }}</span
+                      >
+
+                      <!-- if price =0 or price after discount =0 -->
+                      <span
+                        class="badge bg-light-primary mb-1"
+                        *ngIf="
+                          exam.price == 0 ||
+                          exam.price -
+                            exam.Discount -
+                            ((exam.price - exam.Discount) *
+                              exam.CustomDiscount) /
+                              100 ==
+                            0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{ "labels.Free" | translate }}
+                      </span>
+                    </ng-container>
+
+                    <!-- If Custom Discount  NotApplied -->
+                    <ng-container *ngIf="!exam.CustomDiscountApplied">
+                      <span
+                        class="badge bg-light-primary mb-1"
+                        *ngIf="exam.price > 0 && exam.Discount >= 0"
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{ exam.price - exam.Discount }}
+                      </span>
+
+                      <span
+                        class="badge bg-light-primary mb-1"
+                        *ngIf="exam.price > 0 && exam.Discount == null"
+                      >
+                        {{ "labels.Price" | translate }} : {{ exam.price }}
+                      </span>
+
+                      <!-- if price =0 or price after discount =0 -->
+                      <span
+                        class="badge bg-light-primary mb-1"
+                        *ngIf="
+                          exam.price == 0 || exam.price - exam.Discount == 0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{ "labels.Free" | translate }}
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                  <!-- if Discount privet  -->
+                  <ng-container *ngIf="exam.DiscountType == 2">
+                    <!-- If Student already In Center -->
+                    <ng-container *ngIf="EduCompList.includes(exam.EduCompId)">
+                      <!-- If Custom Discount Applied -->
+                      <ng-container *ngIf="exam.CustomDiscountApplied">
+                        <span
+                          class="badge bg-light-primary mb-1"
+                          *ngIf="
+                            exam.price == 0 ||
+                            exam.price -
+                              exam.Discount -
+                              ((exam.price - exam.Discount) *
+                                exam.CustomDiscount) /
+                                100 >
+                              0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :{{
+                            exam.price -
+                              exam.Discount -
+                              ((exam.price - exam.Discount) *
+                                exam.CustomDiscount) /
+                                100
+                          }}
+                        </span>
+
+                        <span
+                          class="badge bg-light-primary mb-1"
+                          *ngIf="
+                            exam.price == 0 ||
+                            exam.price -
+                              exam.Discount -
+                              ((exam.price - exam.Discount) *
+                                exam.CustomDiscount) /
+                                100 ==
+                              0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{ "labels.Free" | translate }}
+                        </span>
+                      </ng-container>
+
+                      <!-- If Custom Discount Not Applied -->
+                      <ng-container *ngIf="!exam.CustomDiscountApplied">
+                        <span
+                          class="badge bg-light-primary mb-1"
+                          *ngIf="
+                            exam.price == 0 || exam.price - exam.Discount > 0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{ exam.price - exam.Discount }}
+                        </span>
+
+                        <span
+                          class="badge bg-light-primary mb-1"
+                          *ngIf="
+                            exam.price == 0 || exam.price - exam.Discount == 0
+                          "
+                        >
+                          {{ "labels.Free" | translate }}
+                        </span>
+                      </ng-container>
+                    </ng-container>
+
+                    <!-- If Student not In Center -->
+                    <ng-container *ngIf="!EduCompList.includes(exam.EduCompId)">
+                      <!-- If Custom Discount Applied -->
+                      <ng-container *ngIf="exam.CustomDiscountApplied">
+                        <span
+                          class="badge bg-light-primary mb-1"
+                          *ngIf="
+                            exam.price == 0 ||
+                            exam.price -
+                              (exam.price * exam.CustomDiscount) / 100 >
+                              0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{
+                            exam.price -
+                              (exam.price * exam.CustomDiscount) / 100
+                          }}
+                        </span>
+
+                        <span
+                          class="badge bg-light-primary mb-1"
+                          *ngIf="
+                            exam.price == 0 ||
+                            exam.price -
+                              (exam.price * exam.CustomDiscount) / 100 ==
+                              0
+                          "
+                        >
+                          {{ "labels.Free" | translate }}
+                        </span>
+                      </ng-container>
+
+                      <!-- If Custom Discount Not Applied -->
+                      <ng-container *ngIf="!exam.CustomDiscountApplied">
+                        <span
+                          class="badge bg-light-primary mb-1"
+                          *ngIf="exam.price > 0"
+                        >
+                          {{ "labels.Price" | translate }} : {{ exam.price }}
+                        </span>
+
+                        <span
+                          class="badge bg-light-primary mb-1"
+                          *ngIf="exam.price == 0"
+                        >
+                          {{ "labels.Free" | translate }}
+                        </span>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <!-- if NO Discount   -->
+                  <ng-container *ngIf="exam.DiscountType == null">
+                    <!-- If Custom Discount Applied -->
+                    <ng-container *ngIf="exam.CustomDiscountApplied">
+                      <span
+                        class="badge bg-light-primary mb-1"
+                        *ngIf="
+                          exam.price -
+                            (exam.price * exam.CustomDiscount) / 100 >
+                          0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{
+                          exam.price - (exam.price * exam.CustomDiscount) / 100
+                        }}
+                      </span>
+                      <span
+                        class="badge bg-light-primary mb-1"
+                        *ngIf="
+                          exam.price == 0 ||
+                          exam.price -
+                            (exam.price * exam.CustomDiscount) / 100 ==
+                            0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{ "labels.Free" | translate }}
+                      </span>
+                    </ng-container>
+
+                    <!-- If Custom Discount Not Applied -->
+                    <ng-container *ngIf="!exam.CustomDiscountApplied">
+                      <span
+                        class="badge bg-light-primary mb-1"
+                        *ngIf="exam.price > 0"
+                      >
+                        {{ "labels.Price" | translate }} : {{ exam.price }}
+                      </span>
+                      <span
+                        class="badge bg-light-primary mb-1"
+                        *ngIf="exam.price == 0"
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{ "labels.Free" | translate }}
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+                <br />
+                <span class="badge bg-light-primary mb-1"
+                  >{{ "labels.percentageToPass" | translate }} :{{
+                    exam.requiredMarkToPass | number
+                  }}</span
+                >
+                <br />
+                <a
+                  routerLink="/student/exam/{{ exam.id }}"
+                  class="btn btn-sm btn-info bg-light-info"
+                >
+                  <i class="ft-play"></i> {{ "General.Enter" | translate }}
+                </a>
+              </div>
+            </div>
+            <div class="media bg-may" *ngFor="let temp of AttachedTemplates">
+              <div class="media-body mr-3">
+                <h5 class="primary">
+                  {{ temp.Name | lowercase }} <i class="ft-book-open"></i>
+                </h5>
+                <ng-container>
+                  <!-- if Discount Public  -->
+                  <ng-container
+                    *ngIf="
+                      temp.priceDiscountType == 1 || temp.priceDiscountType == 0
+                    "
+                  >
+                    <!-- If Custom Discount Applied -->
+                    <ng-container *ngIf="temp.CustomDiscountApplied">
+                      <span
+                        *ngIf="
+                          temp.price > 0 &&
+                          temp.priceDiscount >= 0 &&
+                          temp.CustomDiscount >= 0 &&
+                          temp.price -
+                            temp.priceDiscount -
+                            ((temp.price - temp.priceDiscount) *
+                              temp.CustomDiscount) /
+                              100 >
+                            0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{
+                          temp.price -
+                            temp.priceDiscount -
+                            ((temp.price - temp.priceDiscount) *
+                              temp.CustomDiscount) /
+                              100
+                        }}
+                      </span>
+
+                      <span
+                        *ngIf="
+                          temp.price > 0 &&
+                          temp.priceDiscount == null &&
+                          temp.CustomDiscount == 0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} : {{ temp.price }}
+                      </span>
+
+                      <!-- if price =0 or price after discount =0 -->
+                      <span
+                        *ngIf="
+                          temp.price == 0 ||
+                          temp.price -
+                            temp.priceDiscount -
+                            ((temp.price - temp.priceDiscount) *
+                              temp.CustomDiscount) /
+                              100 ==
+                            0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{ "labels.Free" | translate }}
+                      </span>
+                    </ng-container>
+
+                    <!-- If Custom Discount  NotApplied -->
+                    <ng-container *ngIf="!temp.CustomDiscountApplied">
+                      <span *ngIf="temp.price > 0 && temp.priceDiscount >= 0">
+                        {{ "labels.Price" | translate }} :
+                        {{ temp.price - temp.priceDiscount }}
+                      </span>
+
+                      <span
+                        *ngIf="temp.price > 0 && temp.priceDiscount == null"
+                      >
+                        {{ "labels.Price" | translate }} : {{ temp.price }}
+                      </span>
+
+                      <!-- if price =0 or price after discount =0 -->
+                      <span
+                        *ngIf="
+                          temp.price == 0 ||
+                          temp.price - temp.priceDiscount == 0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{ "labels.Free" | translate }}
+                      </span>
+                    </ng-container>
+                  </ng-container>
+
+                  <!-- if Discount privet  -->
+                  <ng-container *ngIf="temp.priceDiscountType == 2">
+                    <!-- If Student already In Center -->
+                    <ng-container *ngIf="EduCompList.includes(temp.EduCompId)">
+                      <!-- If Custom Discount Applied -->
+                      <ng-container *ngIf="temp.CustomDiscountApplied">
+                        <span
+                          *ngIf="
+                            temp.price == 0 ||
+                            temp.price -
+                              temp.priceDiscount -
+                              ((temp.price - temp.priceDiscount) *
+                                temp.CustomDiscount) /
+                                100 >
+                              0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{
+                            temp.price -
+                              temp.priceDiscount -
+                              ((temp.price - temp.priceDiscount) *
+                                temp.CustomDiscount) /
+                                100
+                          }}
+                        </span>
+
+                        <span
+                          *ngIf="
+                            temp.price == 0 ||
+                            temp.price -
+                              temp.priceDiscount -
+                              ((temp.price - temp.priceDiscount) *
+                                temp.CustomDiscount) /
+                                100 ==
+                              0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{ "labels.Free" | translate }}
+                        </span>
+                      </ng-container>
+
+                      <!-- If Custom Discount Not Applied -->
+                      <ng-container *ngIf="!temp.CustomDiscountApplied">
+                        <span
+                          *ngIf="
+                            temp.price == 0 ||
+                            temp.price - temp.priceDiscount > 0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{ temp.price - temp.priceDiscount }}
+                        </span>
+
+                        <span
+                          *ngIf="
+                            temp.price == 0 ||
+                            temp.price - temp.priceDiscount == 0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{ "labels.Free" | translate }}
+                        </span>
+                      </ng-container>
+                    </ng-container>
+
+                    <!-- If Student not In Center -->
+                    <ng-container *ngIf="!EduCompList.includes(temp.EduCompId)">
+                      <!-- If Custom Discount Applied -->
+                      <ng-container *ngIf="temp.CustomDiscountApplied">
+                        <span
+                          *ngIf="
+                            temp.price == 0 ||
+                            temp.price -
+                              (temp.price * temp.CustomDiscount) / 100 >
+                              0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{
+                            temp.price -
+                              (temp.price * temp.CustomDiscount) / 100
+                          }}
+                        </span>
+
+                        <span
+                          *ngIf="
+                            temp.price == 0 ||
+                            temp.price -
+                              (temp.price * temp.CustomDiscount) / 100 ==
+                              0
+                          "
+                        >
+                          {{ "labels.Price" | translate }} :
+                          {{ "labels.Free" | translate }}
+                        </span>
+                      </ng-container>
+
+                      <!-- If Custom Discount Not Applied -->
+                      <ng-container *ngIf="!temp.CustomDiscountApplied">
+                        <span *ngIf="temp.price > 0">
+                          {{ "labels.Price" | translate }} : {{ temp.price }}
+                        </span>
+
+                        <span *ngIf="temp.price == 0">
+                          {{ "labels.Price" | translate }} :
+                          {{ "labels.Free" | translate }}
+                        </span>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+
+                  <!-- if NO Discount   -->
+                  <ng-container *ngIf="temp.priceDiscountType == null">
+                    <!-- If Custom Discount Applied -->
+                    <ng-container *ngIf="temp.CustomDiscountApplied">
+                      <span
+                        *ngIf="
+                          temp.price -
+                            (temp.price * temp.CustomDiscount) / 100 >
+                          0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{
+                          temp.price - (temp.price * temp.CustomDiscount) / 100
+                        }}
+                      </span>
+                      <span
+                        *ngIf="
+                          temp.price == 0 ||
+                          temp.price -
+                            (temp.price * temp.CustomDiscount) / 100 ==
+                            0
+                        "
+                      >
+                        {{ "labels.Price" | translate }} :
+                        {{ "labels.Free" | translate }}
+                      </span>
+                    </ng-container>
+
+                    <!-- If Custom Discount Not Applied -->
+                    <ng-container *ngIf="!temp.CustomDiscountApplied">
+                      <span class="vid file_name" *ngIf="temp.price > 0">
+                        {{ "labels.Price" | translate }} : {{ temp.price }}
+                      </span>
+                      <span *ngIf="temp.price == 0">
+                        {{ "labels.Price" | translate }} :
+                        {{ "labels.Free" | translate }}
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+                <br />
+                <span class="badge bg-light-primary mb-1"
+                  >{{ "labels.percentageToPass" | translate }} :{{
+                    temp.requiredMarkToPass | number
+                  }}</span
+                >
+                <br />
+                <button
+                  id="temp-({{ temp.Id }})"
+                  (click)="buyTemplate(temp.Id)"
+                  class="btn btn-sm btn-info bg-light-info"
+                  *ngIf="!temp.Purchased && temp.price > 0"
+                >
+                  {{ "Material.Buy" | translate }}
+                </button>
+                <button
+                  id="temp-({{ temp.Id }})"
+                  (click)="GenerateExamFromTemplate(temp.Id)"
+                  class="btn btn-sm btn-info bg-light-info"
+                  *ngIf="temp.Purchased || (!temp.Purchased && temp.price == 0)"
+                >
+                  {{ "General.Enter" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{{ materialData.material_name }}</h4>
+        </div>
+        <!-- If Exceed views limit   -->
+        <div class="col-12" *ngIf="!canStudentWatch">
+          <div class="course-single-1">
+            <div class="inner">
+              <div class="lesson-name2">
+                <div class="alert alert-warning mb-2 text-center" role="alert">
+                  {{ "labels.NumberviewsExceeded" | translate }}.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- If Offline Lecture   -->
+        <div class="col-12" *ngIf="!materialData.IsOnline && IsAvaliable">
+          <div class="course-single-1">
+            <div class="inner">
+              <div class="lesson-name2">
+                <div class="alert alert-warning mb-2 text-center" role="alert">
+                  هذه المحاضره بنظام الحجز
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- If Not IsAvaliable  -->
+        <div class="course-details rtl" *ngIf="!IsAvaliable">
+          <div class="course-single-1">
+            <div class="inner">
+              <div class="lesson-name2">
+                <div class="alert alert-warning mb-2 text-center" role="alert">
+                  المحاضره غير متاحة حالياً
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video starts -->
+        <div class="card-content">
+          <div class="card-body" style="height: 75vh">
+            <div
+              id="plyr-video-player"
+              class="video-player"
+              style="height: 100%"
+            >
+              <!--Material purchased-->
+              <ng-container
+                *ngIf="
+                  (isPurchased ||
+                    MatPrice == 0 ||
+                    MatPrice -
+                      priceDiscount -
+                      (MatPrice * CustomDiscount) / 100 ==
+                      0) &&
+                  IsAvaliable
+                "
+              >
+                <!--Exams solved-->
+                <div
+                  *ngIf="!this.VideoReady"
+                  (click)="videoReady(); playiframevid()"
+                  class="notSolived text-center"
+                  style="height: 100%; width: 100%"
+                >
+                  <p class="noplayer">
+                    <button mat-raised-button class="danger bg-light-danger">
+                      <i class="fa fa-play"> </i>
+                    </button>
+                  </p>
+                </div>
+                <!-- <iframe class='sproutvideo-player' type='text/html' [src]="lecPath | safe" width='100%' height='100%'>
+                </iframe> -->
+                <iframe
+                  *ngIf="canStudentWatch"
+                  class="sproutvideo-player"
+                  type="text/html"
+                  [src]="lecPath | safe"
+                  width="100%"
+                  height="100%"
+                >
+                </iframe>
+
+                <!--Exams not solved-->
+                <div
+                  *ngIf="!ExamsSolved"
+                  class="notSolived text-center"
+                  style="height: 100%; width: 100%"
+                >
+                  <p class="noplayer">
+                    {{ "Material.AllExamsMustBeSolvedFirst" | translate }}
+                  </p>
+                  <a
+                    class="btn btn-sm btn-info bg-light-info text-center"
+                    href=""
+                  >
+                    <i class="ft-book"></i>
+                    {{ "Material.ViewExams" | translate }}
+                  </a>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <!-- Video ends -->
+
+        <!-- Start Buy Mat  -->
+        <div
+          class="course-details rtl"
+          *ngIf="!isPurchased && MatPrice > 0 && IsAvaliable"
+        >
+          <p>
+            <strong style="color: #ef4036">
+              <!-- if Discount Public  -->
+              <div
+                *ngIf="
+                  materialData.priceDiscountType == 1 ||
+                  materialData.priceDiscountType == 0
+                "
+              >
+                <!-- If Custom Discount Applied -->
+                <div *ngIf="materialData.CustomDiscountApplied">
+                  <div
+                    class="price"
+                    *ngIf="
+                      materialData.price > 0 &&
+                      materialData.priceDiscount >= 0 &&
+                      materialData.CustomDiscount >= 0 &&
+                      materialData.price -
+                        materialData.priceDiscount -
+                        ((materialData.price - materialData.priceDiscount) *
+                          materialData.CustomDiscount) /
+                          100 >
+                        0
+                    "
+                  >
+                    {{
+                      materialData.price -
+                        materialData.priceDiscount -
+                        ((materialData.price - materialData.priceDiscount) *
+                          materialData.CustomDiscount) /
+                          100
+                    }}
+                  </div>
+
+                  <div
+                    class="price"
+                    *ngIf="
+                      materialData.price > 0 &&
+                      materialData.priceDiscount == null &&
+                      materialData.CustomDiscount == 0
+                    "
+                  >
+                    {{ materialData.price }}
+                  </div>
+
+                  <!-- if price =0 or price after discount =0 -->
+                  <div
+                    class="price"
+                    *ngIf="
+                      materialData.price == 0 ||
+                      materialData.price -
+                        materialData.priceDiscount -
+                        ((materialData.price - materialData.priceDiscount) *
+                          materialData.CustomDiscount) /
+                          100 ==
+                        0
+                    "
+                  >
+                    {{ "labels.Free" | translate }}
+                  </div>
+                </div>
+
+                <!-- If Custom Discount  NotApplied -->
+                <div *ngIf="!materialData.CustomDiscountApplied">
+                  <div
+                    class="price"
+                    *ngIf="
+                      materialData.price > 0 && materialData.priceDiscount >= 0
+                    "
+                  >
+                    {{ materialData.price - materialData.priceDiscount }}
+                  </div>
+
+                  <div
+                    class="price"
+                    *ngIf="
+                      materialData.price > 0 &&
+                      materialData.priceDiscount == null
+                    "
+                  >
+                    {{ materialData.price }}
+                  </div>
+
+                  <!-- if price =0 or price after discount =0 -->
+                  <div
+                    class="price"
+                    *ngIf="
+                      materialData.price == 0 ||
+                      materialData.price - materialData.priceDiscount == 0
+                    "
+                  >
+                    {{ "labels.Free" | translate }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- if Discount privet  -->
+              <div *ngIf="materialData.priceDiscountType == 2">
+                <!-- If Student already In Center -->
+                <div *ngIf="EduCompList.includes(materialData.EduCompId)">
+                  <!-- If Custom Discount Applied -->
+                  <div *ngIf="materialData.CustomDiscountApplied">
+                    <div
+                      class="price"
+                      *ngIf="
+                        materialData.price == 0 ||
+                        materialData.price -
+                          materialData.priceDiscount -
+                          ((materialData.price - materialData.priceDiscount) *
+                            materialData.CustomDiscount) /
+                            100 >
+                          0
+                      "
+                    >
+                      {{ "labels.Price" | translate }} :
+                      {{
+                        materialData.price -
+                          materialData.priceDiscount -
+                          ((materialData.price - materialData.priceDiscount) *
+                            materialData.CustomDiscount) /
+                            100
+                      }}
+                    </div>
+
+                    <div
+                      class="price"
+                      *ngIf="
+                        materialData.price == 0 ||
+                        materialData.price -
+                          materialData.priceDiscount -
+                          ((materialData.price - materialData.priceDiscount) *
+                            materialData.CustomDiscount) /
+                            100 ==
+                          0
+                      "
+                    >
+                      {{ "labels.Price" | translate }} :
+                      {{ "labels.Free" | translate }}
+                    </div>
+                  </div>
+
+                  <!-- If Custom Discount Not Applied -->
+                  <div *ngIf="!materialData.CustomDiscountApplied">
+                    <div
+                      class="price"
+                      *ngIf="
+                        materialData.price == 0 ||
+                        materialData.price - materialData.priceDiscount > 0
+                      "
+                    >
+                      {{ "labels.Price" | translate }} :
+                      {{ materialData.price - materialData.priceDiscount }}
+                    </div>
+
+                    <div
+                      class="price"
+                      *ngIf="
+                        materialData.price == 0 ||
+                        materialData.price - materialData.priceDiscount == 0
+                      "
+                    >
+                      {{ "labels.Price" | translate }} :
+                      {{ "labels.Free" | translate }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- If Student not In Center -->
+                <div *ngIf="!EduCompList.includes(materialData.EduCompId)">
+                  <!-- If Custom Discount Applied -->
+                  <div *ngIf="materialData.CustomDiscountApplied">
+                    <div
+                      class="price"
+                      *ngIf="
+                        materialData.price == 0 ||
+                        materialData.price -
+                          (materialData.price * materialData.CustomDiscount) /
+                            100 >
+                          0
+                      "
+                    >
+                      {{ "labels.Price" | translate }} :
+                      {{
+                        materialData.price -
+                          (materialData.price * materialData.CustomDiscount) /
+                            100
+                      }}
+                    </div>
+
+                    <div
+                      class="price"
+                      *ngIf="
+                        materialData.price == 0 ||
+                        materialData.price -
+                          (materialData.price * materialData.CustomDiscount) /
+                            100 ==
+                          0
+                      "
+                    >
+                      {{ "labels.Price" | translate }} :{{
+                        "labels.Free" | translate
+                      }}
+                    </div>
+                  </div>
+
+                  <!-- If Custom Discount Not Applied -->
+                  <div *ngIf="!materialData.CustomDiscountApplied">
+                    <div class="price" *ngIf="materialData.price > 0">
+                      {{ "labels.Price" | translate }} :
+                      {{ materialData.price }}
+                    </div>
+
+                    <div class="price" *ngIf="materialData.price == 0">
+                      {{ "labels.Price" | translate }} :
+                      {{ "labels.Free" | translate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- if NO Discount   -->
+              <div *ngIf="materialData.priceDiscountType == null">
+                <!-- If Custom Discount Applied -->
+                <div *ngIf="materialData.CustomDiscountApplied">
+                  <div
+                    class="price"
+                    *ngIf="
+                      materialData.price -
+                        (materialData.price * materialData.CustomDiscount) /
+                          100 >
+                      0
+                    "
+                  >
+                    {{ "labels.Price" | translate }} :
+                    {{
+                      materialData.price -
+                        (materialData.price * materialData.CustomDiscount) / 100
+                    }}
+                  </div>
+                  <div
+                    class="price"
+                    *ngIf="
+                      materialData.price == 0 ||
+                      materialData.price -
+                        (materialData.price * materialData.CustomDiscount) /
+                          100 ==
+                        0
+                    "
+                  >
+                    {{ "labels.Price" | translate }} :
+                    {{ "labels.Free" | translate }}
+                  </div>
+                </div>
+
+                <!-- If Custom Discount Not Applied -->
+                <div *ngIf="!materialData.CustomDiscountApplied">
+                  <div class="price" *ngIf="materialData.price > 0">
+                    {{ materialData.price }}
+                  </div>
+                  <div class="price" *ngIf="materialData.price == 0">
+                    {{ "labels.Price" | translate }} :
+                    {{ "labels.Free" | translate }}
+                  </div>
+                </div>
+              </div>
+            </strong>
+          </p>
+          <div class="big-hr"></div>
+
+          <button
+            [id]=""
+            class="btn btn-primary"
+            (click)="CheckifOfflineMaterialHasOnline(materialData.id, 1)"
+            *ngIf="!materialData.Purchased && materialData.buyByCredit"
+          >
+            {{ "Material.Buy" | translate }}
+          </button>
+
+          <button
+            [id]=""
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target=""
+            (click)="CheckifOfflineMaterialHasOnline(materialData.id, 2)"
+            *ngIf="!materialData.Purchased && materialData.buyByCode"
+          >
+            {{ "Material.BuyByCode" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,173 @@
+<div class="form-conainer">
+    <div class="dc-content-title">
+      <h5 class="xsm black header">إعدادات اسئلة الطلاب</h5>
+      <button
+        routerLink="/dashboard/educational-subject/index"
+        type="submit"
+        class="btn btn-primary pull-left ad-qus font-dro"
+      >
+        <i class="fa fa-arrow-right"></i> الرجوع
+      </button>
+    </div>
+  
+    <div class="unit-body dc-item-body">
+      <form [formGroup]="myForm" class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-3 control-label"> المدرس </label>
+          <div class="col-sm-5">
+            <select class="form-control font-dro" formControlName="teacherId">
+              <option value="">المدرس</option>
+              <option
+                *ngFor="let teacher of Teachers"
+                [value]="teacher.teacher_ID"
+              >
+                {{ teacher.teacher_ar_name }}
+              </option>
+            </select>
+            <span
+              class="text-danger"
+              *ngIf="
+                FormCtrl.teacherId.invalid &&
+                (FormCtrl.teacherId.touched || submitted)
+              "
+            >
+              <span *ngIf="FormCtrl.teacherId.errors?.required">
+                You must choose a value.
+              </span>
+            </span>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label class="col-md-3 col-sm-3 control-label"> النوع </label>
+          <div class="col-md-5">
+            <select
+              class="form-control"
+              #type
+              (change)="changeType()"
+              formControlName="typeId"
+            >
+              <option value="">اختر</option>
+              <option value="1">عام</option>
+              <option value="2">خاص</option>
+              <option value="3">إغلاق</option>
+            </select>
+            <span
+              class="text-danger"
+              *ngIf="
+                FormCtrl.typeId.invalid && (FormCtrl.typeId.touched || submitted)
+              "
+            >
+              <span *ngIf="FormCtrl.typeId.errors?.required">
+                You must choose a value.
+              </span>
+            </span>
+          </div>
+        </div>
+  
+        <div id="IsPrivateContainer" *ngIf="type.value == '2'">
+          <div class="form-group">
+            <label class="col-sm-3 control-label"> السعر </label>
+            <div class="col-sm-5">
+              <input
+                class="form-control font-dro"
+                formControlName="PrivatePrice"
+                type="number"
+              />
+              <span
+                class="text-danger"
+                *ngIf="
+                  FormCtrl.PrivatePrice.invalid &&
+                  (FormCtrl.PrivatePrice.touched || submitted)
+                "
+              >
+                <span *ngIf="FormCtrl.PrivatePrice.errors?.required">
+                  You must enter a value.
+                </span>
+                <span *ngIf="FormCtrl.PrivatePrice.errors?.minusNum">
+                  You must enter a correct value.
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+  
+        <div id="IsPublicContainer" *ngIf="type.value == '1'">
+          <div class="form-group">
+            <label class="col-sm-3 control-label"> السعر </label>
+            <div class="col-sm-5">
+              <!-- Is public -->
+              <input
+                class="form-control font-dro"
+                formControlName="PublicPrice"
+                type="number"
+              />
+              <span
+                class="text-danger"
+                *ngIf="
+                  FormCtrl.PublicPrice.invalid &&
+                  (FormCtrl.PublicPrice.touched || submitted)
+                "
+              >
+                <span *ngIf="FormCtrl.PublicPrice.errors?.required">
+                  You must enter a value.
+                </span>
+                <span *ngIf="FormCtrl.PublicPrice.errors?.minusNum">
+                  You must enter a correct value.
+                </span>
+              </span>
+            </div>
+          </div>
+  
+          <!-- if Public show lecture Count -->
+          <div class="form-group">
+            <label class="col-sm-3 control-label"> عدد المحاضرات </label>
+            <div class="col-sm-5">
+              <input
+                class="form-control font-dro"
+                formControlName="IfPublicAccessibleAfterLecturesCount"
+                type="number"
+              />
+              <span
+                class="text-danger"
+                *ngIf="
+                  FormCtrl.IfPublicAccessibleAfterLecturesCount.invalid &&
+                  (FormCtrl.IfPublicAccessibleAfterLecturesCount.touched ||
+                    submitted)
+                "
+              >
+                <span
+                  *ngIf="
+                    FormCtrl.IfPublicAccessibleAfterLecturesCount.errors?.required
+                  "
+                >
+                  You must enter a value.
+                </span>
+                <span
+                  *ngIf="
+                    FormCtrl.IfPublicAccessibleAfterLecturesCount.errors?.minusNum
+                  "
+                >
+                  You must enter a correct value.
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-btn">
+            <div class="form-actions">
+              <button
+                (click)="addQuestionSettings()"
+                type="button"
+                class="btn btn-primary pull-left"
+              >
+                إضافة
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

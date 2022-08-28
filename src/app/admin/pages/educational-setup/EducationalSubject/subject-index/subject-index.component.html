@@ -1,0 +1,268 @@
+<ngx-spinner></ngx-spinner>
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">
+      {{ "Navbar.EducationalSubjects" | translate }}
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "General.Search" | translate }}
+      </mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="myForm" class="form-container">
+              <div class="row">
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Country" | translate }} </mat-label>
+                    <mat-select
+                      formControlName="countryID"
+                      (selectionChange)="
+                        getEducationalStageByCountryID(
+                          FomCtrls?.countryID?.value
+                        )
+                      "
+                    >
+                      <mat-option>
+                        {{ "General.Choose" | translate }}</mat-option
+                      >
+                      <mat-option
+                        *ngFor="let country of countriesList"
+                        [value]="country.country_id"
+                      >
+                        {{ country.country_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label
+                      >{{ "Navbar.EducationalStage" | translate }}
+                    </mat-label>
+                    <mat-select
+                      formControlName="stageID"
+                      (selectionChange)="
+                        getYearbyStageID(FomCtrls?.stageID?.value)
+                      "
+                    >
+                      <mat-option>
+                        {{ "General.Choose" | translate }}</mat-option
+                      >
+                      <mat-option
+                        *ngFor="let stage of stagesList"
+                        [value]="stage.id"
+                      >
+                        {{ stage.stage_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>
+                      {{ "labels.EducationalYear" | translate }}
+                    </mat-label>
+                    <mat-select formControlName="eduYearID">
+                      <mat-option>
+                        {{ "General.Choose" | translate }}</mat-option
+                      >
+                      <mat-option *ngFor="let year of Years" [value]="year.id">
+                        {{ year.Educational_year_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="getSubjects(1)"
+        >
+          {{ "General.Search" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "Material.Subjects" | translate }}
+      </mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex. ium"
+            #input
+          />
+        </mat-form-field>
+
+        <div class="mat-elevation-z8 f-w">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- # Column -->
+            <ng-container matColumnDef="#">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+              <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+            </ng-container>
+
+            <!-- name Column -->
+            <ng-container matColumnDef="stage">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "Navbar.EducationalStage" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.stage_name }}</td>
+            </ng-container>
+
+            <!-- accountName Column -->
+            <ng-container matColumnDef="year">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.EducationalYear" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.educational_year }}</td>
+            </ng-container>
+
+            <!-- code Column -->
+            <ng-container matColumnDef="subject">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.SubjectName" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.subject_ar_name }}</td>
+            </ng-container>
+
+            <!-- actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>actions</th>
+              <td mat-cell *matCellDef="let subject">
+                <div
+                  class="dropdown btn-group mr-1 mb-1"
+                  ngbDropdown
+                  *ngIf="rowFunctions.length > 0"
+                >
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-primary bg-light-primary dropdown-toggle"
+                    ngbDropdownToggle
+                  >
+                    actions
+                    <span class="caret"></span>
+                  </button>
+                  <div ngbDropdownMenu class="dropdown-menu" role="menu">
+                    <ng-container *ngFor="let fun of rowFunctions">
+                      <!-- <a
+                        routerLink="/dashboard/educational-setup/subjects/{{
+                          subject?.Id
+                        }}"
+                        [queryParams]="{ functionId: fun?.Id }"
+                        *ngIf="fun.functionName === 'Edit'"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                        {{ "General.Edit" | translate }}
+                      </a> -->
+
+                      <a
+                        routerLink="/dashboard/educational-setup/subjects/material-search/{{
+                          subject?.subject_id
+                        }}"
+                        [queryParams]="{
+                          functionId: fun?.Id,
+                          parentId: functionId
+                        }"
+                        *ngIf="fun.functionName === 'Materials'"
+                        class="dropdown-item"
+                      >
+                        <i class="icon-notebook font-medium-3 mr-2"></i>
+                        {{ "labels.Materials" | translate }}
+                      </a>
+                      <!--
+                      <a
+                        *ngIf="fun.functionName === 'SubjectStructure'"
+                        routerLink="/dashboard/educational-setup/subjects/{{
+                          subject?.subject_id
+                        }}"
+                        [queryParams]="{ functionId: fun?.Id }"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-cpu font-medium-3 mr-2"></i>
+                        {{ "labels.SubjectStructure" | translate }}
+                      </a> -->
+
+                      <!-- <a
+                        routerLink="/dashboard/educational-setup/subjects/"
+                        [queryParams]="{ functionId: fun?.Id }"
+                        *ngIf="fun.functionName === 'QuestionSettings'"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-settings font-medium-3 mr-2"></i>
+                        {{ "labels.StudentQuestionSettings" | translate }}
+                      </a>
+
+                      <a
+                        routerLink="/dashboard/educational-setup/subjects/"
+                        [queryParams]="{ functionId: fun?.Id }"
+                        *ngIf="fun.functionName === 'TemplatesSettings'"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-settings font-medium-3 mr-2"></i>
+                        {{ "labels.StudentTemplatesSettings" | translate }}
+                      </a> -->
+
+                      <a
+                        *ngIf="fun.functionName === 'Delete'"
+                        (click)="openDeleateDialog(subject)"
+                        class="dropdown-item"
+                      >
+                        <i class="ft-trash font-medium-3 mr-2"></i>
+                        {{ "General.Delete" | translate }}
+                      </a>
+                    </ng-container>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[10]"
+            (page)="getSubjects($event.pageIndex + 1)"
+            [length]="totalItems"
+            [pageSize]="10"
+            showFirstLastButtons
+            aria-label="Select page of users"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

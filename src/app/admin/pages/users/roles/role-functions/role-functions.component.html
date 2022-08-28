@@ -1,0 +1,42 @@
+<ngx-spinner></ngx-spinner>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "labels.AddRoleFunctions" | translate }}
+      </mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="row">
+              <div
+                *ngFor="let func of functions; let i = index"
+                class="col-md-3 col-6"
+              >
+                <!-- [checked]="checkedfunctionIds.includes(func.Id)" -->
+                <mat-checkbox
+                  id="functions{{ func.Id }}"
+                  (change)="onFunctionToogle(func.Id, $event)"
+                  [checked]="functionIds.includes(func.Id)"
+                >
+                  {{ func.functionName | translate }}
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          #addBtn
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="onAddFunctions()"
+        >
+          {{ "General.Add" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

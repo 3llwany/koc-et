@@ -1,0 +1,162 @@
+<form [formGroup]="myForm" class="form-container">
+  <div class="row">
+    <div class="col-md-6 col-6">
+      <mat-form-field appearance="legacy">
+        <mat-label> {{ "labels.Name" | translate }} </mat-label>
+        <input matInput type="text" formControlName="Name" />
+        <mat-hint
+          class="text-danger"
+          *ngIf="FormCtrl.Name.invalid && (FormCtrl.Name.touched || submitted)"
+        >
+          <span *ngIf="FormCtrl.Name.errors?.required">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+          <span *ngIf="FormCtrl.Name.errors?.whiteSpace">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 col-12">
+      <mat-form-field appearance="legacy">
+        <mat-label>{{ "labels.Type" | translate }} </mat-label>
+        <mat-select formControlName="videoTypeId">
+          <mat-option> {{ "General.Choose" | translate }}</mat-option>
+          <mat-option [value]="1">VideoCipher</mat-option>
+          <mat-option [value]="2">Vimeo</mat-option>
+          <mat-option [value]="3">SproutVideo</mat-option>
+        </mat-select>
+        <mat-hint
+          class="text-danger"
+          *ngIf="
+            FormCtrl.videoTypeId.invalid &&
+            (FormCtrl.videoTypeId.touched || submitted)
+          "
+        >
+          <span *ngIf="FormCtrl.videoTypeId.errors?.required">
+            {{ "labels.MustChoosevalue" | translate }}
+          </span>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 col-6">
+      <mat-form-field appearance="legacy">
+        <mat-label> {{ "labels.Link" | translate }} </mat-label>
+        <input matInput type="text" formControlName="Path" />
+        <mat-hint
+          class="text-danger"
+          *ngIf="FormCtrl.Path.invalid && (FormCtrl.Path.touched || submitted)"
+        >
+          <span *ngIf="FormCtrl.Path.errors?.required">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+          <span *ngIf="FormCtrl.Path.errors?.whiteSpace">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 col-6" *ngIf="FormCtrl.videoTypeId.value == 3">
+      <mat-form-field appearance="legacy">
+        <mat-label> {{ "labels.Link" | translate }} - Vimeo</mat-label>
+        <input matInput type="text" formControlName="SecondaryPath" />
+        <mat-hint
+          class="text-danger"
+          *ngIf="
+            FormCtrl.SecondaryPath.invalid &&
+            (FormCtrl.SecondaryPath.touched || submitted)
+          "
+        >
+          <span *ngIf="FormCtrl.SecondaryPath.errors?.required">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+          <span *ngIf="FormCtrl.SecondaryPath.errors?.whiteSpace">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6 col-6">
+      <mat-form-field appearance="legacy">
+        <mat-label>
+          {{ "labels.ConfirmViewPercentage" | translate }}
+        </mat-label>
+        <input matInput type="number" formControlName="view_percentage" />
+        <mat-hint
+          class="text-danger"
+          *ngIf="
+            FormCtrl.view_percentage.invalid &&
+            (FormCtrl.view_percentage.touched || submitted)
+          "
+        >
+          <span *ngIf="FormCtrl.view_percentage.errors?.required">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+          <span *ngIf="FormCtrl.view_percentage.errors?.minusNum">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+</form>
+<mat-card-actions align="end">
+  <button
+    mat-raised-button
+    class="btn btn-primary"
+    (click)="addPart()"
+    [disabled]="
+      FormCtrl.materialId.value == undefined ||
+      FormCtrl.materialId.value == null
+    "
+  >
+    {{ "General.Save" | translate }}
+  </button>
+</mat-card-actions>
+
+<ng-container *ngIf="parts.length > 0" class="table-responsive">
+  <table class="table table-striped m-0">
+    <thead>
+      <tr>
+        <th>
+          {{ "labels.Name" | translate }}
+        </th>
+        <th>{{ "labels.Type" | translate }}</th>
+        <th>
+          {{ "labels.ConfirmViewPercentage" | translate }}
+        </th>
+        <th>action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let part of parts" [id]="part.Id">
+        <td>{{ part.Name }}</td>
+        <td *ngIf="part.videoTypeId == 1">VideoCipher</td>
+        <td *ngIf="part.videoTypeId == 2">Vimeo</td>
+        <td *ngIf="part.videoTypeId == 3">Sprout Video</td>
+        <td>{{ part.view_percentage }}</td>
+        <td>
+          <a
+            (click)="getPartById(part.Id)"
+            class="success p-0"
+            matTooltip="Edit"
+          >
+            <i class="ft-edit-2 font-medium-3 mr-2"></i>
+          </a>
+
+          <a
+            (click)="openDeleateDialog(part)"
+            class="danger p-0"
+            matTooltip="Delete"
+          >
+            <i class="ft-trash font-medium-3 mr-2"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

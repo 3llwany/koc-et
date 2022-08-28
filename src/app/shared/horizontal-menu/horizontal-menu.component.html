@@ -1,0 +1,455 @@
+<div
+  class="header-navbar navbar-expand-sm navbar navbar-horizontal navbar-fixed navbar-light navbar-shadow menu-border navbar-brand-center  {{
+    transparentBGClass
+  }}"
+  role="navigation"
+  data-menu="menu-wrapper"
+  data-nav="brand-center"
+  [ngClass]="{
+    'navbar-sticky':
+      menuPosition === 'Top' && config?.layout.navbar.type === 'Static',
+    'navbar-fixed':
+      menuPosition === 'Top' && config?.layout.navbar.type === 'Fixed'
+  }"
+>
+  <!-- Horizontal menu content-->
+  <div
+    class="navbar-container main-menu-content center-layout row w-100"
+    data-menu="menu-container"
+  >
+    <!-- Start Student Menu -->
+    <ul
+      *ngIf="AuthService.isStudent()"
+      appTopMenuDropdown
+      class="navigation-main nav navbar-nav"
+      id="main-menu-navigation"
+      data-menu="menu-navigation"
+    >
+      <!-- <app-student-menu></app-student-menu> -->
+      <li
+        appTopMenulink
+        parent="Home"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/home"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="ft-home"></i>
+          <span>{{ "Navbar.Home" | translate }}</span>
+        </a>
+      </li>
+
+      <li
+        appTopMenulink
+        parent="My Space"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/student/mySpace"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="ft-user"></i>
+          <span>{{ "Navbar.mySpace" | translate }}</span>
+        </a>
+      </li>
+
+      <li
+        appTopMenulink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/student/recharge"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="fa fa-money"></i>
+
+          <span>{{ "Navbar.Recharge" | translate }}</span>
+        </a>
+      </li>
+
+      <!-- <li
+        appTopMenulink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/student/reservation/22/2/1/48HFR6/1"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="fa fa-ticket"></i>
+          <span>{{ "Navbar.Reservation" | translate }}</span>
+        </a>
+      </li> -->
+
+      <li
+        appTopMenulink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/student/educational-stage"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="fa fa-graduation-cap"></i>
+          <span>{{ "Navbar.EducationalStage" | translate }}</span>
+        </a>
+      </li>
+
+      <!-- <li
+        appTopMenulink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/student/refund-lecture"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="fa fa-retweet"></i>
+          <span>{{ "Navbar.RefundLecture" | translate }}</span>
+        </a>
+      </li> -->
+      <!--
+      <li
+        appTopMenulink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/student/create-exam"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="fa fa-book"></i>
+          <span>{{ "labels.CreateExam" | translate }}</span>
+        </a>
+      </li> -->
+
+      <!-- Start  Balance Details-->
+      <li class="dropdown nav-item float-right">
+        <a
+          class="dropdown-toggle nav-link d-flex mncolorbnew align-items-center"
+        >
+          <i class="fa fa-money"></i>
+          <span>
+            {{ "Balance.CurrentBalance" | translate }}:
+            {{ BalanceData?.userBalance?.ActualBalance }}
+          </span>
+        </a>
+      </li>
+
+      <li class="dropdown nav-item float-right">
+        <a
+          class="dropdown-toggle nav-link d-flex mncolorbnew align-items-center"
+        >
+          <i class="fa fa-money"></i>
+          <span>
+            {{ "Balance.Services" | translate }}:
+            {{ BalanceData?.userBalance?.Expenses }}
+          </span>
+        </a>
+      </li>
+
+      <li class="dropdown nav-item float-right">
+        <a
+          class="dropdown-toggle nav-link d-flex mncolorbnew align-items-center"
+        >
+          <i class="fa fa-money"></i>
+          <span>
+            {{ "Balance.TotalCharges" | translate }}:{{
+              BalanceData?.userBalance?.Balance
+            }}
+          </span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Start Support Menu -->
+    <ul
+      *ngIf="AuthService.isSupport()"
+      appTopMenuDropdown
+      class="navigation-main nav navbar-nav"
+      id="main-menu-navigation"
+      data-menu="menu-navigation"
+    >
+      <li
+        appTopMenulink
+        parent="Home"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/home"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="ft-home"></i>
+          <span>{{ "Navbar.Home" | translate }}</span>
+        </a>
+      </li>
+
+      <li
+        appTopMenulink
+        parent="Home"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/support/search"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="ft-home"></i>
+          <span>{{ "Navbar.Support" | translate }}</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Dynamic Menu For Admins -->
+    <ul
+      *ngIf="
+        !(AuthService.isStudent() || AuthService.isSupport()) &&
+        AuthService.isUser()
+      "
+      appTopMenuDropdown
+      class="navigation-main nav navbar-nav col-9"
+      id="main-menu-navigation"
+      data-menu="menu-navigation"
+    >
+      <li
+        appTopMenulink
+        parent="Home"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/home"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="ft-home"></i>
+          <span>{{ "Navbar.Home" | translate }}</span>
+        </a>
+      </li>
+
+      <li
+        appTopMenulink
+        *ngFor="let menuItem of menuItems"
+        [parent]="menuItem.title"
+        level="{{ level + 1 }}"
+        [attr.data-menu]="
+          menuItem.class === 'dropdown nav-item' ? 'dropdown' : null
+        "
+        [ngClass]="[menuItem.class]"
+        [routerLinkActive]="menuItem.submenu?.length != 0 ? 'active' : 'active'"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          appTopMenuAnchorToggle
+          *ngIf="menuItem.submenu?.length > 0 && !menuItem.isExternalLink"
+          data-toggle="dropdown"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i [ngClass]="[menuItem.icon]"></i>
+          <span>{{ menuItem.title | translate }}</span>
+        </a>
+        <a
+          appTopMenuAnchorToggle
+          routerLink="{{ menuItem.path }}"
+          *ngIf="menuItem.submenu?.length === 0 && !menuItem.isExternalLink"
+          data-toggle="dropdown"
+          class="nav-link d-flex align-items-center"
+        >
+          <i [ngClass]="[menuItem.icon]"></i>
+          <span>{{ menuItem.title | translate }}</span>
+        </a>
+        <a
+          [href]="[menuItem.path]"
+          target="_blank"
+          *ngIf="menuItem.isExternalLink"
+          data-toggle="dropdown"
+          class="nav-link d-flex align-items-center"
+        >
+          <i [ngClass]="[menuItem.icon]"></i>
+          <span>{{ menuItem.title | translate }}</span>
+        </a>
+
+        <!-- Second level menu -->
+        <ul
+          appTopMenuDropdown
+          class="dropdown-menu"
+          *ngIf="menuItem.submenu?.length > 0"
+        >
+          <li
+            appTopMenulink
+            [attr.data-menu]="
+              menuSubItem.class === 'dropdown-item' ? '' : 'dropdown-submenu'
+            "
+            *ngFor="let menuSubItem of menuItem.submenu"
+            [parent]="menuItem.title"
+            level="{{ level + 2 }}"
+            [routerLinkActive]="
+              menuSubItem.submenu?.length != 0 ? 'active' : 'active'
+            "
+            [ngClass]="
+              menuSubItem.class === 'dropdown-item'
+                ? ''
+                : 'has-sub dropdown dropdown-submenu'
+            "
+          >
+            <a
+              appTopMenuAnchorToggle
+              routerLink="{{ menuSubItem.path }}"
+              [queryParams]="{ functionId: menuSubItem.functionId }"
+              [ngClass]="'dropdown-item d-flex align-items-center'"
+              (click)="(setFunC)"
+            >
+              <i [ngClass]="[menuSubItem.icon]"></i>
+              <span>{{ menuSubItem.title | translate }}</span>
+            </a>
+            <!-- <a
+              appTopMenuAnchorToggle
+              *ngIf="
+                menuSubItem.submenu?.length > 0 && !menuSubItem.isExternalLink
+              "
+              [ngClass]="
+                'dropdown-toggle dropdown-item d-flex align-items-center'
+              "
+            >
+              <i [ngClass]="[menuSubItem.icon]"></i>
+              <span>{{ menuSubItem.title | translate }}</span>
+            </a>
+            <a
+              appTopMenuAnchorToggle
+              routerLink="{{ menuSubItem.path }}"
+              *ngIf="
+                menuSubItem.submenu.length === 0 && !menuSubItem.isExternalLink
+              "
+              [ngClass]="'dropdown-item d-flex align-items-center'"
+            >
+              <i [ngClass]="[menuSubItem.icon]"></i>
+              <span>{{ menuSubItem.title | translate }}</span>
+            </a>
+            <a
+              [href]="[menuSubItem.path]"
+              *ngIf="menuSubItem.isExternalLink"
+              [ngClass]="'dropdown-item d-flex align-items-center'"
+            >
+              <i [ngClass]="[menuSubItem.icon]"></i>
+              <span>{{ menuSubItem.title | translate }}</span>
+            </a> -->
+
+            <!-- Third level menu -->
+            <ul
+              appTopMenuDropdown
+              class="dropdown-menu"
+              *ngIf="menuSubItem.submenu?.length > 0"
+            >
+              <li
+                appTopMenulink
+                data-menu=""
+                data-toggle="dropdown"
+                *ngFor="let menuSubsubItem of menuSubItem.submenu"
+                [parent]="menuItem.title"
+                level="{{ level + 3 }}"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a
+                  appTopMenuAnchorToggle
+                  data-toggle="dropdown"
+                  [ngClass]="'dropdown-item d-flex align-items-center'"
+                  [routerLink]="[menuSubsubItem.path]"
+                  *ngIf="
+                    !menuSubsubItem.isExternalLink;
+                    else externalSubSubLinkBlock
+                  "
+                >
+                  <i [ngClass]="[menuSubsubItem.icon]"></i>
+                  <span class="">{{ menuSubsubItem.title }}</span>
+                </a>
+                <ng-template #externalSubSubLinkBlock>
+                  <a
+                    data-toggle="dropdown"
+                    [ngClass]="'dropdown-item d-flex align-items-center'"
+                    [href]="[menuSubsubItem.path]"
+                    target="_blank"
+                  >
+                    <i [ngClass]="[menuSubsubItem.icon]"></i>
+                    <span class="">{{ menuSubsubItem.title }}</span>
+                  </a>
+                </ng-template>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- EduCops And Braanches  -->
+    <ul
+      *ngIf="
+        !(AuthService.isStudent() || AuthService.isSupport()) &&
+        AuthService.isUser()
+      "
+      appTopMenuDropdown
+      class="navigation-main nav navbar-nav col-3 d-flex align-items-right"
+      id="main-menu-navigation"
+      data-menu="menu-navigation"
+    >
+      <li appTopMenulink class="dropdown nav-item">
+        <select
+          class="form-control bg-light-primary"
+          [(ngModel)]="EduCompId"
+          [disabled]="EducationalComps?.length == 1"
+          (change)="onChangeEduCompId(EduCompId)"
+        >
+          <option value="">
+            {{ "labels.Center" | translate }}
+          </option>
+          <option
+            *ngFor="let eduComp of EducationalComps"
+            [selected]="eduComp?.Id == EduCompId"
+            [value]="eduComp.Id"
+          >
+            {{ eduComp?.Name }}
+          </option>
+        </select>
+      </li>
+      <li appTopMenulink class="dropdown nav-item">
+        <select
+          class="form-control bg-light-danger"
+          [(ngModel)]="branchId"
+          [disabled]="!EduCompId"
+          (change)="changebranchId()"
+        >
+          <option value="">
+            {{ "labels.Branch" | translate }}
+          </option>
+          <option
+            *ngFor="let branch of Branches"
+            [selected]="branch?.Id == branchId"
+            [value]="branch?.Id"
+          >
+            {{ branch?.Name }}
+          </option>
+        </select>
+      </li>
+    </ul>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>

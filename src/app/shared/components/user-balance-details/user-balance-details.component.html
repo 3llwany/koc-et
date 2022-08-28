@@ -1,0 +1,187 @@
+<ngx-spinner></ngx-spinner>
+<div class="row">
+  <div class="col-12 col-md-4">
+    <mat-card class="card card-inverse bg-warning">
+      <mat-card-content>
+        <div class="media">
+          <div class="media-body text-left">
+            <h4 class="card-text">Current Balance</h4>
+            <h5>{{ userBalance?.ActualBalance }} LE</h5>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-12 col-md-4">
+    <mat-card class="card card-inverse bg-danger">
+      <mat-card-content>
+        <div class="media">
+          <div class="media-body text-left">
+            <h4 class="card-text">Services</h4>
+            <h5>{{ userBalance?.Expenses }} LE</h5>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-12 col-md-4">
+    <mat-card class="card card-inverse bg-primary">
+      <mat-card-content>
+        <div class="media">
+          <div class="media-body text-left">
+            <h4 class="card-text">Total recharge balance</h4>
+            <h5>{{ userBalance?.Balance }} LE</h5>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Payments -->
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title> Recharge History</mat-card-title>
+      <mat-card-content>
+        <div class="mat-elevation-z8 f-w">
+          <table mat-table [dataSource]="dataSourcePayments" matSort>
+            <!-- # Column -->
+            <ng-container matColumnDef="#">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+              <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+            </ng-container>
+
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.Date | NewDate }}</td>
+            </ng-container>
+
+            <!-- Amount Column -->
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.amount }} .LE</td>
+            </ng-container>
+
+            <!-- Method Column -->
+            <ng-container matColumnDef="paymentMethod">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Payment Method
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.payment_method }}</td>
+            </ng-container>
+
+            <!-- status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.order_status }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsPayments"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumnsPayments"
+            ></tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[10]"
+            (page)="getStudentPayments($event.pageIndex + 1)"
+            [length]="PaymentsTotalCount"
+            showFirstLastButtons
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Payments History -->
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title> Payments History</mat-card-title>
+      <mat-card-content>
+        <div class="mat-elevation-z8 f-w">
+          <table mat-table [dataSource]="dataSourcePaymentsHistory" matSort>
+            <!-- # Column -->
+            <ng-container matColumnDef="#">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+              <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
+            </ng-container>
+
+            <!-- lectureType Column -->
+            <ng-container matColumnDef="lectureType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Lecture Type
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.itemTypeArName }}</td>
+            </ng-container>
+
+            <!-- lectureName Column -->
+            <ng-container matColumnDef="lectureName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Lecture Name
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.partName }}</td>
+            </ng-container>
+
+            <!-- teacher Column -->
+            <ng-container matColumnDef="teacher">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Teacher</th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.teacherName }}</td>
+            </ng-container>
+
+            <!-- subject Column -->
+            <ng-container matColumnDef="subject">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.subjectName }}</td>
+            </ng-container>
+
+            <!-- price Column -->
+            <ng-container matColumnDef="price">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.amount }}</td>
+            </ng-container>
+
+            <!-- paymentMethod Column -->
+            <ng-container matColumnDef="paymentMethod">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Payment Method
+              </th>
+              <td mat-cell *matCellDef="let ele">
+                {{ ele?.paymentMethodName }}
+              </td>
+            </ng-container>
+
+            <!-- date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
+              <td mat-cell *matCellDef="let ele">{{ ele?.Date | NewDate }}</td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumnsPaymentsHistory"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumnsPaymentsHistory"
+            ></tr>
+          </table>
+
+          <mat-paginator
+            [pageSizeOptions]="[10]"
+            (page)="getStudentPaymentsHistory($event.pageIndex + 1)"
+            [length]="HistoryTotalCount"
+            showFirstLastButtons
+            aria-label="Select page of users"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

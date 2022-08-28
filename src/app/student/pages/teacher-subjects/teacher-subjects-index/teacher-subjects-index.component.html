@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">Subjects List</div>
+    <!-- <p class="content-sub-header mb-1">You can define your sub-header here</p> -->
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <!-- Kick start -->
+    <div id="kick-start" class="card">
+      <div class="card-header">
+        <h4 class="card-title">Teacher name</h4>
+      </div>
+      <div class="card-content">
+        <div class="card-body">
+          <div class="card-text">
+            <div
+              class="col-sm-12 col-md-3"
+              *ngFor="let subject of teacherSubjects"
+            >
+              <mat-card
+                class="card"
+                routerLink="../teacher-subject/{{
+                  subject.teacher_subject_id
+                }}/{{ subject.subject_id }}"
+              >
+                <img
+                  mat-card-image
+                  src="mozakretyapi/{{ subject.teacher_picture }}"
+                  [alt]="subject.teacher_name"
+                  class="card-img img-fluid rounded mb-3"
+                />
+                <mat-card-title class="card-title">
+                  {{ subject.teacher_name }}</mat-card-title
+                >
+                <mat-card-content>
+                  <p>
+                    {{ subject.subject_name }} -
+                    {{ subject.subject_year_name }}
+                  </p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Kick start -->
+  </div>
+</div>

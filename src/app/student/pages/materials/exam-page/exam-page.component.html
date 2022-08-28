@@ -1,0 +1,368 @@
+<ng-container *ngIf="ExamGroups">
+  <div
+    *ngIf="
+      (IsAvaliable && !isSolviedResultsOff) ||
+      (IsResultAvalable && isSolviedResultsOff)
+    "
+    class="row exam-container"
+  >
+    <!-- Right Col  Exam Option-->
+    <div class="col-md-3 col-12">
+      <div class="row">
+        <!-- Exam Name -->
+        <div class="col-12">
+          <div class="alert bg-light-primary mb-2" role="alert">
+            <span class="badge bg-primary mb-1 mr-2">
+              {{ ExamName }}
+            </span>
+
+            <span class="badge bg-primary mb-1 mr-2">
+              {{ TeacherName }}
+            </span>
+
+            <span class="badge bg-primary mb-1 mr-2">
+              {{ SubjectName }}
+            </span>
+          </div>
+        </div>
+
+        <!-- If Exam not Solved -->
+        <ng-container *ngIf="!isSolved">
+          <!-- exam Total Mark  -->
+          <div class="col-12">
+            <mat-card class="card card-inverse bg-info">
+              <mat-card-content>
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h4 class="card-text">
+                      {{ "labels.TotalMark" | translate }}
+                    </h4>
+                    <h5>{{ examTotalMark }}</h5>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <!-- exam Start Time  -->
+          <div class="col-12">
+            <mat-card class="card card-inverse bg-warning">
+              <mat-card-content>
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h4 class="card-text">
+                      {{ "labels.ExamStartTime" | translate }}
+                    </h4>
+                    <h5>
+                      {{ ExamStarTime }}
+                    </h5>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <!-- exam Timer  -->
+          <div class="col-12" *ngIf="exam_period_minute != 0">
+            <mat-card class="card card-inverse bg-danger">
+              <mat-card-content>
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h4 class="card-text">
+                      {{ "labels.ExamTime" | translate }}
+                    </h4>
+                    <h5>{{ counter | Timer }}</h5>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+
+        <!-- If Exam  Solved -->
+        <ng-container *ngIf="isSolved">
+          <!-- Student Mark  -->
+          <div class="col-12">
+            <mat-card class="card card-inverse bg-success">
+              <mat-card-content>
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h4 class="card-text">
+                      {{ "labels.StudentMark" | translate }}
+                    </h4>
+                    <h5>({{ studentMark }} / {{ examTotalMark }})</h5>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <!-- exam Points Gained  -->
+          <div class="col-12">
+            <mat-card class="card card-inverse bg-success">
+              <mat-card-content>
+                <div class="media">
+                  <div class="media-body text-left">
+                    <h4 class="card-text">
+                      {{ "labels.PointsGained" | translate }}
+                    </h4>
+                    <h5>
+                      {{ PointsGained }}
+                    </h5>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Left Col - Exam Content -->
+    <div class="col-md-9 col-12">
+      <mat-card>
+        <mat-card-title>
+          <span *ngIf="!isSolved">
+            {{ "labels.StudentExamMsg" | translate }}
+          </span>
+          <span *ngIf="isSolved">
+            {{ "labels.ExamSolved" | translate }}
+          </span>
+        </mat-card-title>
+        <mat-card-content>
+          <!-- Tab panes -->
+          <mat-tab-group>
+            <mat-tab
+              label="{{ group.GroupName }}"
+              *ngFor="let group of ExamGroups"
+              class="group-{{ group.GroupId }}"
+            >
+              <mat-card *ngFor="let head of group.Heads">
+                <mat-card-title> {{ head.HeadName }}</mat-card-title>
+                <mat-card-content>
+                  <form *ngFor="let Question of head?.Questions; let i = index">
+                    <p>
+                      {{ i + 1 }}) {{ Question.QuestionDetails?.questionText }}
+                    </p>
+
+                    <li *ngIf="isSolved">
+                      <span class="info">
+                        {{ "labels.QuestionMark" | translate }}
+                        :({{ Question.QuestionDetails?.questionMark }})
+                      </span>
+                      <strong
+                        *ngIf="
+                          Question.QuestionDetails?.StudentChoice
+                            .student_choice_id == 0
+                        "
+                        class="danger"
+                      >
+                        {{ "labels.QuestionNotAnswerd" | translate }}
+                      </strong>
+                    </li>
+                    <div class="row">
+                      <mat-radio-group
+                        id="question-{{ Question.QuestionDetails?.questionId }}"
+                      >
+                        <div class="col-12" *ngFor="let mcq of Question.MCQ">
+                          <mat-radio-button
+                            [ngClass]="{
+                              success:
+                                (isSolved && mcq.IsCorrect) ||
+                                (isSolved &&
+                                  mcq.IsCorrect &&
+                                  Question.QuestionDetails.StudentChoice
+                                    ?.student_choice_id == mcq.Id) ||
+                                (!isSolved &&
+                                  mcq.IsCorrect &&
+                                  Question.QuestionDetails.StudentChoice !=
+                                    null &&
+                                  Question.QuestionDetails.StudentChoice
+                                    ?.student_choice_id == mcq.Id),
+
+                              danger:
+                                isSolved &&
+                                !mcq.IsCorrect &&
+                                Question.QuestionDetails.StudentChoice
+                                  ?.student_choice_id == mcq.Id
+                            }"
+                            (change)="radioChange($event)"
+                            [value]="mcq.Id"
+                            [disabled]="
+                              isSolved ||
+                              (!isSolved &&
+                                Question.QuestionDetails?.StudentChoice !=
+                                  null &&
+                                Question.QuestionDetails?.StudentChoice
+                                  .RESULT == 'T')
+                                ? 'disabled'
+                                : null
+                            "
+                            [checked]="
+                              (isSolved && mcq.IsCorrect) ||
+                              (!isSolved &&
+                                mcq.IsCorrect &&
+                                Question.QuestionDetails?.StudentChoice !=
+                                  null &&
+                                Question.QuestionDetails?.StudentChoice
+                                  .student_choice_id == mcq.Id)
+                            "
+                          >
+                            <span
+                              [ngClass]="{
+                                success:
+                                  (isSolved && mcq.IsCorrect) ||
+                                  (isSolved &&
+                                    mcq.IsCorrect &&
+                                    Question.QuestionDetails?.StudentChoice
+                                      .student_choice_id == mcq.Id) ||
+                                  (!isSolved &&
+                                    mcq.IsCorrect &&
+                                    Question.QuestionDetails?.StudentChoice !=
+                                      null &&
+                                    Question.QuestionDetails?.StudentChoice
+                                      .student_choice_id == mcq.Id),
+
+                                danger:
+                                  isSolved &&
+                                  !mcq.IsCorrect &&
+                                  Question.QuestionDetails?.StudentChoice
+                                    .student_choice_id == mcq.Id
+                              }"
+                            >
+                              {{ mcq.MCQText }}
+                            </span>
+                          </mat-radio-button>
+                        </div>
+                      </mat-radio-group>
+                    </div>
+                    <mat-card-actions>
+                      <button
+                        *ngIf="!isSolved"
+                        class="btn btn-primary"
+                        type="button"
+                        id="btn-{{ Question.QuestionDetails.questionId }}"
+                        (click)="
+                          SingleQuestionForm(
+                            Question.QuestionDetails.questionId
+                          )
+                        "
+                      >
+                        {{ "General.SaveQuestion" | translate }}
+                      </button>
+                    </mat-card-actions>
+                    <span
+                      *ngIf="
+                        (!isSolved &&
+                          Question.QuestionDetails.StudentChoice == null) ||
+                        (!isSolved &&
+                          Question.QuestionDetails.StudentChoice != null &&
+                          Question.QuestionDetails.StudentChoice.RESULT == 'F')
+                      "
+                      class="danger"
+                      id="alert-{{ Question.QuestionDetails.questionId }}"
+                    >
+                      {{ "labels.ansWillNotSave" | translate }}
+                    </span>
+
+                    <span
+                      *ngIf="
+                        !isSolved &&
+                        Question.QuestionDetails.StudentChoice != null &&
+                        Question.QuestionDetails.StudentChoice.RESULT == 'T'
+                      "
+                      class="success"
+                    >
+                      تم حفظ الإجابة من قبل
+                    </span>
+                    <span
+                      *ngIf="
+                        (!isSolved &&
+                          Question.QuestionDetails.StudentChoice == null) ||
+                        (!isSolved &&
+                          Question.QuestionDetails.StudentChoice != null &&
+                          Question.QuestionDetails.StudentChoice.RESULT == 'F')
+                      "
+                      id="stu-cho-{{ Question.QuestionDetails.questionId }}"
+                      class="warning"
+                    >
+                    </span>
+                    <hr />
+                  </form>
+                </mat-card-content>
+              </mat-card>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button
+            (click)="SubmitExam()"
+            id="btnSubmit"
+            type="submit"
+            class="btn btn-primary"
+            *ngIf="!solvidResults"
+          >
+            {{ "General.SubmitAnswer" | translate }}
+          </button>
+
+          <button *ngIf="isSolved" class="btn btn-warning" routerLink="/home">
+            {{ "General.BackToHome" | translate }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</ng-container>
+
+<!-- Exam Not Avaliable Section -->
+<section *ngIf="!IsAvaliable">
+  <div class="row">
+    <div class="col-12 text-center">
+      <img
+        src="assets/img/gallery/lock.png"
+        alt=""
+        class="img-fluid error-img mt-2"
+        height="300"
+        width="400"
+      />
+      <h1 class="mt-4">
+        {{ "labels.ExamNotAvaliable" | translate }}
+      </h1>
+      <a [routerLink]="['/']" class="btn btn-warning my-2">
+        {{ "General.BackToHome" | translate }}</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Exam Results not Avaliable Section -->
+<section *ngIf="!IsResultAvalable && isSolved">
+  <div class="row">
+    <div class="col-12 text-center">
+      <img
+        src="assets/img/gallery/maintenance.png"
+        alt=""
+        class="img-fluid error-img mt-2"
+        height="300"
+        width="400"
+      />
+      <h1 class="mt-4">
+        {{ "labels.ExamResultNotAvaliable" | translate }}
+      </h1>
+      <div class="w-75 error-text mx-auto mt-4">
+        <p>
+          {{ "labels.ExamResultDate" | translate }}: {{ examResultDate | date }}
+          <br />
+          {{ "labels.examResultTime" | translate }}:
+          {{ examResultTime }}
+          <br />
+          {{ "labels.StudentMark" | translate }} : {{ studentMark }} /
+          {{ examTotalMark }}
+          <br />
+          {{ "labels.StudentAnswerPeriod" | translate }} : {{ examDuration }}
+        </p>
+      </div>
+      <a [routerLink]="['/']" class="btn btn-warning my-2">Back To Home</a>
+    </div>
+  </div>
+</section>

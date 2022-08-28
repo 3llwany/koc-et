@@ -1,0 +1,232 @@
+/*
+// this version of direction rtl by KhalOOoO  
+// made to moza 2019
+///////////////////////////////////////////////////////////////
+// to activate it do that :
+// at first go to index and put the path of this file into the head // last link //
+// at the last give the body class of // .bo //
+// then go ahead and relod the page 
+*/
+
+
+
+
+
+
+
+
+
+
+@media (min-width:980px) and (max-width:1199px) {
+    
+}
+
+@media (min-width:1200px) {
+    
+}
+
+@media (min-width:768px) and (max-width:979px) {
+    
+}
+
+@media (min-width:768px) {
+    
+    body.bo .col-sm-1,
+    body.bo .col-sm-10,
+    body.bo .col-sm-11,
+    body.bo .col-sm-2,
+    body.bo .col-sm-3,
+    body.bo .col-sm-4,
+    body.bo .col-sm-5,
+    body.bo .col-sm-6,
+    body.bo .col-sm-7,
+    body.bo .col-sm-8,
+    body.bo .col-sm-9,
+    body.bo .col-xs-1,
+    body.bo .col-xs-10,
+    body.bo .col-xs-11,
+    body.bo .col-xs-2,
+    body.bo .col-xs-3,
+    body.bo .col-xs-4,
+    body.bo .col-xs-5,
+    body.bo .col-xs-6,
+    body.bo .col-xs-7,
+    body.bo .col-xs-8,
+    body.bo .col-xs-9  {
+        float: right
+    }
+    body.bo .col-sm-offset-1 {
+        margin-right: 8.333333333333332%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-2 {
+        margin-right: 16.666666666666664%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-3 {
+        margin-right: 25%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-4 {
+        margin-right: 33.33333333333333%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-5 {
+        margin-right: 41.66666666666667%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-6 {
+        margin-right: 50%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-7 {
+        margin-right: 58.333333333333336%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-8 {
+        margin-right: 66.66666666666666%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-9 {
+        margin-right: 75%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-10 {
+        margin-right: 83.33333333333334%;
+        margin-left: 0
+    }
+    body.bo .col-sm-offset-11 {
+        margin-right: 91.66666666666666%;
+        margin-left: 0
+    }
+}
+
+@media (min-width:992px) {
+    body.bo .col-md-1,
+    body.bo .col-md-10,
+    body.bo .col-md-11,
+    body.bo .col-md-2,
+    body.bo .col-md-3,
+    body.bo .col-md-4,
+    body.bo .col-md-5,
+    body.bo .col-md-6,
+    body.bo .col-md-7,
+    body.bo .col-md-8,
+    body.bo .col-md-9 {
+        float: right
+    }
+    body.bo .col-md-offset-0 {
+        margin-right: 0;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-1 {
+        margin-right: 8.333333333333332%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-2 {
+        margin-right: 16.666666666666664%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-3 {
+        margin-right: 25%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-4 {
+        margin-right: 33.33333333333333%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-5 {
+        margin-right: 41.66666666666667%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-6 {
+        margin-right: 50%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-7 {
+        margin-right: 58.333333333333336%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-8 {
+        margin-right: 66.66666666666666%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-9 {
+        margin-right: 75%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-10 {
+        margin-right: 83.33333333333334%;
+        margin-left: 0
+    }
+    body.bo .col-md-offset-11 {
+        margin-right: 91.66666666666666%;
+        margin-left: 0
+    }
+}
+
+@media (min-width:1200px) {
+    body.bo .col-lg-1,
+    body.bo .col-lg-10,
+    body.bo .col-lg-11,
+    body.bo .col-lg-2,
+    body.bo .col-lg-3,
+    body.bo .col-lg-4,
+    body.bo .col-lg-5,
+    body.bo .col-lg-6,
+    body.bo .col-lg-7,
+    body.bo .col-lg-8,
+    body.bo .col-lg-9 {
+        float: right
+    }
+    body.bo .col-lg-offset-0 {
+        margin-right: 0;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-1 {
+        margin-right: 8.333333333333332%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-2 {
+        margin-right: 16.666666666666664%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-3 {
+        margin-right: 25%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-4 {
+        margin-right: 33.33333333333333%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-5 {
+        margin-right: 41.66666666666667%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-6 {
+        margin-right: 50%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-7 {
+        margin-right: 58.333333333333336%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-8 {
+        margin-right: 66.66666666666666%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-9 {
+        margin-right: 75%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-10 {
+        margin-right: 83.33333333333334%;
+        margin-left: 0
+    }
+    body.bo .col-lg-offset-11 {
+        margin-right: 91.66666666666666%;
+        margin-left: 0
+    }
+}
+
+

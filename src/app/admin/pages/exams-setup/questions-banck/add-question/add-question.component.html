@@ -1,0 +1,440 @@
+<ngx-spinner></ngx-spinner>
+<div class="col-12">
+  <div class="content-header">
+    {{ "Navbar.QuestionsBank" | translate }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "labels.AddQuestion" | translate }}
+
+        <a
+          mat-raised-button
+          class="btn btn-info bg-light-info float-right"
+          routerLink="../index"
+          [queryParams]="{ functionId: functionId }"
+        >
+          {{ "General.Back" | translate }}
+        </a>
+      </mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="myForm" class="form-container">
+              <ng-container formGroupName="questionBank">
+                <div class="row">
+                  <ng-container formGroupName="question">
+                    <div class="col-md-3 col-12">
+                      <mat-form-field appearance="legacy">
+                        <mat-label>
+                          {{ "labels.questioType" | translate }}
+                        </mat-label>
+                        <mat-select
+                          formControlName="question_type_id"
+                          (selectionChange)="changeQuestionType()"
+                        >
+                          <mat-option>
+                            {{ "General.Choose" | translate }}
+                          </mat-option>
+
+                          <mat-option [value]="1">
+                            {{ "labels.Article" | translate }}
+                          </mat-option>
+
+                          <mat-option [value]="2">
+                            {{ "labels.Mcq" | translate }}
+                          </mat-option>
+
+                          <!--      <mat-option [value]="3">
+                        {{ "labels.questionChoose" | translate }}
+                      </mat-option> -->
+                        </mat-select>
+                        <mat-hint
+                          class="text-danger"
+                          *ngIf="
+                            question_type_id?.invalid &&
+                            (question_type_id?.touched || submitted)
+                          "
+                        >
+                          <span *ngIf="question_type_id?.errors?.required">
+                            {{ "labels.MustChoosevalue" | translate }}
+                          </span>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                      <mat-form-field appearance="legacy">
+                        <mat-label>{{
+                          "labels.Teacher" | translate
+                        }}</mat-label>
+                        <mat-select
+                          formControlName="teacherUserId"
+                          (selectionChange)="
+                            getSubjectByTeacherId(teacherUserId?.value)
+                          "
+                        >
+                          <mat-option>{{
+                            "General.Choose" | translate
+                          }}</mat-option>
+                          <mat-option
+                            *ngFor="let teacher of Teachers"
+                            [value]="teacher.teacherUserId"
+                          >
+                            {{ teacher.teacher_ar_name }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-hint
+                          class="text-danger"
+                          *ngIf="
+                            teacherUserId?.invalid &&
+                            (teacherUserId?.touched || submitted)
+                          "
+                        >
+                          <span *ngIf="teacherUserId?.errors?.required">
+                            {{ "labels.MustChoosevalue" | translate }}
+                          </span>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                  </ng-container>
+
+                  <div class="col-md-3 col-12">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>{{ "labels.Subject" | translate }}</mat-label>
+                      <mat-select
+                        formControlName="main_subject_id"
+                        (selectionChange)="GetUnits(main_subject_id?.value)"
+                      >
+                        <mat-option>{{
+                          "General.Choose" | translate
+                        }}</mat-option>
+                        <mat-option
+                          *ngFor="let subject of subjects"
+                          [value]="subject.Value"
+                        >
+                          {{ subject.Text }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-hint
+                        class="text-danger"
+                        *ngIf="
+                          main_subject_id?.invalid &&
+                          (main_subject_id?.touched || submitted)
+                        "
+                      >
+                        <span *ngIf="main_subject_id?.errors?.required">
+                          {{ "labels.MustChoosevalue" | translate }}
+                        </span>
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>{{ "labels.Unit" | translate }}</mat-label>
+                      <mat-select
+                        formControlName="unitId"
+                        (selectionChange)="GetLessons(unitId?.value)"
+                      >
+                        <mat-option>{{
+                          "General.Choose" | translate
+                        }}</mat-option>
+                        <mat-option
+                          *ngFor="let unit of units"
+                          [value]="unit.Value"
+                        >
+                          {{ unit.Text }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>{{ "labels.Lesson" | translate }}</mat-label>
+                      <mat-select
+                        formControlName="lessonId"
+                        (selectionChange)="GetTopics(lessonId?.value)"
+                      >
+                        <mat-option>
+                          {{ "General.Choose" | translate }}
+                        </mat-option>
+                        <mat-option
+                          *ngFor="let lesson of lessons"
+                          [value]="lesson.Value"
+                        >
+                          {{ lesson.Text }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>{{ "labels.Topic" | translate }}</mat-label>
+                      <mat-select formControlName="topicId">
+                        <mat-option>
+                          {{ "General.Choose" | translate }}
+                        </mat-option>
+                        <mat-option
+                          *ngFor="let topic of topics"
+                          [value]="topic.Value"
+                        >
+                          {{ topic.Text }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>{{
+                        "labels.difficulty_level" | translate
+                      }}</mat-label>
+                      <mat-select formControlName="difficulty_level">
+                        <mat-option>
+                          {{ "General.Choose" | translate }}
+                        </mat-option>
+                        <mat-option [value]="1">سهل</mat-option>
+                        <mat-option [value]="5">متوسط</mat-option>
+                        <mat-option [value]="10">صعب</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-3 col-12">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>
+                        {{ "labels.QuestionMark" | translate }}
+                      </mat-label>
+                      <input matInput type="number" formControlName="mark" />
+                      <mat-hint
+                        class="text-danger"
+                        *ngIf="mark.invalid && (mark.touched || submitted)"
+                      >
+                        <span *ngIf="mark?.errors?.required">
+                          {{ "labels.mustEnterValue" | translate }}
+                        </span>
+                        <span *ngIf="mark?.errors?.minusNum">
+                          {{ "labels.mustEnterCorrectValue" | translate }}
+                        </span>
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <ng-container formGroupName="question">
+                    <div class="col-12">
+                      <mat-form-field appearance="legacy">
+                        <mat-label>
+                          {{ "labels.question_ar_text" | translate }}
+                        </mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          formControlName="question_ar_text"
+                        />
+                        <mat-hint
+                          class="text-danger"
+                          *ngIf="
+                            question_ar_text.invalid &&
+                            (question_ar_text.touched || submitted)
+                          "
+                        >
+                          <span
+                            *ngIf="
+                              question_ar_text?.errors?.required ||
+                              question_ar_text?.errors?.whiteSpace
+                            "
+                          >
+                            {{ "labels.mustEnterValue" | translate }}
+                          </span>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Question Picture -->
+                    <ng-container>
+                      <div class="col-md-4 col-12">
+                        <mat-label>
+                          {{ "labels.QuestionImage" | translate }}
+                        </mat-label>
+                        <input
+                          class="form-control font-dro clearInputs"
+                          type="file"
+                          accept="image/*"
+                          (change)="onChange($event, -1)"
+                        />
+                      </div>
+
+                      <div class="col-md-8 col-12">
+                        <div class="question-img">
+                          <img class="img-fluid" [src]="thumbnailPic.value" />
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <!-- Perfect answer -->
+                    <div class="col-12" *ngIf="question_type_id.value == 1">
+                      <mat-form-field appearance="legacy">
+                        <mat-label>
+                          {{ "labels.perfect_answer" | translate }}
+                        </mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          formControlName="perfect_answer"
+                        />
+                        <mat-hint
+                          class="text-danger"
+                          *ngIf="
+                            perfect_answer.invalid &&
+                            (perfect_answer.touched || submitted)
+                          "
+                        >
+                          <span
+                            *ngIf="
+                              perfect_answer?.errors?.required ||
+                              perfect_answer?.errors?.whiteSpace
+                            "
+                          >
+                            {{ "labels.mustEnterValue" | translate }}
+                          </span>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-container>
+              <hr />
+
+              <!-- If Question type multiple choice -->
+              <ng-container
+                *ngIf="
+                  question_type_id.value == 2 || question_type_id.value == 3
+                "
+              >
+                <!-- MCQ -->
+                <mat-card
+                  formArrayName="choices"
+                  *ngFor="
+                    let question of questionsInputs;
+                    let questionIndex = index
+                  "
+                  class="card bg-light"
+                >
+                  <mat-card-subtitle>
+                    {{ "labels.AnswerNumber" | translate }}({{
+                      questionIndex + 1
+                    }})
+                  </mat-card-subtitle>
+                  <mat-card-content [formGroupName]="questionIndex">
+                    <div class="row">
+                      <!-- <input type="hidden" formControlName="id" /> -->
+                      <div class="col-12">
+                        <mat-form-field appearance="legacy">
+                          <mat-label>
+                            {{ "labels.AnswerText" | translate }}({{
+                              questionIndex + 1
+                            }})
+                          </mat-label>
+                          <input
+                            matInput
+                            type="text"
+                            formControlName="choice_text"
+                          />
+                        </mat-form-field>
+                      </div>
+
+                      <div class="col-12">
+                        <!-- Question Pic -->
+                        <div class="row">
+                          <div class="col-md-4 col-12">
+                            <mat-label>
+                              {{ "labels.AnswerPic" | translate }}
+                              ({{ questionIndex + 1 }})
+                            </mat-label>
+                            <input
+                              class="form-control font-dro clearInputs"
+                              type="file"
+                              accept="image/*"
+                              (change)="onChange($event, questionIndex)"
+                            />
+                          </div>
+
+                          <div class="col-md-8 col-12">
+                            <div class="question-img">
+                              <img
+                                class="img-fluid"
+                                [src]="question.choice_attach"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+
+                <!-- Correct Choice -->
+                <mat-card class="bg-light-info">
+                  <mat-card-title>
+                    {{ "labels.ChooseCorrectAnswer" | translate }}
+                  </mat-card-title>
+                  <mat-card-content>
+                    <mat-radio-group
+                      formControlName="picked_choice_index"
+                      class="row"
+                    >
+                      <div class="col-3">
+                        <mat-radio-button [value]="1">
+                          {{ "labels.AnswerOne" | translate }}
+                        </mat-radio-button>
+                      </div>
+                      <div class="col-3">
+                        <mat-radio-button [value]="2">
+                          {{ "labels.AnswerTwo" | translate }}
+                        </mat-radio-button>
+                      </div>
+                      <div class="col-3">
+                        <mat-radio-button [value]="3">
+                          {{ "labels.AnswerThree" | translate }}
+                        </mat-radio-button>
+                      </div>
+                      <div class="col-3">
+                        <mat-radio-button [value]="4">
+                          {{ "labels.AnswerFour" | translate }}
+                        </mat-radio-button>
+                      </div>
+                    </mat-radio-group>
+                  </mat-card-content>
+                </mat-card>
+              </ng-container>
+            </form>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          *ngIf="QuestionId.value == 0"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="addUpdateQuestion()"
+        >
+          {{ "General.Add" | translate }}
+        </button>
+        <button
+          *ngIf="QuestionId.value > 0"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="addUpdateQuestion()"
+        >
+          {{ "General.Update" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

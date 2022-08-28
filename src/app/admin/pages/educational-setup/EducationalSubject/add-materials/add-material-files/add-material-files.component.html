@@ -1,0 +1,90 @@
+<form [formGroup]="myForm" class="form-container">
+  <div class="row">
+    <div class="col-md-6 col-6">
+      <mat-form-field appearance="legacy">
+        <mat-label> {{ "labels.Name" | translate }} </mat-label>
+        <input matInput type="text" formControlName="materialName" />
+        <mat-hint
+          class="text-danger"
+          *ngIf="
+            FormCtrl.materialName.invalid &&
+            (FormCtrl.materialName.touched || submitted)
+          "
+        >
+          <span *ngIf="FormCtrl.materialName.errors?.required">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+          <span *ngIf="FormCtrl.materialName.errors?.whiteSpace">
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+        </mat-hint>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-2 col-12">
+      <button
+        type="button"
+        class="btn btn-danger"
+        mat-raised-button
+        (click)="fileInput.click()"
+      >
+        {{ "labels.UploadFile" | translate }}
+      </button>
+      <input
+        hidden
+        (change)="onChange($event)"
+        #fileInput
+        type="file"
+        id="file"
+      />
+    </div>
+
+    <div class="col-12" *ngIf="Filepath">
+      <div class="media">
+        <embed [type]="type" [src]="Filepath | safe" width="300" height="300" />
+      </div>
+    </div>
+  </div>
+</form>
+<mat-card-actions align="end">
+  <button
+    mat-raised-button
+    class="btn btn-primary"
+    (click)="addAttach()"
+    [disabled]="
+      FormCtrl.materialId.value == undefined ||
+      FormCtrl.materialId.value == null
+    "
+  >
+    {{ "General.Save" | translate }}
+  </button>
+</mat-card-actions>
+
+<ng-container *ngIf="Attaches.length > 0" class="table-responsive">
+  <table class="table table-striped m-0">
+    <thead>
+      <tr>
+        <th>
+          {{ "labels.Name" | translate }}
+        </th>
+        <th>action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let attach of Attaches" [id]="attach.Id">
+        <td>
+          <a [href]="attach.file" target="_blank">{{ attach.materialName }}</a>
+        </td>
+        <td>
+          <a
+            (click)="openDeleateDialog(attach)"
+            class="danger p-0"
+            matTooltip="Delete"
+          >
+            <i class="ft-trash font-medium-3 mr-2"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

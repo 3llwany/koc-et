@@ -1,0 +1,30 @@
+.media-body > h5 {
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.card {
+  padding: 10px;
+}
+.card .media {
+  padding: 10px;
+}
+.nav-link {
+  color: rgba(0, 0, 0, 0.87);
+  padding: 3px;
+  margin-bottom: 5px;
+}
+.nav-link.active {
+  color: #975aff;
+  background-color: transparent;
+  border-bottom: 1px solid;
+  border-radius: 0;
+}
+
+.table {
+  width: 100%;
+}
+
+.tab-content {
+  width: 100%;
+}

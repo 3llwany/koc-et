@@ -1,0 +1,804 @@
+<ngx-spinner></ngx-spinner>
+<!-- Add Exam -->
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        <span *ngIf="examId == 0"> {{ "Navbar.newexam" | translate }} </span>
+        <span *ngIf="examId > 0">
+          {{ "labels.EditExam" | translate }} - {{ exam_ar_name }}
+        </span>
+      </mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="myForm">
+              <div class="row">
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Country" | translate }} </mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectCountry()"
+                      formControlName="countryId"
+                    >
+                      <mat-option value="">
+                        {{ "labels.Country" | translate }}
+                      </mat-option>
+                      <mat-option
+                        *ngFor="let country of countries"
+                        [value]="country.country_id"
+                      >
+                        {{ country.country_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        countryIdCtrl?.invalid &&
+                        (countryIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="myForm.countryIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{
+                      "Navbar.EducationalStage" | translate
+                    }}</mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectStages()"
+                      formControlName="stageId"
+                    >
+                      <mat-option value="">{{
+                        "Navbar.EducationalStage" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let stage of stages"
+                        [value]="stage.id"
+                      >
+                        {{ stage.stage_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        stageIdCtrl?.invalid &&
+                        (stageIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="myForm.stageIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{
+                      "labels.EducationalYear" | translate
+                    }}</mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectEducationYears()"
+                      formControlName="educationYearId"
+                    >
+                      <mat-option value="">{{
+                        "labels.EducationalYear" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let year of educationYears"
+                        [value]="year.id"
+                      >
+                        {{ year.Educational_year_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        educationYearIdCtrl?.invalid &&
+                        (educationYearIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="educationYearIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "Material.Subjects" | translate }}</mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectSubjects()"
+                      formControlName="subjectId"
+                    >
+                      <mat-option value="">{{
+                        "Material.Subjects" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let sub of subjects"
+                        [value]="sub.subject_id"
+                      >
+                        {{ sub.subject_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        subjectIdCtrl?.invalid &&
+                        (subjectIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="subjectIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "Material.Teacher" | translate }}</mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectSubjects()"
+                      formControlName="teacherUserId"
+                    >
+                      <mat-option>
+                        {{ "Material.Teacher" | translate }}
+                      </mat-option>
+                      <mat-option
+                        *ngFor="let teacher of teachers"
+                        [value]="teacher.Id"
+                      >
+                        {{ teacher.Name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        teacherUserIdCtrl?.invalid &&
+                        (teacherUserIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="teacherUserIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "Material.ExamType" | translate }}</mat-label>
+                    <mat-select
+                      (selectionChange)="
+                        onSelectExamType(); examTypeValidator()
+                      "
+                      formControlName="examTypeId"
+                    >
+                      <mat-option value="">{{
+                        "Material.ExamType" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let type of examTypes"
+                        [value]="type.exam_type_id"
+                      >
+                        {{ type.exam_ar_type_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        examTypeIdCtrl?.invalid &&
+                        (examTypeIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="examTypeIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Unit" | translate }}</mat-label>
+                    <mat-select
+                      (selectionChange)="onSelectUnit()"
+                      formControlName="unitId"
+                    >
+                      <mat-option value="">{{
+                        "labels.Unit" | translate
+                      }}</mat-option>
+                      <mat-option *ngFor="let unit of units" [value]="unit.id">
+                        {{ unit.unit_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        unitIdCtrl?.invalid &&
+                        (unitIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="unitIdCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Lesson" | translate }}</mat-label>
+                    <mat-select formControlName="lessionId">
+                      <mat-option value="">{{
+                        "labels.Lesson" | translate
+                      }}</mat-option>
+                      <mat-option
+                        [value]="lession.id"
+                        *ngFor="let lession of lessions"
+                      >
+                        {{ lession.lesson_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        lessionIdCtrl?.invalid &&
+                        (lessionIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="lessionIdCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.ExamNm" | translate }}</mat-label>
+                    <input matInput formControlName="examName" />
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        lessionIdCtrl?.invalid &&
+                        (lessionIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="examNameCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                      <span *ngIf="examNameCtrl?.errors?.whiteSpace">
+                        {{ "labels.mustEnterCorrectValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.ExamHours" | translate }}</mat-label>
+                    <input matInput type="number" formControlName="examHours" />
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        examHoursCtrl?.invalid &&
+                        (examHoursCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="examHoursCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.ExamMinute" | translate }}</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      formControlName="examMinutes"
+                    />
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        examMinutesCtrl?.invalid &&
+                        (examMinutesCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="examMinutesCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.ExamPrice" | translate }} </mat-label>
+                    <input matInput type="number" formControlName="examPrice" />
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        examPriceCtrl?.invalid &&
+                        (examPriceCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="examPriceCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>
+                      {{ "labels.Discount" | translate }}
+                    </mat-label>
+                    <input matInput type="number" formControlName="discount" />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>
+                      {{ "labels.DiscountType" | translate }}
+                    </mat-label>
+                    <mat-select formControlName="discountType">
+                      <mat-option value=""
+                        >{{ "General.Choose" | translate }}
+                      </mat-option>
+                      <mat-option value="1">عام</mat-option>
+                      <mat-option value="2">خاص</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.FromDate" | translate }}</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="fromDate"
+                      formControlName="fromDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="fromDate"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #fromDate></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.ToDate" | translate }}</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="toDate"
+                      formControlName="toDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="toDate"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #toDate></mat-datepicker>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.FromTime" | translate }}</mat-label>
+                    <input matInput type="time" formControlName="formHour" />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.ToTime" | translate }}</mat-label>
+                    <input matInput type="time" formControlName="toHours" />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label> {{ "labels.ToDate" | translate }}</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="resualtDate"
+                      formControlName="resualtDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="resualtDate"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #resualtDate></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{
+                      "labels.examResultTime" | translate
+                    }}</mat-label>
+                    <input matInput type="time" formControlName="resualtTime" />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <div>
+                    <mat-label>{{
+                      "labels.SellExamOnly" | translate
+                    }}</mat-label>
+                    <div class="form-item form-radio radio-style">
+                      <input
+                        id="IndividuallyPurchased-1"
+                        type="radio"
+                        [value]="false"
+                        formControlName="canSellIndividually"
+                      />
+                      <label for="IndividuallyPurchased-1">
+                        <i class="icon-radio"></i>
+                        {{ "labels.No" | translate }}
+                      </label>
+                    </div>
+                    <div class="form-item form-radio radio-style">
+                      <input
+                        id="IndividuallyPurchased-2"
+                        type="radio"
+                        [value]="true"
+                        formControlName="canSellIndividually"
+                      />
+                      <label for="IndividuallyPurchased-2">
+                        <i class="icon-radio"></i>
+                        {{ "labels.Yes" | translate }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 col-12">
+                  <div>
+                    <mat-label>
+                      {{ "labels.RepeatedExam" | translate }}
+                    </mat-label>
+                    <div class="form-item form-radio radio-style">
+                      <input
+                        id="isRepeatable-1"
+                        type="radio"
+                        [value]="false"
+                        formControlName="isRepeatable"
+                      />
+                      <label for="isRepeatable-1">
+                        <i class="icon-radio"></i>
+                        {{ "labels.No" | translate }}
+                      </label>
+                    </div>
+                    <div class="form-item form-radio radio-style">
+                      <input
+                        id="isRepeatable-2"
+                        type="radio"
+                        [value]="true"
+                        formControlName="isRepeatable"
+                      />
+                      <label for="isRepeatable-2">
+                        <i class="icon-radio"></i>
+                        {{ "labels.Yes" | translate }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div>
+                    <mat-label>
+                      {{ "Navbar.SendWhatsappMsg" | translate }}
+                    </mat-label>
+                    <div class="form-item form-radio radio-style">
+                      <input
+                        id="isRepeatable-1"
+                        type="radio"
+                        [value]="false"
+                        formControlName="sendWhatsAppMsg"
+                      />
+                      <label for="isRepeatable-1">
+                        <i class="icon-radio"></i>
+                        {{ "labels.No" | translate }}
+                      </label>
+                    </div>
+                    <div class="form-item form-radio radio-style">
+                      <input
+                        id="isRepeatable-2"
+                        type="radio"
+                        [value]="true"
+                        formControlName="sendWhatsAppMsg"
+                      />
+                      <label for="isRepeatable-2">
+                        <i class="icon-radio"></i>
+                        {{ "labels.Yes" | translate }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div>
+                    <mat-label>
+                      {{ "labels.CustomDiscount" | translate }}
+                    </mat-label>
+                    <div class="form-item form-radio radio-style">
+                      <input
+                        id="isRepeatable-1"
+                        type="radio"
+                        [value]="false"
+                        formControlName="hasCustomDiscount"
+                      />
+                      <label for="isRepeatable-1">
+                        <i class="icon-radio"></i>
+                        {{ "labels.No" | translate }}
+                      </label>
+                    </div>
+                    <div class="form-item form-radio radio-style">
+                      <input
+                        id="isRepeatable-2"
+                        type="radio"
+                        [value]="true"
+                        formControlName="hasCustomDiscount"
+                      />
+                      <label for="isRepeatable-2">
+                        <i class="icon-radio"></i>
+                        {{ "labels.Yes" | translate }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end" *ngIf="examId > 0">
+        <button
+          *ngIf="examId > 0"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="onSubmit()"
+        >
+          {{ "General.Update" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<!-- START: ADD/EDIT EXAM GROUP AND HEADER -->
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title> {{ "labels.addGxamGroups" | translate }}</mat-card-title>
+      <mat-card-content class="container-fluid">
+        <form [formGroup]="GroupHeadersForm" class="form-horizontal">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>{{
+                  "labels.َQuestionNumber" | translate
+                }}</mat-label>
+                <mat-select formControlName="examGroup">
+                  <mat-option value="">
+                    {{ "labels.َQuestionNumber" | translate }}
+                  </mat-option>
+                  <mat-option
+                    [value]="val.question_group_ar_name"
+                    *ngFor="let val of examGroups"
+                  >
+                    {{ val.question_group_ar_name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="danger"
+                  *ngIf="
+                    examGroupCtrl?.invalid &&
+                    (examGroupCtrl?.touched || submitted)
+                  "
+                >
+                  <span *ngIf="examGroupCtrl?.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>{{ "labels.QuestionHeader" | translate }}</mat-label>
+                <mat-select formControlName="examHeader">
+                  <mat-option>{{
+                    "labels.QuestionHeader" | translate
+                  }}</mat-option>
+                  <mat-option
+                    [value]="val.question_head_ar_name"
+                    *ngFor="let val of examHeaders"
+                  >
+                    {{ val.question_head_ar_name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="danger"
+                  *ngIf="
+                    examHeaderCtrl?.invalid &&
+                    (examHeaderCtrl?.touched || submitted)
+                  "
+                >
+                  <span *ngIf="examHeaderCtrl?.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>{{
+                  "labels.َQuestionContent" | translate
+                }}</mat-label>
+                <textarea
+                  matInput
+                  formControlName="examContent"
+                  cols="20"
+                ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          *ngIf="examId == 0"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="onSubmit()"
+        >
+          {{ "General.Add" | translate }}
+        </button>
+
+        <button
+          *ngIf="GroupsHeadersList.length > 0 && !editGroupHeaderMode"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="onAddExamGroupHeader()"
+        >
+          {{ "labels.AddQuestion" | translate }}
+        </button>
+
+        <button
+          *ngIf="editGroupHeaderMode"
+          mat-raised-button
+          class="btn btn-primary"
+          (click)="editExamGroupHead()"
+        >
+          {{ "labels.UpdateQuestion" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="GroupsHeadersList.length > 0">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "labels.QuestionsGroup" | translate }}</mat-card-title
+      >
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="mat-elevation-z8 f-w">
+              <table mat-table [dataSource]="dataSource" matSort>
+                <!-- # Column -->
+                <ng-container matColumnDef="#">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+                  <td mat-cell *matCellDef="let i = index">
+                    {{ i + 1 }}
+                  </td>
+                </ng-container>
+
+                <!-- questionNumber Column -->
+                <ng-container matColumnDef="questionNumber">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ "labels.َQuestionNumber" | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let ele">
+                    {{ ele.questionNumber }}
+                  </td>
+                </ng-container>
+
+                <!-- questionType Column -->
+                <ng-container matColumnDef="questionType">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ "labels.QuestionHeader" | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let ele">
+                    {{ ele.questionType }}
+                  </td>
+                </ng-container>
+
+                <!-- question_title Column -->
+                <ng-container matColumnDef="question_title">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ "labels.َQuestionContent" | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let ele">
+                    {{ ele.question_title }}
+                  </td>
+                </ng-container>
+
+                <!-- actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    actions
+                  </th>
+                  <td mat-cell *matCellDef="let groupHeader">
+                    <ng-container *ngFor="let fun of rowFunctions">
+                      <a
+                        *ngIf="fun.functionName === 'EditGroup'"
+                        (click)="getExamHeadById(groupHeader)"
+                        class="success p-0"
+                        matTooltip="Edit Group"
+                      >
+                        <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                      </a>
+
+                      <a
+                        *ngIf="fun.functionName === 'DeleteGroup'"
+                        (click)="openDeleateDialog(groupHeader)"
+                        class="danger p-0"
+                        matTooltip="Delete Group"
+                      >
+                        <i class="ft-trash font-medium-3 mr-2"></i>
+                      </a>
+
+                      <a
+                        *ngIf="fun.functionName === 'addSubQuestion'"
+                        (click)="addSubQuestionDialog(groupHeader)"
+                        class="info p-0"
+                        matTooltip="Add sub question"
+                      >
+                        <i class="ft-git-branch font-medium-3 mr-2"></i>
+                      </a>
+                    </ng-container>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="4">
+                    No data matching the filter "{{ input.value }}"
+                  </td>
+                </tr>
+              </table>
+
+              <mat-paginator
+                [pageSizeOptions]="[10]"
+                showFirstLastButtons
+                aria-label="Select page of users"
+              >
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

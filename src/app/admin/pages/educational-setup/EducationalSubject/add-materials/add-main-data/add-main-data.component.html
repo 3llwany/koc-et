@@ -1,0 +1,431 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header">
+      {{ "Navbar.EducationalSubjects" | translate }} -
+      {{ "labels.Materials" | translate }} -
+      {{ "General.AddMaterial" | translate }}
+    </div>
+  </div>
+</div>
+<mat-card class="card">
+  <mat-card-content>
+    <mat-card-title>
+      {{ "General.AddMaterial" | translate }} : {{ subject_ar_name }} -
+      {{ materialName }}
+
+      <!-- Back -->
+      <a
+        mat-raised-button
+        class="btn btn-warning bg-light-warning float-right"
+        routerLink="/dashboard/educational-setup/subjects/material-search/{{
+          subjectId
+        }}"
+        [queryParams]="{ functionId: functionId, parentId: parentId }"
+      >
+        {{ "General.Back" | translate }}
+      </a>
+    </mat-card-title>
+
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="{{ 'labels.MainData' | translate }}">
+        <form [formGroup]="myForm" class="form-container">
+          <div class="row">
+            <div class="col-12">
+              <mat-radio-group formControlName="IsOnline" class="row">
+                <div class="col-md-3 col-12">
+                  <mat-radio-button [value]="1">
+                    {{ "labels.Video" | translate }}
+                  </mat-radio-button>
+                </div>
+                <div class="col-md-3 col-12">
+                  <mat-radio-button [value]="2">
+                    {{ "labels.Offline" | translate }}
+                  </mat-radio-button>
+                </div>
+              </mat-radio-group>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label>{{ "labels.Teacher" | translate }} </mat-label>
+                <mat-select formControlName="teacherUserId">
+                  <mat-option> {{ "General.Choose" | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let teacher of Teachers"
+                    [value]="teacher.teacherUserId"
+                  >
+                    {{ teacher.teacher_ar_name }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrl.teacherUserId.invalid &&
+                    (FormCtrl.teacherUserId.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrl.teacherUserId.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-6">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.Name" | translate }} </mat-label>
+                <input matInput type="text" formControlName="materialName" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrl.materialName.invalid &&
+                    (FormCtrl.materialName.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrl.materialName.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrl.materialName.errors?.whiteSpace">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-6">
+              <mat-form-field
+                appearance="legacy"
+                *ngIf="FormCtrl.IsOnline.value == 2"
+              >
+                <mat-label>{{ "labels.Group" | translate }} </mat-label>
+                <mat-select formControlName="studentGroupIDs" multiple>
+                  <mat-option> {{ "General.Choose" | translate }}</mat-option>
+                  <mat-option *ngFor="let group of groups" [value]="group.Id">
+                    {{ group.groupName }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrl.studentGroupIDs.invalid &&
+                    (FormCtrl.studentGroupIDs.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrl.studentGroupIDs.errors?.required">
+                    {{ "labels.MustChoosevalue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-6" *ngIf="FormCtrl.IsOnline.value == 1">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.NumberViews" | translate }} </mat-label>
+                <input matInput type="number" formControlName="num_views" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrl.num_views.invalid &&
+                    (FormCtrl.num_views.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrl.num_views.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrl.num_views.errors?.minusNum">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-6" *ngIf="FormCtrl.IsOnline.value == 2">
+              <mat-form-field appearance="legacy">
+                <mat-label>
+                  {{ "labels.Address" | translate }}
+                </mat-label>
+                <input matInput type="text" formControlName="address" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrl.address.invalid &&
+                    (FormCtrl.address.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrl.address.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrl.address.errors?.whiteSpace">
+                    {{ "labels.mustEnterCorrectValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.FromDate" | translate }}</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="fromDate"
+                  formControlName="fromDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="fromDate"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #fromDate></mat-datepicker>
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrl.fromDate.invalid &&
+                    (FormCtrl.fromDate.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrl.fromDate.errors?.required">
+                    You must enter a date.
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.ToDate" | translate }}</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="toDate"
+                  formControlName="toDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="toDate"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #toDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <!-- <mat-label>
+                {{ "labels.onlyCode" | translate }}
+              </mat-label> -->
+              <mat-radio-group formControlName="onlyCode">
+                <mat-radio-button
+                  [value]="true"
+                  (change)="onlyCodeValidators()"
+                >
+                  {{ "labels.onlyCode" | translate }}
+                </mat-radio-button>
+                <mat-radio-button
+                  [value]="false"
+                  (change)="onlyCodeValidators()"
+                >
+                  {{ "labels.CodeAndCredits" | translate }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <!-- <mat-label>
+                {{ "labels.CustomDiscountApplied" | translate }}
+              </mat-label> -->
+              <mat-radio-group formControlName="CustomDiscountApplied">
+                <mat-radio-button [value]="true">
+                  {{ "labels.CustomDiscountApplied" | translate }}
+                </mat-radio-button>
+                <mat-radio-button [value]="false">
+                  {{ "labels.CustomDiscountNotApplied" | translate }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="col-md-4 col-12">
+              <!-- <mat-label>
+                {{ "labels.CodeIsPurchasable" | translate }}
+              </mat-label> -->
+              <mat-radio-group formControlName="CodeIsPurchasable">
+                <mat-radio-button [value]="true">
+                  {{ "labels.CodeIsPurchasable" | translate }}
+                </mat-radio-button>
+                <mat-radio-button [value]="false">
+                  {{ "labels.CodeIsNotPurchasable" | translate }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div
+              class="col-md-4 col-6"
+              *ngIf="FormCtrl.onlyCode.value == false"
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.Price" | translate }} </mat-label>
+                <input matInput type="number" formControlName="materialPrice" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrl.materialPrice.invalid &&
+                    (FormCtrl.materialPrice.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrl.materialPrice.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrl.materialPrice.errors?.minusNum">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-4 col-6" *ngIf="FormCtrl.onlyCode.value == true">
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.CodePrice" | translate }} </mat-label>
+                <input matInput type="number" formControlName="codePrice" />
+                <mat-hint
+                  class="text-danger"
+                  *ngIf="
+                    FormCtrl.codePrice.invalid &&
+                    (FormCtrl.codePrice.touched || submitted)
+                  "
+                >
+                  <span *ngIf="FormCtrl.codePrice.errors?.required">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                  <span *ngIf="FormCtrl.codePrice.errors?.minusNum">
+                    {{ "labels.mustEnterValue" | translate }}
+                  </span>
+                </mat-hint>
+              </mat-form-field>
+            </div>
+
+            <ng-container *ngIf="FormCtrl.onlyCode.value == false">
+              <div class="col-md-4 col-6">
+                <mat-form-field appearance="legacy">
+                  <mat-label> {{ "labels.Discount" | translate }} </mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    formControlName="priceDiscount"
+                  />
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-4 col-6">
+                <mat-form-field appearance="legacy">
+                  <mat-label>
+                    {{ "labels.DiscountType" | translate }}
+                  </mat-label>
+                  <mat-select formControlName="priceDiscountType">
+                    <mat-option> {{ "General.Choose" | translate }}</mat-option>
+                    <mat-option [value]="1">
+                      {{ "labels.GeneralDiscount" | translate }}
+                    </mat-option>
+
+                    <mat-option [value]="2">
+                      {{ "labels.privateDiscount" | translate }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </ng-container>
+
+            <div class="col-12">
+              <mat-radio-group formControlName="selectedItemType" class="row">
+                <div class="col-md-4 col-12">
+                  <mat-radio-button [value]="1">
+                    {{ "labels.Subject" | translate }}
+                  </mat-radio-button>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-radio-button [value]="2">
+                    {{ "labels.Unit" | translate }}
+                  </mat-radio-button>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-radio-button [value]="3">
+                    {{ "labels.Lesson" | translate }}
+                  </mat-radio-button>
+                </div>
+              </mat-radio-group>
+            </div>
+
+            <div
+              class="col-md-6 col-12"
+              *ngIf="
+                FormCtrl.selectedItemType?.value == 2 ||
+                FormCtrl.selectedItemType?.value == 3
+              "
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label>{{ "labels.Unit" | translate }} </mat-label>
+                <mat-select
+                  formControlName="unitId"
+                  (selectionChange)="
+                    returnSearchedLessonsByUnitId(FormCtrl.unitId?.value)
+                  "
+                >
+                  <mat-option> {{ "General.Choose" | translate }}</mat-option>
+                  <mat-option *ngFor="let unit of units" [value]="unit.id">
+                    {{ unit.unit_ar_name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div
+              class="col-md-6 col-12"
+              *ngIf="FormCtrl.selectedItemType.value == 3"
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label>{{ "labels.Lesson" | translate }} </mat-label>
+                <mat-select formControlName="lessonId">
+                  <mat-option> {{ "General.Choose" | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let lesson of Lessons"
+                    [value]="lesson.id"
+                  >
+                    {{ lesson.lesson_ar_name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-12" *ngIf="FormCtrl.IsOnline.value == 1">
+              <input
+                (change)="onChange($event)"
+                type="file"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </form>
+        <mat-card-actions align="end">
+          <button
+            mat-raised-button
+            class="btn btn-primary"
+            (click)="addEditMaterial()"
+          >
+            {{ "General.Save" | translate }}
+          </button>
+        </mat-card-actions>
+      </mat-tab>
+      <mat-tab label="{{ 'labels.MaterialParts' | translate }}">
+        <app-add-material-parts [materialId]="materialId">
+        </app-add-material-parts>
+      </mat-tab>
+      <mat-tab label="{{ 'labels.MaterialFiles' | translate }}">
+        <app-add-material-files [materialId]="materialId">
+        </app-add-material-files>
+      </mat-tab>
+      <mat-tab label="{{ 'labels.MaterialExams' | translate }}">
+        <app-add-material-exam [materialId]="materialId">
+        </app-add-material-exam>
+      </mat-tab>
+
+      <!-- <mat-tab label="{{ 'labels.PopUpQuestion' | translate }}">
+        <app-add-pop-question [materialId]="materialId"> </app-add-pop-question>
+      </mat-tab> -->
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+<ngx-spinner></ngx-spinner>

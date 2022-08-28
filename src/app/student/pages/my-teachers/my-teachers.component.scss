@@ -1,0 +1,13 @@
+.mt {
+  margin-top: 20px;
+}
+.pr-10 {
+  padding-right: 10px;
+}
+
+::ng-deep .mat-tab-labels > div {
+  width: 50% !important;
+}
+.mat-card.card {
+  min-height: 470px !important;
+}

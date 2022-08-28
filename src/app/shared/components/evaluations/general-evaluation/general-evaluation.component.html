@@ -1,0 +1,95 @@
+<div class="row" (resized)="onResized($event)">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+        <div class="card bg-info bg-lighten-3">
+            <div class="card-content">
+                <div class="card-body py-0">
+                    <div class="media">
+                        <div class="media-body info text-left">
+                            <h3 class="font-large-1 info mb-0">{{ presentage | round }}%</h3>
+                            <span>{{ "Material.GeneralEvaluation" | translate }}</span>
+                        </div>
+                        <div class="media-right info text-right">
+                            <i class="ft-trending-up font-large-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Widget-line-chart" class="WidgetlineChart WidgetlineChartShadow mb-3">
+                    <x-chartist class="height-75" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options">
+                    </x-chartist>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+        <div class="card bg-warning bg-lighten-3">
+            <div class="card-content">
+                <div class="card-body py-0">
+                    <div class="media">
+                        <div class="media-body warning text-left">
+                            <h3 class="font-large-1 warning mb-0">
+                                {{ (GeneralEvaluation?.matCount | round) || 0 }}
+                            </h3>
+                            <span>{{ "Material.Videos" | translate }}</span>
+                        </div>
+                        <div class="media-right warning text-right">
+                            <i class="ft-play font-large-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Widget-line-chart2" class="WidgetlineChart1 WidgetlineChart1Shadow mb-3">
+                    <x-chartist class="height-75" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options" [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+                    </x-chartist>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+        <div class="card bg-light dark  bg-lighten-3">
+            <div class="card-content">
+                <div class="card-body py-0">
+                    <div class="media">
+                        <div class="media-body light  text-left">
+                            <h3 class="font-large-1 dark   mb-0">
+                                {{ (GeneralEvaluation?.examCount | round) || 0 }}
+                            </h3>
+                            <span class="dark ">{{ "Material.Exams" | translate }}</span>
+                        </div>
+                        <div class="media-right dark   text-right">
+                            <i class="ft-book font-large-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Widget-line-chart2" class="WidgetlineChart2 WidgetlineChart2Shadow mb-3">
+                    <x-chartist class="height-75" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options" [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+                    </x-chartist>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+        <div class="card bg-secondary  bg-lighten-3">
+            <div class="card-content">
+                <div class="card-body py-0">
+                    <div class="media">
+                        <div class="media-body secondary  text-left">
+                            <h3 class="font-large-1 secondary  mb-0">
+                                {{ (GeneralEvaluation?.giftPoints | round) || 0 }}
+                            </h3>
+                            <span> {{ "Material.Points" | translate }}</span>
+                        </div>
+                        <div class="media-right secondary  text-right">
+                            <i class="ft-activity font-large-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="Widget-line-chart2" class="WidgetlineChart3 WidgetlineChart3Shadow mb-3">
+                    <x-chartist class="height-75" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type" [options]="WidgetlineChart.options" [responsiveOptions]="WidgetlineChart.responsiveOptions" [events]="WidgetlineChart.events">
+                    </x-chartist>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-spinner></ngx-spinner>

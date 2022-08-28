@@ -1,0 +1,293 @@
+<section class="page-user-profile">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="user-profile-images">
+          <!-- user timeline image -->
+          <img
+            *ngIf="!TeacherData?.banner_path"
+            src="assets/img/banner/bak.jpeg"
+            class="img-fluid rounded-top user-timeline-image"
+            alt="User Timeline Image"
+          />
+          <img
+            *ngIf="TeacherData?.banner_path"
+            src="mozakretyapi/{{ TeacherData?.banner_path }}"
+            class="img-fluid rounded-top user-timeline-image"
+            alt="User Timeline Image"
+          />
+          <!-- user profile image -->
+          <img
+            src="mozakretyapi/{{ TeacherData?.attach_path }}"
+            class="user-profile-image rounded"
+            [alt]="TeacherData?.ar_name"
+            height="140"
+            width="140"
+          />
+        </div>
+        <div class="user-profile-text">
+          <h4 class="profile-text-color mb-0">{{ TeacherData?.ar_name }}</h4>
+          <small>{{ TeacherData?.subjectName[0]?.subject_ar_name }}</small>
+        </div>
+        <!-- user profile body start -->
+        <div class="card-content">
+          <div class="card-body">
+            <div
+              class="user-profile-buttons d-flex justify-content-center justify-content-sm-start"
+            >
+              <button
+                *ngIf="teacherId == 22"
+                class="btn btn-primary mr-3"
+                routerLink="/student/reservation/{{ teacherId }}/2/1/48HFR6/1"
+              >
+                <i class="fa fa-ticket"></i>
+                {{ "Navbar.Reservation" | translate }}
+              </button>
+            </div>
+          </div>
+          <!-- user profile body ends -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Profile posts and info starts -->
+  <div class="row profile-info-posts">
+    <!-- 1st column starts -->
+    <div class="col-lg-3 col-12">
+      <div class="row">
+        <!-- About starts -->
+        <div class="col-12">
+          <div class="card">
+            <div
+              class="card-header d-flex justify-content-between align-items-center"
+            >
+              <h4 class="card-title m-0">
+                {{ "labels.AboutTeacher" | translate }}
+              </h4>
+              <span class="cursor-pointer"
+                ><i class="ft-more-vertical-"></i
+              ></span>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <p class="m-0">
+                  {{ TeacherData?.Description }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- About ends -->
+
+        <!-- Start Books & Files -->
+        <div class="col-12">
+          <mat-card class="card">
+            <mat-card-title>
+              {{ "labels.BooksAndFiles" | translate }}
+            </mat-card-title>
+            <mat-card-content>
+              <div class="mt pr-10 scrolled350">
+                <div
+                  class="media pt-0 pb-2 mt-20"
+                  *ngIf="FilesList.length > 0; else noFiles"
+                >
+                  <ul class="list-unstyled m-0">
+                    <li
+                      class="d-flex pb-1 pt-1 bbdashed"
+                      *ngFor="let file of FilesList"
+                    >
+                      <i
+                        class="ft-book primary font-medium-2 mr-2 mt-0"
+                        style="padding: 3px"
+                      >
+                      </i>
+                      <span>
+                        <a routerLink="mozakretyapi{{ file.attach_path }}">
+                          {{ file.material_name }}
+                        </a>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <ng-template #noFiles>
+                  <div class="alert bg-light-warning">
+                    Files & Books is empty
+                  </div>
+                </ng-template>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <!-- End Books & Files -->
+      </div>
+    </div>
+    <!-- 1st column ends -->
+
+    <!-- 2nd column starts -->
+    <div class="col-md-6 col-12">
+      <mat-card class="card" style="padding: 10px !important">
+        <!-- <mat-card-title>My Subjects</mat-card-title> -->
+        <mat-card-content>
+          <mat-tab-group animationDuration="0ms">
+            <!-- Videos Tab -->
+            <mat-tab label="{{ 'labels.VideosLecture' | translate }}">
+              <app-videos-lectures
+                [teacherSubjectId]="teacherSubjectId"
+                [subjectId]="subjectId"
+                [teacherId]="teacherId"
+              >
+              </app-videos-lectures>
+            </mat-tab>
+            <!-- Offline Lectures Tab -->
+            <mat-tab label="{{ 'labels.OfflineLecture' | translate }}">
+              <div class="mt pr-10">
+                <app-offline-lectures
+                  [teacherSubjectId]="teacherSubjectId"
+                  [subjectId]="subjectId"
+                  [teacherId]="teacherId"
+                ></app-offline-lectures>
+              </div>
+            </mat-tab>
+            <!-- Live Lectures Tab -->
+            <mat-tab label="{{ 'labels.LiveLectures' | translate }}">
+              <div class="mt pr-10">
+                <app-live-lectures
+                  [teacherSubjectId]="teacherSubjectId"
+                  [subjectId]="subjectId"
+                  [teacherId]="teacherId"
+                >
+                </app-live-lectures>
+              </div>
+            </mat-tab>
+            <!-- Exams Tab -->
+            <mat-tab label="{{ 'Navbar.Exams' | translate }}">
+              <div class="mt pr-10">
+                <app-return-subject-exams
+                  [teacherSubjectId]="teacherSubjectId"
+                  [subjectId]="subjectId"
+                  [teacherId]="teacherId"
+                ></app-return-subject-exams>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <!-- 2nd column ends -->
+
+    <!-- 3rd column starts -->
+    <div class="col-md-3 col-12">
+      <div class="row">
+        <!-- Chat starts -->
+        <div class="col-12">
+          <!-- <div class="card bg-primary white">
+            <div class="card-content">
+              <div class="card-body">
+                <div class="media py-1">
+                  <i class="icon-bubble font-large-2"></i>
+                  <div class="ml-1 media-body">
+                    <h5 class="white">
+                      {{ "labels.WantToAskTeacher" | translate }}
+                    </h5>
+
+                    <p class="font-small-2 m-0">
+                      <a
+                        routerLink="/student/chat/{{ teacherSubjectId }}"
+                        mat-raised-button
+                        class="btn btn-danger"
+                      >
+                        {{ "General.ClickHere" | translate }}
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+        <!-- Chat ends -->
+
+        <!-- Leader board starts -->
+        <div
+          class="col-lg-12 col-md-6 col-12"
+          *ngIf="TopExamStudentsList.length > 0"
+        >
+          <mat-card class="card">
+            <mat-card-title>Leader Board</mat-card-title>
+            <mat-card-content>
+              <div class="mt pr-10 scrolled350">
+                <ng-container
+                  *ngIf="TopExamStudentsList.length > 0; else emptyLeaderBoard"
+                ></ng-container>
+
+                <div
+                  class="media pt-0 pb-2 mt-20"
+                  *ngFor="let student of TopExamStudentsList"
+                  [id]="student.userId"
+                >
+                  <img
+                    class="mr-3 avatar rounded"
+                    ssrc="mozakretyapi/{{
+                      student.ProfilePicture | sliceExamPic
+                    }}"
+                    alt="{{ student.userName }}"
+                    width="35"
+                  />
+                  <div class="media-body">
+                    <h4 class="font-medium-1 mb-0">{{ student.userName }}</h4>
+                    <p class="grey font-small-3 m-0">{{ student.ExamName }}</p>
+                  </div>
+                  <span class="badge bg-light-info">
+                    {{ student.examGrade }} / {{ student.studentGrade }}</span
+                  >
+                </div>
+                <ng-template #emptyLeaderBoard>
+                  <div class="alert bg-light-warning">
+                    Leader Board is empty
+                  </div>
+                </ng-template>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <!-- Leader board ends -->
+
+        <!-- Golden List starts -->
+        <div
+          class="col-lg-12 col-md-6 col-12"
+          *ngIf="TopStudentsList.length > 0"
+        >
+          <mat-card class="card">
+            <mat-card-title>Golden List</mat-card-title>
+            <mat-card-content>
+              <div class="mt pr-10 scrolled350">
+                <div
+                  class="media pt-0 pb-2 mt-20"
+                  *ngFor="let let; student: of; topStudentsList"
+                >
+                  <img
+                    class="mr-3 avatar rounded"
+                    ssrc="mozakretyapi/{{
+                      student.ProfilePicture | sliceExamPic
+                    }}"
+                    alt="{{ student.Name }}"
+                    width="35"
+                  />
+                  <div class="media-body">
+                    <h4 class="font-medium-1 mb-0">{{ student.Name }}</h4>
+                  </div>
+                  <span class="badge bg-light-info">
+                    {{ student.GiftPoints }}</span
+                  >
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <!-- Golden List ends -->
+      </div>
+    </div>
+    <!-- 3rd column ends -->
+  </div>
+  <!-- Profile posts and info ends -->
+</section>

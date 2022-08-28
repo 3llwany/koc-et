@@ -1,0 +1,486 @@
+<form [formGroup]="myForm" class="form-horizontal">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="col-md-2 control-label"> السؤال الرئيسي </label>
+            <div class="col-md-10">
+              <textarea
+                class="form-control rtl ClearDataClss"
+                cols="20"
+                placeholder="السؤال الرئيسي"
+                rows="2"
+                type="text"
+                formControlName="mainQuestion"
+              ></textarea>
+
+              <span
+                class="text-danger"
+                *ngIf="mainQuestionCtrl?.invalid || mainQuestionCtrl?.touched"
+              >
+                <span *ngIf="mainQuestionCtrl?.errors?.required">
+                  {{ "labels.mustEnterValue" | translate }}
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"> نوع السؤال </label>
+            <div class="col-sm-4">
+              <select
+                class="form-control font-dro ClearDataClss"
+                formControlName="questionTypeId"
+                (change)="questionTypeValidation()"
+              >
+                <option value="">نوع السؤال</option>
+                <option value="1">مقال</option>
+                <option value="2">اختيار من متعدد</option>
+              </select>
+              <span
+                class="text-danger"
+                *ngIf="
+                  questionTypeIdCtrl?.invalid || questionTypeIdCtrl?.touched
+                "
+              >
+                <span *ngIf="questionTypeIdCtrl?.errors?.required">
+                  {{ "labels.MustChoosevalue" | translate }}
+                </span>
+              </span>
+            </div>
+            <label class="col-sm-2 control-label"> صورة السؤال </label>
+            <div class="col-sm-4">
+              <input
+                class="ClearDataClss form-control"
+                type="file"
+                formControlName="questionImage"
+                (change)="importFile($event)"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 control-label" *ngIf="unitId == 0">
+              الوحدة
+            </label>
+            <div class="col-md-4 col-sm-5" *ngIf="unitId == 0">
+              <select
+                (change)="getAllLessonsByUnitId()"
+                class="form-control font-dro"
+                data-val="true"
+                formControlName="unitId"
+              >
+                <option value="">الوحدة</option>
+                <option value="{{ unit.id }}" *ngFor="let unit of units">
+                  {{ unit.unit_ar_name }}
+                </option>
+              </select>
+            </div>
+            <div class="clearfix hidden-md hidden-lg"></div>
+
+            <label
+              class="col-md-2 col-sm-3 control-label"
+              *ngIf="lessonId == 0"
+            >
+              الدرس
+            </label>
+            <div class="col-md-4 col-sm-5" *ngIf="lessonId == 0">
+              <select
+                class="form-control font-dro"
+                data-val="true"
+                formControlName="lessionId"
+              >
+                <option value="">الدرس</option>
+                <option
+                  value="{{ lession.id }}"
+                  *ngFor="let lession of lessions"
+                >
+                  {{ lession.lesson_ar_name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- //////////////////////////// -->
+          <!-- <div class="form-group question_unit_lesson" style="display: none;">
+            <label class="col-sm-2 control-label question_unit" style="display: none;">
+              الوحدة
+            </label>
+            <div class="col-sm-4 question_unit" style="display: none;">
+              <select id="question_unit" class="form-control font-dro" formControlName="unitId">
+                <option value="0">الوحدة</option>
+
+              </select>
+            </div>
+            <label class="col-sm-2 control-label">
+              الدروس
+            </label>
+
+            <div class="col-sm-4">
+              <select name="question_lesson" multiple="" id="question_lesson" class="rtl select2-hidden-accessible"
+                tabindex="-1" aria-hidden="true" formControlName="lessionId">
+              </select>
+
+              <span class="select2 select2-container select2-container--default" dir="ltr" style="width: auto;">
+                <span class="selection">
+                  <span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true"
+                    aria-expanded="false" tabindex="-1">
+
+                    <ul class="select2-selection__rendered">
+                      <li class="select2-search select2-search--inline">
+                        <input class="select2-search__field" type="search" tabindex="0" autocomplete="off"
+                          autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox"
+                          aria-autocomplete="list" placeholder="الدروس" style="width: 100px;">
+                      </li>
+                    </ul>
+                  </span></span>
+                <span class="dropdown-wrapper" aria-hidden="true"></span>
+              </span>
+            </div>
+          </div> -->
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label"> نص السؤال </label>
+            <div class="col-sm-10">
+              <textarea
+                class="ClearDataClss"
+                cols="20"
+                id="froala-editor2"
+                name="exam_question_text"
+                rows="2"
+                formControlName="questionText"
+              ></textarea>
+            </div>
+          </div>
+          <!-- //////////////////////////// -->
+          <div
+            class="form-group text-type-question"
+            *ngIf="questionTypeIdCtrl?.value == 1"
+          >
+            <label class="col-sm-2 control-label"> الإجابة النموذجية </label>
+            <div class="col-sm-10">
+              <textarea
+                class="ClearDataClss"
+                cols="20"
+                id="froala-editor3"
+                name="exam_question_perfect_answer"
+                rows="2"
+                formControlName="questionPerfectAnswer"
+              ></textarea>
+            </div>
+          </div>
+          <!-- //////////////////////////// -->
+          <div class="form-group">
+            <label class="col-sm-2 control-label"> درجة السؤال </label>
+            <div class="col-sm-4">
+              <input
+                class="autosize form-control font-dro rtl ClearDataClss"
+                id="exam_question_mark_id"
+                type="number"
+                formControlName="questionMark"
+              />
+              <span
+                class="text-danger"
+                *ngIf="questionMarkCtrl?.invalid || questionMarkCtrl?.touched"
+              >
+                <span *ngIf="questionMarkCtrl?.errors?.required">
+                  {{ "labels.mustEnterValue" | translate }}
+                </span>
+                <span *ngIf="questionMarkCtrl?.errors?.minusNum">
+                  {{ "labels.mustEnterCorrectValue" | translate }}
+                </span>
+              </span>
+            </div>
+          </div>
+          <!-- //////////////////////////// -->
+
+          <div *ngIf="questionTypeIdCtrl?.value == 2">
+            <div class="form-group mcq-type-question">
+              <label class="col-sm-2 control-label"> الإجابة رقم (1) </label>
+              <div class="col-sm-10">
+                <ul class="answer-list with-text-area">
+                  <li>
+                    <input
+                      id="radio-0"
+                      type="radio"
+                      value="0"
+                      formControlName="answerOneIsCorrect"
+                      (click)="onSelectCorrect(0)"
+                      [checked]="oneIsCorrect"
+                    />
+                    <label for="radio-0">
+                      <i class="icon icon_radio"></i>
+                    </label>
+                    <textarea
+                      class="autosize form-control font-dro rtl ClearDataClss"
+                      cols="20"
+                      id="mcq-choice-0"
+                      rows="2"
+                      style="
+                        overflow: hidden;
+                        width: 90%;
+                        word-wrap: break-word;
+                        resize: horizontal;
+                        height: 70px;
+                      "
+                      formControlName="answerOne"
+                    ></textarea>
+                  </li>
+                </ul>
+              </div>
+
+              <label class="col-sm-2 control-label"> صورة الاجابة (1) </label>
+
+              <div class="col-sm-5">
+                <input
+                  class="form-control ClearDataClss"
+                  id="exam_mcq_question_image_0"
+                  name="exam_mcq_question_image"
+                  type="file"
+                  value=""
+                  formControlName="answerOneImage"
+                  (change)="importOneFile($event)"
+                />
+              </div>
+              <hr class="hr2" style="border-top-color: #c1c1c1" />
+            </div>
+            <input
+              data-val="true"
+              data-val-number="The field choice_id must be a number."
+              data-val-required="The choice_id field is required."
+              id="mcq-choice-id-1"
+              name="mcq_choices[1].choice_id"
+              type="hidden"
+              value="0"
+            />
+            <div class="form-group mcq-type-question">
+              <label class="col-sm-2 control-label"> الإجابة رقم (2) </label>
+              <div class="col-sm-10">
+                <ul class="answer-list with-text-area">
+                  <li>
+                    <input
+                      id="radio-1"
+                      name="answerTwoIsCorrect"
+                      type="radio"
+                      value="1"
+                      formControlName="answerTwoIsCorrect"
+                      (click)="onSelectCorrect(1)"
+                      [checked]="twoIsCorrect"
+                    />
+                    <label for="radio-1">
+                      <i class="icon icon_radio"></i>
+                    </label>
+                    <textarea
+                      class="autosize form-control font-dro rtl ClearDataClss"
+                      cols="20"
+                      id="mcq-choice-1"
+                      rows="2"
+                      style="
+                        overflow: hidden;
+                        width: 90%;
+                        word-wrap: break-word;
+                        resize: horizontal;
+                        height: 70px;
+                      "
+                      formControlName="answerTwo"
+                    ></textarea>
+                  </li>
+                </ul>
+              </div>
+
+              <label class="col-sm-2 control-label"> صورة الاجابة (2) </label>
+
+              <div class="col-sm-5">
+                <input
+                  class="form-control ClearDataClss"
+                  id="exam_mcq_question_image_1"
+                  type="file"
+                  formControlName="answerTwoImage"
+                  (change)="importTwoFile($event)"
+                />
+              </div>
+              <hr class="hr2" style="border-top-color: #c1c1c1" />
+            </div>
+            <!-- <input data-val="true" data-val-number="The field choice_id must be a number."
+  data-val-required="The choice_id field is required." id="mcq-choice-id-2" name="mcq_choices[2].choice_id"
+  type="hidden" value="0" > -->
+            <div class="form-group mcq-type-question">
+              <label class="col-sm-2 control-label"> الإجابة رقم (3) </label>
+              <div class="col-sm-10">
+                <ul class="answer-list with-text-area">
+                  <li>
+                    <input
+                      id="radio-2"
+                      name="answerThreeIsCorrect"
+                      type="radio"
+                      value="2"
+                      formControlName="answerThreeIsCorrect"
+                      (click)="onSelectCorrect(2)"
+                      [checked]="threeIsCorrect"
+                    />
+                    <label for="radio-2">
+                      <i class="icon icon_radio"></i>
+                    </label>
+                    <textarea
+                      class="autosize form-control font-dro rtl ClearDataClss"
+                      cols="20"
+                      id="mcq-choice-2"
+                      rows="2"
+                      style="
+                        overflow: hidden;
+                        width: 90%;
+                        word-wrap: break-word;
+                        resize: horizontal;
+                        height: 70px;
+                      "
+                      formControlName="answerThree"
+                    ></textarea>
+                  </li>
+                </ul>
+              </div>
+
+              <label class="col-sm-2 control-label"> صورة الاجابة (3) </label>
+
+              <div class="col-sm-5">
+                <input
+                  class="form-control ClearDataClss"
+                  id="exam_mcq_question_image_2"
+                  name="exam_mcq_question_image"
+                  type="file"
+                  value=""
+                  formControlName="answerThreeImage"
+                  (change)="importThreeFile($event)"
+                />
+              </div>
+              <hr class="hr2" style="border-top-color: #c1c1c1" />
+            </div>
+            <!-- <input data-val="true" data-val-number="The field choice_id must be a number."
+  data-val-required="The choice_id field is required." id="mcq-choice-id-3" name="mcq_choices[3].choice_id"
+  type="hidden" value="0" > -->
+            <div class="form-group mcq-type-question">
+              <label class="col-sm-2 control-label"> الإجابة رقم (4) </label>
+              <div class="col-sm-10">
+                <ul class="answer-list with-text-area">
+                  <li>
+                    <input
+                      id="radio-3"
+                      name="answerFourIsCorrect"
+                      type="radio"
+                      value="3"
+                      formControlName="answerFourIsCorrect"
+                      (click)="onSelectCorrect(3)"
+                      [checked]="fourIsCorrect"
+                    />
+                    <label for="radio-3">
+                      <i class="icon icon_radio"></i>
+                    </label>
+                    <textarea
+                      class="autosize form-control font-dro rtl ClearDataClss"
+                      cols="20"
+                      id="mcq-choice-3"
+                      rows="2"
+                      style="
+                        overflow: hidden;
+                        width: 90%;
+                        word-wrap: break-word;
+                        resize: horizontal;
+                        height: 70px;
+                      "
+                      formControlName="answerFour"
+                    ></textarea>
+                  </li>
+                </ul>
+              </div>
+
+              <label class="col-sm-2 control-label"> صورة الاجابة (4) </label>
+
+              <div class="col-sm-5">
+                <input
+                  class="form-control ClearDataClss"
+                  id="exam_mcq_question_image_3"
+                  type="file"
+                  value=""
+                  formControlName="answerFourImage"
+                  (change)="importFourFile($event)"
+                />
+              </div>
+              <hr class="hr2" style="border-top-color: #c1c1c1" />
+            </div>
+          </div>
+
+          <!---->
+          <div class="form-group">
+            <div class="col-md-12">
+              <button
+                id="examQuestionsButton"
+                class="btn btn-primary"
+                (click)="onSubmit()"
+                *ngIf="questionId == 0"
+              >
+                حفظ التغييرات
+              </button>
+              <button
+                (click)="onSubmit()"
+                id="editQuestionButton"
+                class="btn btn-primary"
+                *ngIf="questionId > 0"
+              >
+                تعديل
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="full-wid-table" style="overflow: hidden !important">
+          <table
+            class="table table-striped table-hover table-full-width rtl"
+            id="sotbmod"
+          >
+            <thead>
+              <tr>
+                <th class="text-right">#</th>
+                <th class="text-right">نص السؤال</th>
+                <th class="text-right">صورة السؤال</th>
+                <th class="text-right">نوع السؤال</th>
+                <th class="text-center">­</th>
+              </tr>
+            </thead>
+            <tbody id="addedExamQuestionsHolder">
+              <tr
+                id="ExamQuestion-2626853"
+                *ngFor="let ques of questionsInGrid"
+              >
+                <td>{{ ques.Id }}</td>
+                <td>{{ ques.Text }}</td>
+                <td>
+                  <a [href]="ques.Image" target="_blank"> عرض</a>
+                </td>
+                <td>{{ ques.QuestionTypeAr }}</td>
+                <td class="text-center">
+                  <a
+                    (click)="editExamQuestionForm(ques.Id)"
+                    class="btn btn-xs btn-teal tooltips"
+                    data-placement="top"
+                    data-original-title="تعديل"
+                    ><i class="fa fa-edit"></i></a
+                  ><a
+                    (click)="removeExamQuestion(ques.Id)"
+                    class="btn btn-xs btn-bricky tooltips"
+                    data-placement="top"
+                    data-original-title="حذف"
+                    ><i class="fa fa-times fa fa-white"></i
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- <div>
+  <div class="btn btn-default" (click)="onCancel()">اغلاق</div>
+</div> -->
