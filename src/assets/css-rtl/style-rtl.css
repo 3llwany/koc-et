@@ -1,6 +1,6 @@
 body.bodyrtl {
-  overflow-x: hidden;
-  font-family: "Almarai", sans-serif !important;
+    overflow-x: hidden;
+    font-family: "Almarai", sans-serif !important;
 }
 
 .mat-card,
@@ -33,64 +33,62 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Almarai", sans-serif;
+    font-family: "Almarai", sans-serif;
 }
 
 body.bodyrtl .page-user-profile .user-profile-images .user-profile-image {
-  right: 20px;
-  left: auto;
+    right: 20px;
+    left: auto;
 }
 
 body.bodyrtl .page-user-profile .user-profile-text {
-  right: 190px;
-  left: auto;
+    right: 190px;
+    left: auto;
 }
 
 .page-user-profile .user-profile-buttons {
-  padding-right: 11.25rem;
-  padding-left: 0;
-  justify-content: flex-end !important;
+    padding-right: 11.25rem;
+    padding-left: 0;
+    justify-content: flex-end !important;
 }
 
 .page-user-profile .user-profile-buttons button {
-  margin-right: 1.5rem !important;
-  margin-left: 0 !important;
+    margin-right: 1.5rem !important;
+    margin-left: 0 !important;
 }
 
 .page-user-profile .user-profile-images .user-timeline-image {
-  min-height: 150px;
-  max-height: 300px;
-  width: 100%;
-  -o-object-fit: fill;
-  object-fit: fill;
+    min-height: 150px;
+    max-height: 300px;
+    width: 100%;
+    -o-object-fit: fill;
+    object-fit: fill;
 }
 
 .cart-tabsec .card.chpter {
-  min-height: 355px;
-  padding: 15px !important;
-  width: 100%;
+    min-height: 355px;
+    padding: 15px !important;
+    width: 100%;
 }
 
 .cart-tabsec .card.chpter img {
-  width: 269px;
-  height: 180px;
-  margin: -15px -15px -15px -15px;
+    width: 269px;
+    height: 180px;
+    margin: -15px -15px -15px -15px;
 }
 
 .cart-tabsec .card {
-  box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 body.bodyrtl .mat-select-value {
-  text-align: right;
+    text-align: right;
 }
 
 body.bodyrtl .mat-form-field-empty.mat-form-field-label,
-body.bodyrtl
-  .mat-form-field-can-float.mat-form-field-should-float
-  .mat-form-field-label {
-  text-align: right;
-  font-family: "Almarai", sans-serif !important;
+body.bodyrtl .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    text-align: right;
+    font-family: "Almarai", sans-serif !important;
 }
 
 .brief p,
@@ -98,78 +96,81 @@ p.app-tit,
 p.app-big-tit,
 h4.ser-name,
 div.cart-desc,
-div.cart-desc > p,
+div.cart-desc>p,
 .mats1 .mat-desc p,
 .mats2 .mat-desc p,
 .mats4 .mat-desc p,
 .bg-newdesignser .ct,
-.bg-newdesignser .cd {
-  font-family: "Almarai", sans-serif !important;
+.bg-newdesignser .cd,
+.card-content .card-body .card-text,
+.card-content .card-body .card-title {
+    font-family: "Almarai", sans-serif !important;
 }
 
 body.bodyrtl .mat-option {
-  text-align: right;
+    text-align: right;
 }
 
 body.bodyrtl input.mat-input-element {
-  text-align: right;
-  font-family: "Almarai", sans-serif !important;
+    text-align: right;
+    font-family: "Almarai", sans-serif !important;
 }
 
 body.bodyrtl .rtl {
-  direction: rtl !important;
-  text-align: right !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 body.bodyrtl .home-teachers {
-  direction: ltr;
+    direction: ltr;
 }
 
 body.bodyrtl .mat-radio-label-content {
-  padding-right: 8px;
-  padding-left: 0;
+    padding-right: 8px;
+    padding-left: 0;
 }
 
 body.bodyrtl .radio label::after {
-  position: absolute;
-  right: 12px;
+    position: absolute;
+    right: 12px;
 }
 
 body.bodyrtl .chat-application .chat-app-window,
 body.bodyrtl .chat-application .chat-app-form,
 body.bodyrtl .chat-application .chat-name {
-  margin-right: 300px;
-  margin-left: 0;
+    margin-right: 300px;
+    margin-left: 0;
 }
 
 body.bodyrtl .chat-application .chat-sidebar {
-  border-left: 1px solid #e0e0e0;
-  border-right: 0;
+    border-left: 1px solid #e0e0e0;
+    border-right: 0;
 }
 
 body.bodyrtl .escprev {
-  right: 9px !important;
+    right: 9px !important;
 }
 
 body.bodyrtl .mat-paginator-container {
-  direction: ltr;
-  justify-content: flex-start;
+    direction: ltr;
+    justify-content: flex-start;
 }
 
 body.bodyrtl .mat-tab-group {
-  direction: rtl;
-  text-align: left;
+    direction: rtl;
+    text-align: left;
 }
 
 body.bodyrtl .mat-tab-labels {
-  direction: ltr;
-  justify-content: flex-end;
+    direction: ltr;
+    justify-content: flex-end;
 }
 
 body.bodyrtl .mat-checkbox-inner-container {
-  margin-left: 8px;
-  margin-right: 0;
+    margin-left: 8px;
+    margin-right: 0;
 }
+
 
 /* body.bodyrtl .mat-tab-group.mat-primary .mat-ink-bar,
 body.bodyrtl .mat-tab-nav-bar.mat-primary .mat-ink-bar {
@@ -177,14 +178,14 @@ body.bodyrtl .mat-tab-nav-bar.mat-primary .mat-ink-bar {
 } */
 
 body.bodyrtl .mat-dialog-content {
-  direction: rtl !important;
+    direction: rtl !important;
 }
 
 @media (min-width: 320px) and (max-width: 750px) {
-  body.bodyrtl .chat-application .chat-app-window,
-  body.bodyrtl .chat-application .chat-app-form,
-  body.bodyrtl .chat-application .chat-name {
-    margin-right: 0;
-    margin-left: 0;
-  }
+    body.bodyrtl .chat-application .chat-app-window,
+    body.bodyrtl .chat-application .chat-app-form,
+    body.bodyrtl .chat-application .chat-name {
+        margin-right: 0;
+        margin-left: 0;
+    }
 }

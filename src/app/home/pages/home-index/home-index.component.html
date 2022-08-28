@@ -1,14 +1,9 @@
 <section class="bannermain">
-  <div class="row">
-    <div class="col-12">
-      <div class="swiper-slide" style="position: relative">
-        <img
-          class="img-fluid"
-          src="assets/img/slid5.jpeg"
-          alt="banner"
-          style="width: 100%"
-        />
-        <!-- <div class="carousel-caption">
+    <div class="row">
+        <div class="col-12">
+            <div class="swiper-slide" style="position: relative">
+                <img class="img-fluid" src="assets/image.jpg" alt="banner" style="width: 100%;height: 600px;" />
+                <!-- <div class="carousel-caption">
                     <h3 class="colorwhigt" style="font-size: 36px">
                         شاهد الدروس وحل الامتحانات
                     </h3>
@@ -16,513 +11,72 @@
                         مع نخبة من افضل مدرسى الجمهورية
                     </p>
                 </div> -->
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="stagec wow" style="padding: 70px">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="section-head">
-          <h2>المراحل الدراسية</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card satagehead testimonial-card bg-main-b">
-          <!-- Background color -->
-          <div class="card-up indigo lighten-1"></div>
-          <div class="card-body">
-            <!-- Name -->
-            <h4 class="card-title hometitle text-center arfont">
-              الصف الاول الثانوى
-            </h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card satagehead testimonial-card bg-main-b">
-          <!-- Background color -->
-          <div class="card-up indigo lighten-1"></div>
-          <div class="card-body">
-            <!-- Name -->
-            <h4 class="card-title hometitle text-center arfont">
-              الصف الثانى الثانوى
-            </h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card satagehead testimonial-card bg-main-b">
-          <!-- Background color -->
-          <div class="card-up indigo lighten-1"></div>
-          <div class="card-body">
-            <!-- Name -->
-            <h4 class="card-title hometitle text-center arfont">
-              الصف الثالث الثانوى
-            </h4>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Start teachers Section -->
-<section class="teachers" style="padding-top: 70px">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="section-head">
-          <a href="#">
-            <h2>مدرسينا</h2>
-          </a>
-        </div>
-      </div>
-    </div>
-    <!-- <a href="/Teachers/Index" class="all-teachers">جميع المعلمين </a> -->
-
-    <owl-carousel-o [options]="customOptions" class="home-teachers">
-      <ng-container *ngFor="let teacher of teachers">
-        <ng-template carouselSlide>
-          <div class="avatecher">
-            <div class="imgcon">
-              <img
-                class="img-fluid"
-                src="mozakretyapi/{{ teacher.attach_path }}"
-                alt="{{ teacher.ar_name }}"
-              />
             </div>
-
-            <span class="teachername text-center d-block mncolorb">
-              {{ teacher.ar_name }}
-            </span>
-          </div>
-        </ng-template>
-      </ng-container>
-    </owl-carousel-o>
-  </div>
+        </div>
+    </div>
 </section>
 
 <!-- Start services free Section -->
 <section class="services" style="padding-bottom: 15px; padding-top: 15px">
-  <div class="container">
-    <div class="row hed">
-      <div class="col-md-12">
-        <div class="section-head">
-          <h2>خدماتنا</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row match-height">
-      <div class="col-lg-2 col-md-2 col-sm-12 mb-2"></div>
-      <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
-        <div
-          class="card card-inverse bg-newdesignser text-center shadow-none mb-5 mt-5"
-        >
-          <div class="card-content">
-            <div class="card-img overlap new">
-              <img src="assets/img/sericons/ser2.png" alt="element 06" />
-            </div>
-            <div class="card-body">
-              <h4 class="card-title ct">خدمة الامتحانات</h4>
-              <p class="m-0 cd">
-                يقدم الموقع خدمة الامتحانات على المواد والدروس والوحدات لكل
-                المواد متضمنه اسئلة مقالية ويتم تصحيحها من خلال مدرسينا
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
-        <div
-          class="card card-inverse bg-newdesignser text-center shadow-none mb-5 mt-5"
-        >
-          <div class="card-content">
-            <div class="card-img overlap new">
-              <img
-                src="assets/img/sericons/ser3.png"
-                alt="element 03"
-                height="150"
-              />
-            </div>
-            <div class="card-body">
-              <h4 class="card-title ct">تقارير المستوى</h4>
-              <p class="m-0 cd">
-                يقدم الموقع خدمة الامتحانات على المواد والدروس والوحدات لكل
-                المواد متضمنه اسئلة مقالية ويتم تصحيحها من خلال مدرسينا
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-2 col-md-2 col-sm-12 mb-2"></div>
-    </div>
-    <div class="row match-height">
-      <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
-        <div
-          class="card card-inverse bg-newdesignser text-center shadow-none mb-5 mt-2"
-        >
-          <div class="card-content">
-            <div class="card-img overlap new">
-              <img
-                src="assets/img/sericons/ser1.png"
-                alt="element 06"
-                height="150"
-              />
-            </div>
-            <div class="card-body">
-              <h4 class="card-title ct">فيديوهات شرح</h4>
-              <p class="m-0 cd">
-                يقدم الموقع شروحات فيديو للدروس والوحدات والمراجعات النهائية
-                لمجموعة من المدرسين
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
-        <div
-          class="card card-inverse bg-newdesignser text-center shadow-none mb-5 mt-2"
-        >
-          <div class="card-content">
-            <div class="card-img overlap new">
-              <img
-                src="assets/img/sericons/ser5.png"
-                alt="element 03"
-                height="150"
-              />
-            </div>
-            <div class="card-body">
-              <h4 class="card-title ct">مقابلات مع المدرسين</h4>
-              <p class="m-0 cd">
-                يوفر الموقع إمكانية التواصل مع المدرسين من خلال الإنترنت
-                للمتابعة والاستفسار عن أي موضوع
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
-        <div
-          class="card card-inverse bg-newdesignser text-center shadow-none mb-5 mt-2"
-        >
-          <div class="card-content">
-            <div class="card-img overlap new">
-              <img
-                src="assets/img/sericons/ser4.png"
-                alt="element 07"
-                height="150"
-              />
-            </div>
-            <div class="card-body">
-              <h4 class="card-title ct">ملفات نصية</h4>
-              <p class="m-0 cd">
-                يقدم الموقع خدمة تنزيل ملفات (ملازم الدروس والمواد والمراجعات
-                النهائية )
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-4 wow bounceInUp" data-wow-delay="0s">
-                <div class="ser-cart">
-                    <div class="cart-photo" onclick="gotoRegistration()">
-                        <img class="cart-photo-ico" src="/assets/img/newhome/ico2.png" />
-                        <img class="cart-photo-img" src="/assets/img/newhome/serv2.jpg" />
-                    </div>
-                    <div class="cart-desc">
-                        <h4 class="ser-name" onclick="gotoRegistration()">
-                            خدمة الامتحانات
-                        </h4>
-                        <p onclick="gotoRegistration()">
-                            يقدم الموقع خدمة الامتحانات على المواد والدروس والوحدات لكل المواد متضمنه اسئلة مقالية ويتم تصحيحها من خلال مدرسينا
-                        </p>
-                        <p class="ser-p-btn">
-                            <a routerLink="#" class="ser-reg-btn">
-                ابدأ الان
-              </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4 wow bounceInDown" data-wow-delay=".7s">
-                <div class="ser-cart">
-                    <div class="cart-photo" onclick="gotoRegistration()">
-                        <img class="cart-photo-ico" src="/assets/img/newhome/ico3.png" />
-                        <img class="cart-photo-img" src="/assets/img/newhome/serv4.jpg" />
-                    </div>
-                    <div class="cart-desc">
-                        <h4 class="ser-name" onclick="gotoRegistration()">
-                            تقارير المستوى
-                        </h4>
-                        <p onclick="gotoRegistration()">
-                            يقدم الموقع خدمة تحديد مستوى الطالب فى المواد المختلفة بحيث يعرف الطالب مستواه فى الماده ككل وكذلك مستواه فى كل درس
-                        </p>
-                        <p class="ser-p-btn">
-                            <a routerLink="#" class="ser-reg-btn">ابدأ الان
-              </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-  </div>
-</section>
-
-<!-- Start Another services Section -->
-<!-- <section class="services">
     <div class="container">
+        <div class="row hed">
+            <div class="col-md-12">
+                <div class="section-head">
+                    <h2>خدماتنا</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row match-height">
+            <div class="col-md-4 col-xs-12  ">
+                <div class="card" style="min-height: 500px;">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <img class="card-img img-fluid rounded mb-3" style="    height: 200px;" src="assets/1.jpg" alt="Card image cap">
+                            <h4 class="card-title ct text-center mncolorb ">تهدف الاختبارات الى</h4>
+                            <p class="card-text text-center cd">
+                                معيار لمقياس جاهزية الطلاب للاختبارات المؤهلة للقبول لشركات النفط <br> تمكبن الدارس من التعامل مع نظم اختبارات النفط <br> ازالة الرهبة التى تؤثر سلبا فى اداء الدارس <br> تسهيل العقبات واداراك نقاط القوة والضعف من خلال الاختبار
+                                <br> تاهيل الطلاب لتنظيم الاجابة بما يتناسب مع وقت الاختبار (100سؤال فى ساعة )
+                            </p>
 
-        <div class="row">
-            <div class="col-sm-4 wow bounceInRight" data-wow-delay=".5s">
-                <div class="ser-cart" onclick="gotoRegistration()">
-                    <div class="cart-photo">
-                        <img class="cart-photo-ico" src="/assets/img/newhome/ico5.png" />
-                        <img class="cart-photo-img" src="/assets/img/newhome/serv5.jpg" />
-                    </div>
-                    <div class="cart-desc">
-                        <h4 class="ser-name">فيديوهات شرح</h4>
-                        <p>
-                            يقدم الموقع شروحات فيديو للدروس والوحدات والمراجعات النهائية لمجموعة من المدرسين
-                        </p>
-                        <p class="ser-p-btn">
-                            <a routerLink="#" class="ser-reg-btn">ابدأ الان
-              </a>
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 wow bounceInDown" data-wow-delay=".5s">
-                <div class="ser-cart" onclick="gotoRegistration()">
-                    <div class="cart-photo">
-                        <img class="cart-photo-ico" src="/assets/img/newhome/ico4.png" />
-                        <img class="cart-photo-img" src="/assets/img/newhome/serv1.jpg" />
-                    </div>
-                    <div class="cart-desc">
-                        <h4 class="ser-name">مقابلات مع المدرسين </h4>
-                        <p>
+            <div class="col-md-4 col-xs-12  ">
+                <div class="card" style="min-height: 500px;">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <img class="card-img img-fluid rounded mb-3" style="    height: 200px;" src="assets/2.jpg" alt="Card image cap">
+                            <h4 class="card-title ct text-center mncolorb "> مكونات الموقع</h4>
+                            <p class="card-text text-center cd">
+                                نماذج الاختبارات السابقة للاختبارات القبول الخاصة بالنفط <br> تجميع لاسئلة الطلاب المجتازين لاختبارات النفط السابقة
+                            </p>
 
-                        </p>
-                        <p class="ser-p-btn">
-                            <a routerLink="#" class="ser-reg-btn">ابدأ الان
-              </a>
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 wow bounceInLeft" data-wow-delay=".5s">
-                <div class="ser-cart" onclick="gotoRegistration()">
-                    <div class="cart-photo">
-                        <img class="cart-photo-ico" src="/assets/img/newhome/ico1.png" />
-                        <img class="cart-photo-img" src="/assets/img/newhome/serv3.jpg" />
-                    </div>
-                    <div class="cart-desc">
-                        <h4 class="ser-name">ملفات نصية</h4>
-                        <p>
-                            يقدم الموقع خدمة تنزيل ملفات (ملازم الدروس والمواد والمراجعات النهائية )
-                        </p>
-                        <p class="ser-p-btn">
-                            <a routerLink="#" class="ser-reg-btn">ابدأ الان
-              </a>
-                        </p>
+            <div class="col-md-4 col-xs-12  ">
+                <div class="card" style="min-height: 500px;">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <img class="card-img img-fluid rounded mb-3" style="    height: 200px;" src="assets/3.jpg" alt="Card image cap">
+                            <h4 class="card-title ct text-center mncolorb "> طريقة الموقع</h4>
+                            <p class="card-text text-center cd">
+                                الاختبار يتكون من 100سؤال اختيارى نفس نفط الاختبارات السابقة ثم اظهار النتيجة مباشرة مع توضيح اللاخطاء <br> الاختبار الاول تجريبى 100 سؤال ثابت مجانا <br> باقى الاختبارات تنطبق الى نظام بنك الاسئلة المكون من 2000 سؤال يتم
+                                الاختيار منها عشوائى لتكوين الاختبار الحالى 100سوال مع اظهار النتيجة وتصحيح الاخطاء يطبق البرنامج انظمة لاتسمح بتكرار الاسئلة لنفس الطالب فى حالة الدخول بالرقم الخاص بالطالب
+                            </p>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section> -->
 
-<!-- Start points Section -->
-<section class="teachers">
-  <div class="container">
-    <div class="newhead1">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="section-head big-thead">
-            <h2>جمع نقاط تصدر المجموعة واكسب هدايا</h2>
-          </div>
-        </div>
-      </div>
+
     </div>
-  </div>
 </section>
 
-<!-- Start masters1 Section -->
-<section class="mats1">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-4 wow slideInLeft" data-wow-delay="0s">
-        <img
-          class="img-responsive mat-imgd"
-          src="/assets/img/sericons/mats1.png"
-        />
-      </div>
-      <div
-        class="col-sm-6 col-md-offset-1 matcas wow slideInRight"
-        data-wow-delay=".6s"
-      >
-        <div class="mat-desc mat-desc32" onclick="gotoRegistration()">
-          <h2>ذاكر اكتر</h2>
-          <p>كل ما تحضر دروس و تحل امتحانات اكتر نقاطك هتزيد</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Start masters2 Section -->
-<section class="mats2">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-4 wow slideInLeft" data-wow-delay="0s">
-        <div class="mat-desc mat-desc32" onclick="gotoRegistration()">
-          <h2>بدل نقاطك</h2>
-          <p>بدل نقاطك بأى هدية تحبها من بنك الهدايا</p>
-        </div>
-      </div>
-      <div
-        class="col-sm-6 col-md-offset-1 matcas wow slideInRight"
-        data-wow-delay=".6s"
-      >
-        <div class="img-group">
-          <img
-            class="img-responsive mat-imggroup2"
-            src="/assets/img/sericons/mats22.png"
-          />
-          <img
-            class="img-responsive mat-imggroup1"
-            src="/assets/img/sericons/mats2.png"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Start masters3 Section -->
-<!-- <section class="mats3">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-1"></div>
-                <div class="col-sm-6  wow slideInLeft" data-wow-delay="0s">
-                    <div class="mat-img" onclick="gotoRegistration()">
-                        <img src="/assets/img/newhome/mats3.png" />
-                    </div>
-                </div>
-                <div class="col-sm-4 wow slideInRight" data-wow-delay=".6s">
-                    <div class="mat-desc" onclick="gotoRegistration()">
-                        <h2>@ExamResource.Resource.Leader_Board </h2>
-                        <p>شركة مدارك هى شركة مصرية متخصصة فى مجال الحلول الإلكترونية تحتوى على مجموعة من الخبراء فى هذا المجال ويسرنا أن نقدم هذا الموقع التعليمى المتميز – مذاكراتى - مساهمة منا فى تنمية وتطوير التعليم فى مصر</p>
-                    </div>
-                </div>
-                <div class="col-sm-1"></div>
-            </div>
-        </div>
-    </section> -->
-
-<!-- Start masters4 Section -->
-<!-- <section class="mats4">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-6 wow slideInRight" data-wow-delay=".6s">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <img class="img-responsive mat-imgd2" src="/assets/img/newhome/mats4.png" />
-                    </div>
-                    <div class="col-xs-6">
-                        <img class="img-responsive mat-imgd2" src="/assets/img/newhome/mats3.png" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4 col-md-offset-1 matcas wow slideInLeft" data-wow-delay="0s">
-                <div class="mat-desc" onclick="gotoRegistration()">
-                    <h2>قائمة المتصدرين</h2>
-                    <p>بدل نقاطك بأي هدية تحبها من بنك الهدايا</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
-
-<!-- Start about Section -->
-<section class="about-se">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="section-head">
-          <h2>نبذة عن مذاكرتي</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12 wow slideInDown" data-wow-delay="0s">
-        <div class="brief" onclick="gotoRegistration()">
-          <p>
-            مذاكرتي هو تطبيق مصري متخصص في الحلول التعليمية الإلكترونية من خلال
-            مجموعه من امهر المدرسين انه من دواعي سرورنا ان نقدم هذا الموقع
-            التعليمي -مذاكرتي- إسهامًا في تطوير بيئة التعلم في مصر نحن نؤمن بأن
-            التعليم هو السبيل الوحيد لتطور البلاد وهدفنا الرئيسي يتمثل في دعم
-            طرق التعلم التقليدية المحدودة، بواسطة بيئة تعلم إلكترونية مرنة تقوم
-            بتوفير مساحة من الحرية للطالب فتمكنه من اختيار الوقت و المكان
-            المناسب للتعلم. مذاكرتي تقوم بتقديم محتوي متميز بأسعار في متناول
-            الجميع. تم تصميم تطبيق مذاكرتي لدعم آداء التعلم لكل المتعلمين مع
-            الأخذ في الإعتبار الفروق الفردية في عملية التعلم من خلال العديد من
-            المصادر التي تلائم مختلف انماط التعلم البصري، السمعي والحركي ولأن
-            التعلم يعتمد بشدة علي التقويم فنحن نقدم مجموعة ضخمة من الأسئلة بجانب
-            الأسئلة المقالية التي يقوم علي مراجعتها و تصحيحها مجموعة من امهر
-            المدرسين. كما تقوم مذاكرتي بتوفير طرق جديدة للتعلم عن طريق الألعاب
-            وهو نهج تعليمي فعال يهدف الي الاستمتاع بالعملية التعليمية. تقنية
-            الألعاب المستخدمة في مذاكرتي تعتمد علي مجموعة من النقاط المرتبطة
-            بآداء الطالب في الاختبارات ، يتم ترجمة النقاط الي جوائز جذابة تعمل
-            علي تشجيع الطلبة علي التحسين المستمر للآداء
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 wow slideInRight" data-wow-delay="0.6s">
-        <div class="left-img" onclick="gotoRegistration()">
-          <img src="/assets/img/slid6sm.jpeg" style="height: 480px" />
-        </div>
-      </div>
-      <div
-        class="col-sm-5 col-sm-offset-1 wow slideInLeft"
-        data-wow-delay="0.3s"
-      >
-        <div class="app" onclick="gotoRegistration()">
-          <p class="app-tit">موقع متجاوب</p>
-          <p class="app-big-tit">
-            ادخل على حسابك وشاهد <br />
-            دروسك من أي مكان
-          </p>
-          <!-- <p class="app-desc">يقدم الموقع شروحات فيديو للدروس والوحدات <br>والمراجعات النهائية لمجموعة ممتازة من
-                        المعلمين</p> -->
-          <!-- <div class="store">
-                        <a href="#1" class="store-link">
-                            <img src="/assets/img/newhome/aps.png">
-                        </a>
-                        <a href="#2" class="store-link">
-                            <img src="/assets/img/newhome/gog.png">
-                        </a>
-                        </div> -->
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <div id="InitializeExamsRange"></div>

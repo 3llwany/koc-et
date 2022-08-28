@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedLanguageFlag = "./assets/img/flags/us.png";
   toggleClass = "ft-maximize";
   placement = "bottom-right";
-  logoUrl = "assets/img/logo-w.png";
+  logoUrl = "assets/favicon.png";
   //logoUrl = 'assets/img/logo.png';
   menuPosition = "Side";
   isSmallScreen = false;
@@ -159,10 +159,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     if (this.config.layout.variant === "Light") {
-      this.logoUrl = "assets/img/logo-w.png";
+      this.logoUrl = "assets/favicon.png";
       // this.logoUrl = "assets/img/logo-dark.png";
     } else {
-      this.logoUrl = "assets/img/logo-w.png";
+      this.logoUrl = "assets/favicon.png";
       //this.logoUrl = "assets/img/logo.png";
     }
 
