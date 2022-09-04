@@ -1,82 +1,141 @@
-<section class="bannermain">
-    <div class="row">
-        <div class="col-12">
-            <div class="swiper-slide" style="position: relative">
-                <img class="img-fluid" src="assets/image.jpg" alt="banner" style="width: 100%;height: 600px;" />
-                <!-- <div class="carousel-caption">
+<!-- <section class="bannermain">
+  <div class="row">
+    <div class="col-12">
+      <div class="swiper-slide" style="position: relative">
+        <img
+          class="img-fluid"
+          src="assets/image.jpg"
+          alt="banner"
+          style="width: 100%; height: 600px"
+        />
+         <div class="carousel-caption">
                     <h3 class="colorwhigt" style="font-size: 36px">
                         شاهد الدروس وحل الامتحانات
                     </h3>
                     <p class="colorwhigt" style="font-size: 20px">
                         مع نخبة من افضل مدرسى الجمهورية
                     </p>
-                </div> -->
-            </div>
-        </div>
+                </div>
+      </div>
     </div>
+  </div>
+</section> -->
+<section class="bannermain">
+  <ngb-carousel>
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img src="assets/image.jpg" alt="Random first slide" />
+      </div>
+      <div class="carousel-caption">
+        <h3>First slide label</h3>
+        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+      </div>
+    </ng-template>
+
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img src="assets/image.jpg" alt="Random second slide" />
+      </div>
+      <div class="carousel-caption">
+        <h3>Second slide label</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </ng-template>
+
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img src="assets/image.jpg" alt="Random third slide" />
+      </div>
+      <div class="carousel-caption">
+        <h3>Third slide label</h3>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+      </div>
+    </ng-template>
+  </ngb-carousel>
 </section>
 
 <!-- Start services free Section -->
 <section class="services" style="padding-bottom: 15px; padding-top: 15px">
-    <div class="container">
-        <div class="row hed">
-            <div class="col-md-12">
-                <div class="section-head">
-                    <h2>خدماتنا</h2>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row hed">
+      <div class="col-md-12">
+        <div class="section-head">
+          <h2>خدماتنا</h2>
         </div>
-        <div class="row match-height">
-            <div class="col-md-4 col-xs-12  ">
-                <div class="card" style="min-height: 500px;">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <img class="card-img img-fluid rounded mb-3" style="    height: 200px;" src="assets/1.jpg" alt="Card image cap">
-                            <h4 class="card-title ct text-center mncolorb ">تهدف الاختبارات الى</h4>
-                            <p class="card-text text-center cd">
-                                معيار لمقياس جاهزية الطلاب للاختبارات المؤهلة للقبول لشركات النفط <br> تمكبن الدارس من التعامل مع نظم اختبارات النفط <br> ازالة الرهبة التى تؤثر سلبا فى اداء الدارس <br> تسهيل العقبات واداراك نقاط القوة والضعف من خلال الاختبار
-                                <br> تاهيل الطلاب لتنظيم الاجابة بما يتناسب مع وقت الاختبار (100سؤال فى ساعة )
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-xs-12  ">
-                <div class="card" style="min-height: 500px;">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <img class="card-img img-fluid rounded mb-3" style="    height: 200px;" src="assets/2.jpg" alt="Card image cap">
-                            <h4 class="card-title ct text-center mncolorb "> مكونات الموقع</h4>
-                            <p class="card-text text-center cd">
-                                نماذج الاختبارات السابقة للاختبارات القبول الخاصة بالنفط <br> تجميع لاسئلة الطلاب المجتازين لاختبارات النفط السابقة
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-xs-12  ">
-                <div class="card" style="min-height: 500px;">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <img class="card-img img-fluid rounded mb-3" style="    height: 200px;" src="assets/3.jpg" alt="Card image cap">
-                            <h4 class="card-title ct text-center mncolorb "> طريقة الموقع</h4>
-                            <p class="card-text text-center cd">
-                                الاختبار يتكون من 100سؤال اختيارى نفس نفط الاختبارات السابقة ثم اظهار النتيجة مباشرة مع توضيح اللاخطاء <br> الاختبار الاول تجريبى 100 سؤال ثابت مجانا <br> باقى الاختبارات تنطبق الى نظام بنك الاسئلة المكون من 2000 سؤال يتم
-                                الاختيار منها عشوائى لتكوين الاختبار الحالى 100سوال مع اظهار النتيجة وتصحيح الاخطاء يطبق البرنامج انظمة لاتسمح بتكرار الاسئلة لنفس الطالب فى حالة الدخول بالرقم الخاص بالطالب
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+      </div>
     </div>
+    <div class="row match-height">
+      <div class="col-md-4 col-xs-12">
+        <div class="card" style="min-height: 500px">
+          <div class="card-content">
+            <div class="card-body">
+              <img
+                class="card-img img-fluid rounded mb-3"
+                style="height: 200px"
+                src="assets/1.jpg"
+                alt="Card image cap"
+              />
+              <h4 class="card-title ct text-center mncolorb">
+                تهدف الاختبارات الى
+              </h4>
+              <p class="card-text text-center cd">
+                معيار لمقياس جاهزية الطلاب للاختبارات المؤهلة للقبول لشركات
+                النفط <br />
+                تمكبن الدارس من التعامل مع نظم اختبارات النفط <br />
+                ازالة الرهبة التى تؤثر سلبا فى اداء الدارس <br />
+                تسهيل العقبات واداراك نقاط القوة والضعف من خلال الاختبار <br />
+                تاهيل الطلاب لتنظيم الاجابة بما يتناسب مع وقت الاختبار (100سؤال
+                فى ساعة )
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="card" style="min-height: 500px">
+          <div class="card-content">
+            <div class="card-body">
+              <img
+                class="card-img img-fluid rounded mb-3"
+                style="height: 200px"
+                src="assets/2.jpg"
+                alt="Card image cap"
+              />
+              <h4 class="card-title ct text-center mncolorb">مكونات الموقع</h4>
+              <p class="card-text text-center cd">
+                نماذج الاختبارات السابقة للاختبارات القبول الخاصة بالنفط <br />
+                تجميع لاسئلة الطلاب المجتازين لاختبارات النفط السابقة
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="card" style="min-height: 500px">
+          <div class="card-content">
+            <div class="card-body">
+              <img
+                class="card-img img-fluid rounded mb-3"
+                style="height: 200px"
+                src="assets/3.jpg"
+                alt="Card image cap"
+              />
+              <h4 class="card-title ct text-center mncolorb">طريقة الموقع</h4>
+              <p class="card-text text-center cd">
+                الاختبار يتكون من 100سؤال اختيارى نفس نفط الاختبارات السابقة ثم
+                اظهار النتيجة مباشرة مع توضيح اللاخطاء <br />
+                الاختبار الاول تجريبى 100 سؤال ثابت مجانا <br />
+                باقى الاختبارات تنطبق الى نظام بنك الاسئلة المكون من 2000 سؤال
+                يتم الاختيار منها عشوائى لتكوين الاختبار الحالى 100سوال مع اظهار
+                النتيجة وتصحيح الاخطاء يطبق البرنامج انظمة لاتسمح بتكرار الاسئلة
+                لنفس الطالب فى حالة الدخول بالرقم الخاص بالطالب
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
-
-
 
 <div id="InitializeExamsRange"></div>

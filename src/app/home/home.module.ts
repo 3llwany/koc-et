@@ -1,3 +1,4 @@
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { HomeIndexComponent } from "./pages/home-index/home-index.component";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -6,6 +7,6 @@ import { CarouselModule } from "ngx-owl-carousel-o";
 
 @NgModule({
   declarations: [HomeIndexComponent],
-  imports: [CommonModule, HomeRoutingModule, CarouselModule],
+  imports: [CommonModule, HomeRoutingModule, CarouselModule, NgbModule],
 })
 export class HomeModule {}
