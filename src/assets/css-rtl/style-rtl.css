@@ -181,6 +181,16 @@ body.bodyrtl .mat-dialog-content {
     direction: rtl !important;
 }
 
+.carousel-control-prev {
+    right: 0 !important;
+    left: auto !important;
+}
+
+.carousel-control-next {
+    left: 0 !important;
+    right: auto !important;
+}
+
 @media (min-width: 320px) and (max-width: 750px) {
     body.bodyrtl .chat-application .chat-app-window,
     body.bodyrtl .chat-application .chat-app-form,
