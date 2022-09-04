@@ -527,6 +527,32 @@ hr {
     margin-left: auto !important;
 }
 
+.mr-1 {
+    margin-right: 5px !important;
+}
+
+.mb-2 {
+    margin-bottom: 10px !important;
+}
+
+.quest.table-bordered td {
+    background-color: #c0c0c0;
+    border-color: #85d4d4;
+    color: #3b3997;
+}
+
+.quest.table-bordered th {
+    border-color: #85d4d4;
+}
+
+.quest.table-bordered {
+    color: #3b3997 !important;
+}
+
+.questcolor {
+    color: #3b3997 !important;
+}
+
 
 /* End  Chat Styles */
 
