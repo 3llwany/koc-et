@@ -8,6 +8,11 @@ import { MatRadioChange } from "@angular/material/radio";
 import { MatDialog } from "@angular/material/dialog";
 import { SaveExamDialogComponent } from "app/shared/components/dialogs/save-exam-dialog/save-exam-dialog.component";
 import { ComponentCanDeactivate } from "app/shared/services/auth/Guards/auth/pending-changes.guard";
+import {
+  IExamGroupsVM,
+  IExamQuestionsVM,
+  IPickedChoiceIdVM,
+} from "app/admin/models/admin/exam";
 @Component({
   selector: "app-exam-page",
   templateUrl: "./exam-page.component.html",
@@ -18,18 +23,17 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   canDeactivate(): Observable<boolean> | boolean {
     if (
       this.questionNumber - this.solvedQuestionNumberArr.length >
-      this.AnsQuestionNumber.length
+      this.AnswerdQuestionsNumber.length
     ) {
       return false;
-      console.log("False");
     } else return true;
   }
 
   //Exams Lists
   ExamDetails: any = [];
-  ExamGroups: any[] = null;
+  ExamGroups: IExamGroupsVM[] = null;
   solvedQuestionNumberArr: any = []; // previously Solved Question
-  AnsQuestionNumber: any = []; // Current Answerd Question
+  AnswerdQuestionsNumber: any = []; // Current Answerd Question
   questionNumber: any; // Number Of Question In Exam
   studentUserId: any;
   examId: any;
@@ -60,7 +64,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
 
   // Returned Res from submit exam
   solvidResults: any;
-
+  currentGroupId: number = null;
   constructor(
     private studentServ: StudentService,
     private toastr: ToastrService,
@@ -78,7 +82,10 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
     this.returnStudentExam(this.examId);
   }
 
-  //#region return Student Exams
+  onSelectGroup(groupId: number) {
+    this.currentGroupId = groupId;
+  }
+
   returnStudentExam(examId: any) {
     this.spinner.show();
     this.studentServ.returnStudentExam(examId).subscribe((res: any) => {
@@ -95,6 +102,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
       } else {
         this.isSolved = false;
         this.ExamGroups = res.exam.groups;
+        this.currentGroupId = res.exam.groups[0].GroupId;
         this.ExamName = res.exam.details.exam_ar_name;
         this.IsAvaliable = res.mv.IsAvailable;
         this.TeacherName = res.teacherName;
@@ -106,8 +114,8 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
         this.student_grade = res.mv.exam_student.student_grade;
         // this.questionNumber = res.exam.groups[0].Heads[0].Questions.length;
 
-        let GL = res.exam.groups.length,
-          num = 0; // length of Groups
+        let GL = res.exam.groups.length, // length of Groups
+          num = 0;
         for (let k = 0; k < GL; k++) {
           let HL = res.exam.groups[k].Heads.length; // length of Heads
           if (HL != 0) {
@@ -158,15 +166,15 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
       }
     });
   }
-  //#endregion
 
-  //#region return Results Student Exams
+  // Exam Results
   returnExamResults(examId: any) {
     this.spinner.show();
     this.studentServ.returnStudentExamResults(examId).subscribe((res: any) => {
-      console.log("resultes: ", res);
+      //  console.log("resultes: ", res);
       this.isSolved = true;
       this.ExamGroups = res.item.groups;
+      this.currentGroupId = res.item.groups[0].GroupId;
       this.ExamName = res.item.details.exam_ar_name;
       this.TeacherName = res.teacherName;
       this.SubjectName = res.SubjectName;
@@ -192,74 +200,87 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
       // $('.modal-backdrop').removeClass('fade show in');
     });
   }
-  //#endregion
 
-  openGroup(groupId: any) {
-    // alert(groupId)
-  }
-
-  functionName: string = "test";
-  test(text: string) {
-    alert("test" + text);
-  }
-
-  PickedChoiceId;
-  radioChange(event: MatRadioChange) {
-    this.PickedChoiceId = event.value;
+  PickedChoiceId: IPickedChoiceIdVM[] = [];
+  onRadioChange(Studentanswer: number, question: IExamQuestionsVM) {
+    let answer: IPickedChoiceIdVM = {
+      questionId: question.QuestionDetails.questionId,
+      choiceId: Number(
+        Studentanswer > 0 && Studentanswer <= question.MCQ?.length + 1
+          ? question.MCQ[Studentanswer - 1]?.Id
+          : null
+      ),
+    };
+    if (Studentanswer > 0 && Studentanswer <= 4) {
+      let questionIndex: any = this.PickedChoiceId.findIndex(
+        (e) => e.questionId === question?.QuestionDetails?.questionId
+      );
+      if (questionIndex >= 0) this.PickedChoiceId[questionIndex] = answer;
+      else this.PickedChoiceId.push(answer);
+      // console.log("questionIndex", questionIndex);
+      //console.log("answer=>:  ", answer);
+      //  console.log("questionId=>:  ", question?.QuestionDetails?.questionId);
+      //console.log("PickedChoiceId", this.PickedChoiceId);
+    }
   }
 
   SingleQuestionForm(questionId: any) {
-    // let AnswerText = document.getElementById(
-    //   `lab--${this.PickedChoiceId}`
-    // ).innerHTML;
-    let data = {
-      examId: this.examId,
-      studentUserId: this.studentUserId,
-      PickedChoiceId: this.PickedChoiceId,
-      questionId: questionId,
-      // AnswerText: AnswerText,
-    };
-    console.log("SingleQuestion: ", data);
-    this.studentServ.SubmitSingleQuestion(data).subscribe((res: any) => {
-      console.log(res);
+    let answer = this.PickedChoiceId.find((e) => e.questionId === questionId);
+    console.log("answerFromSigleQ", answer);
+    if (answer?.choiceId == null || answer?.choiceId == undefined) {
+      this.toastr.warning("من فضلك اختر إجابة");
+      return;
+    } else {
+      let data = {
+        examId: this.examId,
+        studentUserId: this.studentUserId,
+        PickedChoiceId: answer.choiceId,
+        questionId: questionId,
+        // AnswerText: AnswerText,
+      };
 
-      if (res.returnValue == 200) {
-        document.getElementById(`alert-${questionId}`).style.display = "none";
-        let element = document.querySelector("#btn-" + questionId);
-        element.classList.remove("btn-primary");
-        element.classList.add("btn-success");
-        element.innerHTML = "تم حفظ الإجابة";
-        let ansMsg = document.getElementById(`stu-cho-${questionId}`);
-        ansMsg.style.display = "block";
-        ansMsg.innerHTML = `تم اختيار الإجابة : ("${res.returnedChoice}")`;
+      console.log("SingleQuestionData: ", data);
+      this.studentServ.SubmitSingleQuestion(data).subscribe((res: any) => {
+        console.log("SubmitSingleQuestion", res);
 
-        let founded = this.AnsQuestionNumber.find(
-          (x: any) => x.questionId === questionId
-        );
-        if (!founded) {
-          this.AnsQuestionNumber.push({ questionId: questionId });
+        if (res.returnValue == 200) {
+          //this.PickedChoiceId = null;
+          document.getElementById(`alert-${questionId}`).style.display = "none";
+          let element = document.querySelector("#btn-" + questionId);
+          element.classList.remove("btn-primary");
+          element.classList.add("btn-success");
+          element.innerHTML = "تم حفظ الإجابة";
+          let ansMsg = document.getElementById(`stu-cho-${questionId}`);
+          ansMsg.style.display = "block";
+          ansMsg.innerHTML = `تم اختيار الإجابة : ("${res.returnedChoice}")`;
+
+          let founded = this.AnswerdQuestionsNumber.find(
+            (x: any) => x.questionId === questionId
+          );
+          if (!founded) {
+            this.AnswerdQuestionsNumber.push({ questionId: questionId });
+          }
         }
-      }
-      if (res.returnValue == 505) {
-        document.querySelector("#alert-" + questionId).innerHTML =
-          "من فضلك تأكد من إختيار إجابه";
-        this.toastr.error("من فضلك تأكد من إختيار إجابه", "خطأ");
-      }
-    });
+        if (res.returnValue == 505) {
+          document.querySelector("#alert-" + questionId).innerHTML =
+            "من فضلك تأكد من إختيار إجابه";
+          this.toastr.error("من فضلك تأكد من إختيار إجابه", "خطأ");
+        }
+      });
+    }
   }
 
-  //Submit Exam
   SubmitExam() {
     //let confirmed = confirm('هل انت متأكد من حفظ الإمتحان والخروج؟');
     if (
       this.questionNumber - this.solvedQuestionNumberArr.length >
-      this.AnsQuestionNumber.length
+      this.AnswerdQuestionsNumber.length
     ) {
       let msg =
         ' لم يتم إجابة جميع الاسئله، عدد الاسئله التي لم يتم إجابتها "' +
         (this.questionNumber -
           this.solvedQuestionNumberArr.length -
-          this.AnsQuestionNumber.length) +
+          this.AnswerdQuestionsNumber.length) +
         '" سؤال';
       this.toastr.error(msg);
     } else {

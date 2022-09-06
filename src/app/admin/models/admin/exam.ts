@@ -7,7 +7,7 @@ export interface IExamViewModel {
   IsPublish: boolean;
 }
 
-export class ExamViewModel{
+export class ExamViewModel {
   id: number;
   exam_ar_name: string;
   EduCompId: number;
@@ -57,7 +57,7 @@ export interface ITeacherDropModel {
 }
 
 export interface IExamTypeModel {
-    exam_type_id: number;
+  exam_type_id: number;
   exam_ar_type_name: string;
 }
 export interface IUnitModel {
@@ -80,4 +80,44 @@ export interface IExamGroupModel {
 export interface IExamHeaderModel {
   Id: number;
   Name: string;
+}
+
+export interface IPickedChoiceIdVM {
+  questionId: number;
+  choiceId: number;
+}
+
+export interface IExamGroupsVM {
+  GroupId: number;
+  GroupName: string;
+  Heads: IExamHeadsVM[];
+}
+export interface IExamHeadsVM {
+  GroupId: number;
+  HeadId: number;
+  HeadName: string;
+  Questions: IExamQuestionsVM[];
+}
+export interface IExamQuestionsVM {
+  Id: number;
+  HeadId: number;
+  MCQ: IExamMCQQuestionVM[];
+  QuestionDetails: IExamQuestionDetailsVM;
+}
+
+export interface IExamMCQQuestionVM {
+  Id: number;
+  IsCorrect: boolean;
+  MCQAttach: any;
+  MCQText: string;
+  questionId: number;
+}
+export interface IExamQuestionDetailsVM {
+  StudentChoice: any;
+  questionAttach: any;
+  questionId: number;
+  questionMark: number;
+  questionText: string;
+  questionType: string;
+  questionTypeId: number;
 }

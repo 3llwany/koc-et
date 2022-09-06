@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
- //apiURL: "http://localhost:18947/api/",
+  //apiURL: "http://localhost:18947/api/",
   apiURL: "https://testmozakretyapi.cloudiax.com/api/", //Test;
-  // apiURL: "https://mozakretyapi.cloudiax.com/api/", //Live;
+  //apiURL: "https://mozakretyapi.cloudiax.com/api/", //Live;
 };
