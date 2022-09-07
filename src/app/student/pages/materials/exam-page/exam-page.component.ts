@@ -89,7 +89,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   returnStudentExam(examId: any) {
     this.spinner.show();
     this.studentServ.returnStudentExam(examId).subscribe((res: any) => {
-      console.log("exam: ", res);
+      // console.log("exam: ", res);
 
       if (res.returnValue == -5) {
         this.spinner.hide();
@@ -171,7 +171,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   returnExamResults(examId: any) {
     this.spinner.show();
     this.studentServ.returnStudentExamResults(examId).subscribe((res: any) => {
-      console.log("resultes: ", res);
+      //  console.log("resultes: ", res);
       this.isSolved = true;
       this.ExamGroups = res.item.groups;
       this.currentGroupId = res.item.groups[0].GroupId;
@@ -204,7 +204,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   PickedChoiceId: IPickedChoiceIdVM[] = [];
 
   onRadioChange(Studentanswer: number, question: IExamQuestionsVM) {
-    console.log("Studentanswer", Studentanswer);
+    // console.log("Studentanswer", Studentanswer);
 
     let answer: IPickedChoiceIdVM = {
       questionId: question.QuestionDetails.questionId,
@@ -222,15 +222,15 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
     if (questionIndex >= 0) this.PickedChoiceId[questionIndex] = answer;
     else this.PickedChoiceId.push(answer);
 
-    console.log("questionIndex", questionIndex);
-    console.log("answer=>:  ", answer);
-    console.log("questionId=>:  ", question?.QuestionDetails?.questionId);
-    console.log("PickedChoiceId", this.PickedChoiceId);
+    // console.log("questionIndex", questionIndex);
+    // console.log("answer=>:  ", answer);
+    // console.log("questionId=>:  ", question?.QuestionDetails?.questionId);
+    // console.log("PickedChoiceId", this.PickedChoiceId);
   }
 
   SingleQuestionForm(questionId: any) {
     let answer = this.PickedChoiceId.find((e) => e.questionId === questionId);
-    console.log("answerFromSigleQ", answer);
+    // console.log("answerFromSigleQ", answer);
     if (
       answer?.choiceId == null ||
       answer?.choiceId == undefined ||
@@ -247,9 +247,9 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
         // AnswerText: AnswerText,
       };
 
-      console.log("SingleQuestionData: ", data);
+      // console.log("SingleQuestionData: ", data);
       this.studentServ.SubmitSingleQuestion(data).subscribe((res: any) => {
-        console.log("SubmitSingleQuestion", res);
+        //  console.log("SubmitSingleQuestion", res);
 
         if (res.returnValue == 200) {
           //this.PickedChoiceId = null;
