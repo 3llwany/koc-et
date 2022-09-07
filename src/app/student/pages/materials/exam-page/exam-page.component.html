@@ -1,4 +1,10 @@
-<section id="icons-buttons">
+<section
+  id="icons-buttons"
+  *ngIf="
+    (IsAvaliable && !isSolviedResultsOff) ||
+    (IsResultAvalable && isSolviedResultsOff)
+  "
+>
   <div class="row">
     <!-- Start Exam Header -->
     <div class="col-12">
@@ -40,17 +46,19 @@
                 </button>
               </div> -->
 
-              <div class="col-2" *ngIf="!isSolved">
-                {{ "labels.TotalMark" | translate }} : {{ examTotalMark }}
-              </div>
+              <ng-container *ngIf="!isSolved">
+                <div class="col-2">
+                  {{ "labels.TotalMark" | translate }} : {{ examTotalMark }}
+                </div>
 
-              <div class="col-2" *ngIf="!isSolved">
-                {{ "labels.ExamStartTime" | translate }}: {{ ExamStarTime }}
-              </div>
+                <div class="col-2">
+                  {{ "labels.ExamStartTime" | translate }}: {{ ExamStarTime }}
+                </div>
 
-              <div class="col-2" *ngIf="exam_period_minute != 0">
-                {{ "labels.ExamTime" | translate }}: {{ counter | Timer }}
-              </div>
+                <div class="col-2" *ngIf="exam_period_minute != 0">
+                  {{ "labels.ExamTime" | translate }}: {{ counter | Timer }}
+                </div>
+              </ng-container>
 
               <ng-container *ngIf="isSolved">
                 <div class="col-2">
@@ -292,7 +300,39 @@
                               let mcqIndex = index
                             "
                           >
-                            <th scope="row">{{ mcqIndex + 1 }}</th>
+                            <th scope="row">
+                              {{ mcqIndex + 1 }}
+                              <i
+                                *ngIf="
+                                  (isSolved && mcq.IsCorrect) ||
+                                  (isSolved &&
+                                    mcq.IsCorrect &&
+                                    Question.QuestionDetails.StudentChoice
+                                      ?.student_choice_id == mcq.Id) ||
+                                  (!isSolved &&
+                                    mcq.IsCorrect &&
+                                    Question.QuestionDetails.StudentChoice !=
+                                      null &&
+                                    Question.QuestionDetails.StudentChoice
+                                      ?.student_choice_id == mcq.Id)
+                                "
+                                class="fa fa-check-circle success ml-1"
+                                aria-hidden="true"
+                              >
+                              </i>
+
+                              <i
+                                *ngIf="
+                                  isSolved &&
+                                  !mcq.IsCorrect &&
+                                  Question.QuestionDetails.StudentChoice
+                                    ?.student_choice_id == mcq.Id
+                                "
+                                class="fa fa-times-circle-o danger ml-1"
+                                aria-hidden="true"
+                              >
+                              </i>
+                            </th>
                             <td>
                               {{ mcq.MCQText }}
                             </td>
@@ -300,6 +340,45 @@
                               {{ mcq.MCQText }}
                             </td>
                           </tr>
+
+                          <span class="info" *ngIf="isSolved">
+                            {{ "labels.QuestionMark" | translate }}
+                            :({{ Question.QuestionDetails?.questionMark }})
+                          </span>
+                          <br />
+
+                          <span class="info" *ngIf="isSolved">
+                            <span
+                              class="danger"
+                              *ngIf="
+                                Question.QuestionDetails?.StudentChoice
+                                  ?.RESULT === 'F'
+                              "
+                            >
+                              Your answer is (wrong)
+                            </span>
+
+                            <span
+                              class="success"
+                              *ngIf="
+                                Question.QuestionDetails?.StudentChoice
+                                  ?.RESULT === 'T'
+                              "
+                            >
+                              Your answer is (correct)
+                            </span>
+                          </span>
+                          <br />
+                          <span
+                            class="danger"
+                            *ngIf="
+                              Question.QuestionDetails?.StudentChoice
+                                .student_choice_id == 0
+                            "
+                            class="danger"
+                          >
+                            {{ "labels.QuestionNotAnswerd" | translate }}
+                          </span>
                         </ng-container>
                       </ng-container>
                     </ng-container>

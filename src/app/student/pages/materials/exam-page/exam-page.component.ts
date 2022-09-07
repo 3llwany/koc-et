@@ -171,7 +171,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   returnExamResults(examId: any) {
     this.spinner.show();
     this.studentServ.returnStudentExamResults(examId).subscribe((res: any) => {
-      //  console.log("resultes: ", res);
+      console.log("resultes: ", res);
       this.isSolved = true;
       this.ExamGroups = res.item.groups;
       this.currentGroupId = res.item.groups[0].GroupId;
