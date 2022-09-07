@@ -1,22 +1,37 @@
 <ngx-spinner></ngx-spinner>
 <div class="row cart-tabsec">
-    <!-- Lectures List -->
-    <div class="col-md-4 col-12" *ngFor="let lec of LiveLectures">
-        <mat-card class="card chpter" id="mat-{{ lecture?.id }}">
-            <img mat-card-image class="card-img rounded img-overlay mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <!-- <div class="card-img-overlay overlay-dark rounded"></div> -->
-            <span mat-icon-button class="btn btn-danger rounded price-icon">
+  <!-- Lectures List -->
+  <div class="col-md-4 col-12" *ngFor="let lec of LiveLectures">
+    <mat-card class="card chpter" id="mat-{{ lecture?.id }}">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="lec.Date.LectureData.lectureName"
+      />
+
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="lec.Date.LectureData.lectureName"
+      />
+      <!-- <div class="card-img-overlay overlay-dark rounded"></div> -->
+      <span mat-icon-button class="btn btn-danger rounded price-icon">
         {{ lec.Date.LectureData.lecturePrice }} LE
       </span>
-            <mat-card-title>
-                {{ lec.Date.LectureData.lectureName }}
-            </mat-card-title>
+      <mat-card-title>
+        {{ lec.Date.LectureData.lectureName }}
+      </mat-card-title>
 
-            <mat-card-content>
-                <h4 class="mat-card-title">
-                    {{ "Material.PresentedBy" | translate }}: {{ lec.Date.LectureData.presentedBy }}
-                </h4>
-                <span class="d-block">
+      <mat-card-content>
+        <h4 class="mat-card-title">
+          {{ "Material.PresentedBy" | translate }}:
+          {{ lec.Date.LectureData.presentedBy }}
+        </h4>
+        <span class="d-block">
           {{ "Date" | translate }} : {{ lec.Date.Date | NewDate }}</span
         >
         <span class="d-block">

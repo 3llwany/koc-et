@@ -8,6 +8,14 @@
         <span *ngIf="examId > 0">
           {{ "labels.EditExam" | translate }} - {{ exam_ar_name }}
         </span>
+        <a mat-raised-button
+           routerLink="../"
+           [queryParams]="{
+            functionId: functionId
+          }"
+           class="btn btn-info bg-light-info float-right">
+          {{ "General.Back" | translate }}
+        </a>
       </mat-card-title>
       <mat-card-content class="container-fluid">
         <div class="row">
@@ -97,13 +105,11 @@
                         {{ year.Educational_year_ar_name }}
                       </mat-option>
                     </mat-select>
-                    <mat-hint
-                      class="danger"
-                      *ngIf="
+                    <mat-hint class="danger"
+                              *ngIf="
                         educationYearIdCtrl?.invalid &&
                         (educationYearIdCtrl?.touched || submitted)
-                      "
-                    >
+                      ">
                       <span *ngIf="educationYearIdCtrl?.errors?.required">
                         {{ "labels.MustChoosevalue" | translate }}
                       </span>
@@ -154,9 +160,9 @@
                       </mat-option>
                       <mat-option
                         *ngFor="let teacher of teachers"
-                        [value]="teacher.Id"
+                        [value]="teacher.teacherUserId"
                       >
-                        {{ teacher.Name }}
+                        {{ teacher.teacher_ar_name }}
                       </mat-option>
                     </mat-select>
                     <mat-hint
@@ -378,6 +384,7 @@
                     <mat-datepicker #fromDate></mat-datepicker>
                   </mat-form-field>
                 </div>
+
                 <div class="col-md-3 col-12">
                   <mat-form-field appearance="legacy">
                     <mat-label> {{ "labels.ToDate" | translate }}</mat-label>
@@ -408,9 +415,12 @@
                   </mat-form-field>
                 </div>
 
+                <!-- resualtDate -->
                 <div class="col-md-3 col-12">
                   <mat-form-field appearance="legacy">
-                    <mat-label> {{ "labels.ToDate" | translate }}</mat-label>
+                    <mat-label>
+                      {{ "labels.ExamResultDate" | translate }}</mat-label
+                    >
                     <input
                       matInput
                       [matDatepicker]="resualtDate"
@@ -432,131 +442,155 @@
                   </mat-form-field>
                 </div>
 
+                <!-- can Sell Individually -->
                 <div class="col-md-3 col-12">
-                  <div>
-                    <mat-label>{{
-                      "labels.SellExamOnly" | translate
-                    }}</mat-label>
-                    <div class="form-item form-radio radio-style">
-                      <input
-                        id="IndividuallyPurchased-1"
-                        type="radio"
-                        [value]="false"
-                        formControlName="canSellIndividually"
-                      />
-                      <label for="IndividuallyPurchased-1">
-                        <i class="icon-radio"></i>
+                  <mat-label>
+                    {{ "labels.SellExamOnly" | translate }}
+                  </mat-label>
+                  <mat-radio-group
+                    formControlName="canSellIndividually"
+                    class="row"
+                  >
+                    <div class="col-md-3 col-12">
+                      <mat-radio-button [value]="false">
                         {{ "labels.No" | translate }}
-                      </label>
+                      </mat-radio-button>
                     </div>
-                    <div class="form-item form-radio radio-style">
-                      <input
-                        id="IndividuallyPurchased-2"
-                        type="radio"
-                        [value]="true"
-                        formControlName="canSellIndividually"
-                      />
-                      <label for="IndividuallyPurchased-2">
-                        <i class="icon-radio"></i>
+                    <div class="col-md-3 col-12">
+                      <mat-radio-button [value]="true">
                         {{ "labels.Yes" | translate }}
-                      </label>
+                      </mat-radio-button>
                     </div>
-                  </div>
+                  </mat-radio-group>
                 </div>
 
+                <!-- isRepeatable -->
                 <div class="col-md-3 col-12">
-                  <div>
-                    <mat-label>
-                      {{ "labels.RepeatedExam" | translate }}
-                    </mat-label>
-                    <div class="form-item form-radio radio-style">
-                      <input
-                        id="isRepeatable-1"
-                        type="radio"
+                  <mat-label>
+                    {{ "labels.RepeatedExam" | translate }}
+                  </mat-label>
+
+                  <mat-radio-group formControlName="isRepeatable" class="row">
+                    <div class="col-md-3 col-12">
+                      <mat-radio-button
                         [value]="false"
-                        formControlName="isRepeatable"
-                      />
-                      <label for="isRepeatable-1">
-                        <i class="icon-radio"></i>
+                        (change)="RepeatableValidator()"
+                      >
                         {{ "labels.No" | translate }}
-                      </label>
+                      </mat-radio-button>
                     </div>
-                    <div class="form-item form-radio radio-style">
-                      <input
-                        id="isRepeatable-2"
-                        type="radio"
+                    <div class="col-md-3 col-12">
+                      <mat-radio-button
                         [value]="true"
-                        formControlName="isRepeatable"
-                      />
-                      <label for="isRepeatable-2">
-                        <i class="icon-radio"></i>
+                        (change)="RepeatableValidator()"
+                      >
                         {{ "labels.Yes" | translate }}
-                      </label>
+                      </mat-radio-button>
                     </div>
-                  </div>
+                  </mat-radio-group>
                 </div>
+
+                <!-- send WhatsApp Msg -->
                 <div class="col-md-3 col-12">
-                  <div>
-                    <mat-label>
-                      {{ "Navbar.SendWhatsappMsg" | translate }}
-                    </mat-label>
-                    <div class="form-item form-radio radio-style">
-                      <input
-                        id="isRepeatable-1"
-                        type="radio"
-                        [value]="false"
-                        formControlName="sendWhatsAppMsg"
-                      />
-                      <label for="isRepeatable-1">
-                        <i class="icon-radio"></i>
+                  <mat-label>
+                    {{ "Navbar.SendWhatsappMsg" | translate }}
+                  </mat-label>
+
+                  <mat-radio-group
+                    formControlName="sendWhatsAppMsg"
+                    class="row"
+                  >
+                    <div class="col-md-3 col-12">
+                      <mat-radio-button [value]="false">
                         {{ "labels.No" | translate }}
-                      </label>
+                      </mat-radio-button>
                     </div>
-                    <div class="form-item form-radio radio-style">
-                      <input
-                        id="isRepeatable-2"
-                        type="radio"
-                        [value]="true"
-                        formControlName="sendWhatsAppMsg"
-                      />
-                      <label for="isRepeatable-2">
-                        <i class="icon-radio"></i>
+                    <div class="col-md-3 col-12">
+                      <mat-radio-button [value]="true">
                         {{ "labels.Yes" | translate }}
-                      </label>
+                      </mat-radio-button>
                     </div>
-                  </div>
+                  </mat-radio-group>
                 </div>
+
+                <!-- Custom Discount -->
                 <div class="col-md-3 col-12">
-                  <div>
-                    <mat-label>
-                      {{ "labels.CustomDiscount" | translate }}
-                    </mat-label>
-                    <div class="form-item form-radio radio-style">
-                      <input
-                        id="isRepeatable-1"
-                        type="radio"
-                        [value]="false"
-                        formControlName="hasCustomDiscount"
-                      />
-                      <label for="isRepeatable-1">
-                        <i class="icon-radio"></i>
+                  <mat-label>
+                    {{ "labels.CustomDiscount" | translate }}
+                  </mat-label>
+
+                  <mat-radio-group
+                    formControlName="hasCustomDiscount"
+                    class="row"
+                  >
+                    <div class="col-md-3 col-12">
+                      <mat-radio-button [value]="false">
                         {{ "labels.No" | translate }}
-                      </label>
+                      </mat-radio-button>
                     </div>
-                    <div class="form-item form-radio radio-style">
-                      <input
-                        id="isRepeatable-2"
-                        type="radio"
-                        [value]="true"
-                        formControlName="hasCustomDiscount"
-                      />
-                      <label for="isRepeatable-2">
-                        <i class="icon-radio"></i>
+                    <div class="col-md-3 col-12">
+                      <mat-radio-button [value]="true">
                         {{ "labels.Yes" | translate }}
-                      </label>
+                      </mat-radio-button>
                     </div>
-                  </div>
+                  </mat-radio-group>
                 </div>
+
+                <ng-container *ngIf="isRepeatableCtrl?.value == true">
+                  <div class="col-md-6 col-12">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>{{
+                        "labels.repeatNumbers" | translate
+                      }}</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="repeatNumbers"
+                      />
+                      <mat-hint
+                        class="text-danger"
+                        *ngIf="
+                          repeatNumbersCtrl?.invalid &&
+                          (repeatNumbersCtrl?.touched || submitted)
+                        "
+                      >
+                        <span *ngIf="repeatNumbersCtrl?.errors?.required">
+                          {{ "labels.mustEnterValue" | translate }}
+                        </span>
+                        <span *ngIf="repeatNumbersCtrl?.errors?.bigZero">
+                          {{ "labels.mustEnterCorrectValue" | translate }}
+                        </span>
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-6 col-12">
+                    <mat-form-field appearance="legacy">
+                      <mat-label>{{
+                        "labels.repeatingPrice" | translate
+                      }}</mat-label>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="repeatingPrice"
+                      />
+                      <mat-hint
+                        class="text-danger"
+                        *ngIf="
+                          repeatingPriceCtrl?.invalid &&
+                          (repeatingPriceCtrl?.touched || submitted)
+                        "
+                      >
+                        <span *ngIf="repeatingPriceCtrl?.errors?.required">
+                          {{ "labels.mustEnterValue" | translate }}
+                        </span>
+                        <span *ngIf="repeatingPriceCtrl?.errors?.minusNum">
+                          {{ "labels.mustEnterCorrectValue" | translate }}
+                        </span>
+                      </mat-hint>
+                    </mat-form-field>
+                  </div>
+                </ng-container>
               </div>
             </form>
           </div>

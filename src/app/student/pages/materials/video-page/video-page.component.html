@@ -64,7 +64,7 @@
                 ></i>
                 <span>
                   <!-- <span>API: {{environment}} </span> -->
-                  <a href="/mozakretyapi{{ file.Path }}" target="_blank">{{
+                  <a href="mozakretyapi{{ file.Path }}" target="_blank">{{
                     file.Name
                   }}</a>
                 </span>
@@ -356,6 +356,7 @@
                 <br />
                 <a
                   routerLink="/student/exam/{{ exam.id }}"
+                  target="_blank"
                   class="btn btn-sm btn-info bg-light-info"
                 >
                   <i class="ft-play"></i> {{ "General.Enter" | translate }}
@@ -701,7 +702,7 @@
                 <!--Exams solved-->
                 <div
                   *ngIf="!this.VideoReady"
-                  (click)="videoReady(); playiframevid()"
+                  (click)="playiframevid()"
                   class="notSolived text-center"
                   style="height: 100%; width: 100%"
                 >
@@ -720,8 +721,11 @@
                   [src]="lecPath | safe"
                   width="100%"
                   height="100%"
+                  allowfullscreen
                 >
                 </iframe>
+
+                <!-- <span class="watermark">UserId</span> -->
 
                 <!--Exams not solved-->
                 <div

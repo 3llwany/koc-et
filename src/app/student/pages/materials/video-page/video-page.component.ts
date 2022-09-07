@@ -93,7 +93,6 @@ export class VideoPageComponent implements OnInit {
     this.ReturnTeacherData(this.subjectId, this.teacherId);
     this.EduCompList = localStorage.getItem("EduCompList");
     let str = this.lecPath;
-
   } //End ngOnInit
 
   // Return MAt Data, parts, exams,  files
@@ -122,7 +121,8 @@ export class VideoPageComponent implements OnInit {
       //if mat has more than 1 part make it equal lecPath and get views limit, views number
       if (res.parts.length >= 1) {
         this.lecPath = res.parts[0].Path;
-        // this.lecPath = "https://videos.sproutvideo.com/embed/709adcb31f19e5c6f8/cd8cf2e796aa69d3";
+        // this.lecPath =
+        //   "https://videos.sproutvideo.com/embed/709adcb31f19e5c6f8/cd8cf2e796aa69d3";
         this.partId = res.parts[0].Id;
         this.Views_Limit = res.parts[0].Views_Limit;
         this.number_views = res.parts[0].studentViews;
@@ -234,25 +234,25 @@ export class VideoPageComponent implements OnInit {
           let returnValue = res.returnValue;
           if (returnValue == 0) {
             this.spinner.hide();
-            this.toastr.error("You are not student", "خطاء");
+            this.toastr.warning("You are not student", "خطاء");
           } else if (returnValue == 1) {
             this.spinner.hide();
             this.toastr.success("تم شراء المحاضره");
             window.location.reload();
           } else if (returnValue == -1) {
             this.spinner.hide();
-            this.toastr.error("الكود الذي أدخلته غير صحيح", "خطاء");
+            this.toastr.warning("الكود الذي أدخلته غير صحيح", "خطاء");
           } else if (returnValue == -5) {
             this.spinner.hide();
             this.toastr.info("تم الشراء من قبل", "خطاء");
           } else if (returnValue == -10) {
             this.spinner.hide();
-            this.toastr.error(res.returnString);
+            this.toastr.warning(res.returnString);
           } else if (returnValue == -55) {
             this.spinner.hide();
-            this.toastr.error(" تم إستخدام الكود من قبل ", "خطاء");
+            this.toastr.warning(" تم إستخدام الكود من قبل ", "خطاء");
           } else {
-            this.toastr.error(res.returnString);
+            this.toastr.warning(res.returnString);
             this.spinner.hide();
           }
         },
@@ -278,23 +278,23 @@ export class VideoPageComponent implements OnInit {
 
           if (returnValue == 0) {
             this.spinner.hide();
-            this.toastr.error("You are not student", "خطاء");
+            this.toastr.warning("You are not student", "خطاء");
           } else if (returnValue == 1) {
             this.spinner.hide();
             this.toastr.success("تم شراء المحاضره");
             this.reloadComponent();
           } else if (returnValue == -1) {
             this.spinner.hide();
-            this.toastr.error("ليس لديك رصيد كافي ", "خطاء");
+            this.toastr.warning("ليس لديك رصيد كافي ", "خطاء");
           } else if (returnValue == -5) {
             this.spinner.hide();
             this.toastr.info("تم الشراء من قبل", "خطاء");
           } else if (returnValue == -10) {
             this.spinner.hide();
-            this.toastr.error(res.returnString, "خطاء");
+            this.toastr.warning(res.returnString, "خطاء");
           } else {
             this.spinner.hide();
-            this.toastr.error(res.returnString, "خطاء");
+            this.toastr.warning(res.returnString, "خطاء");
           }
         },
         (err: any) => {
@@ -358,12 +358,12 @@ export class VideoPageComponent implements OnInit {
           // window.open(url, "_blank");
         }
         //else if (res.returnValue == 0) {
-        //   this.toastr.error(res.returnString, "خطأ");
+        //   this.toastr.warning(res.returnString, "خطأ");
         // }
         else if (res.returnValue == 3) {
-          this.toastr.error("ليس لديك رصيد كافي", "خطأ");
+          this.toastr.warning("ليس لديك رصيد كافي", "خطأ");
         } else {
-          this.toastr.error(res.returnString, "خطأ");
+          this.toastr.warning(res.returnString, "خطأ");
         }
       });
     }
@@ -404,11 +404,11 @@ export class VideoPageComponent implements OnInit {
           let url = "/student/exam/" + id;
           window.open(url, "_blank");
         } else if (res.returnValue == 0) {
-          this.toastr.error(res.returnString, "خطأ");
+          this.toastr.warning(res.returnString, "خطأ");
         } else if (res.returnValue == 3) {
-          this.toastr.error("ليس لديك رصيد كافي", "خطأ");
+          this.toastr.warning("ليس لديك رصيد كافي", "خطأ");
         } else {
-          this.toastr.error(res.returnString, "خطأ");
+          this.toastr.warning(res.returnString, "خطأ");
         }
       });
     }
@@ -424,6 +424,7 @@ export class VideoPageComponent implements OnInit {
     let percentage: any;
 
     Video.on("play", () => {
+      console.log("video-played");
       //get Video length
       Video.getDuration().then((duration: any) => {
         percentage = Math.floor((this.view_percentage / 100) * duration);
@@ -483,25 +484,27 @@ export class VideoPageComponent implements OnInit {
   }
   //#endregion
 
-  videoReady()
-  {
-    this.VideoReady = true;
-  }
-
   playiframevid() {
-    this.createViewRow();
+    if (this.ExamsSolved) {
+      this.VideoReady = true;
+      this.createViewRow();
+      let found = this.lecPath;
+      let sprout = found.search("sproutvideo");
+      let vimeo = found.search("vimeo");
 
-    let found = this.lecPath;
-    let sprout = found.search("sproutvideo");
-    let vimeo = found.search("vimeo");
+      if (vimeo != -1) {
+        // (vimeo)
+        this.VimeoIncrementView();
+      } else if (sprout != -1) {
+        // (sprout)
+        this.sproutIncrementView();
+      }
+    } else this.toastr.warning("Please check your exams");
 
-    if (vimeo != -1) {
-      // (vimeo)
-      this.VimeoIncrementView();
-    } else if (sprout != -1) {
-      // (sprout)
-      this.sproutIncrementView();
-    }
+    //If Attached Exams
+    this.checkTemps();
+    //If Attached Templates
+    this.checkExame();
   }
 
   // increment View +1
@@ -520,7 +523,140 @@ export class VideoPageComponent implements OnInit {
       }
     });
   }
-  //
+
+  //#region  check If  any Attached Exams
+  checkExame() {
+    // If Attached Exams
+    if (this.AttachedExams.length > 0) {
+      let j = this.AttachedExams.length;
+      for (let i = 0; i <= j; i++) {
+        // Exams Not purchased and Not Free
+        if (
+          !this.AttachedExams[i]?.Purchased &&
+          this.AttachedExams[i]?.price > 0
+        ) {
+          let msg =
+            'تأكد من شراء الإمتحان " ' +
+            this.AttachedExams[i]?.exam_ar_name +
+            ' " اولاً';
+          this.toastr.warning(msg, "خطاَ");
+          this.examsReady = false;
+        }
+
+        // IF Exam Purchased or Free
+        else if (
+          this.AttachedExams[i]?.Purchased ||
+          this.AttachedExams[i]?.price == 0
+        ) {
+          // 1- Exam Unsolved
+          if (this.AttachedExams[i]?.studentMark == -1) {
+            let msg =
+              'تأكد من حل الإمتحان  " ' +
+              this.AttachedExams[i]?.exam_ar_name +
+              ' " ';
+            this.toastr.warning(msg, "خطاَ");
+            this.examsReady = false;
+          }
+
+          // 2- Exam  Solved
+          else if (this.AttachedExams[i]?.studentMark != -1) {
+            // Required Mark To Pass
+            if (
+              this.AttachedExams[i]?.requiredMarkToPass !== 0 ||
+              this.AttachedExams[i]?.requiredMarkToPass !== null
+            ) {
+              // requiredMarkToPass>studentMark
+              if (
+                this.AttachedExams[i]?.requiredMarkToPass >
+                this.AttachedExams[i]?.studentMark
+              ) {
+                let msg =
+                  'تأكد من الحصول علي الدرجه المطلوبه للنجاح في " ' +
+                  this.AttachedExams[i]?.exam_ar_name +
+                  ' " ';
+                this.toastr.warning(msg, "خطاَ");
+                this.examsReady = false;
+              } //studentMark > requiredMarkToPass
+              else {
+                // Exams Ready to open video
+                this.examsReady = true;
+              }
+            } else {
+              // Exams Ready to open video
+              this.examsReady = true;
+            }
+          }
+        }
+      } // end For
+    }
+  } // End checkExame()
+
+  checkTemps() {
+    if (this.AttachedTemplates.length > 0) {
+      let j = this.AttachedTemplates.length;
+      for (let i = 0; i <= j; i++) {
+        // Temp Not purchased and Not Free
+        if (
+          !this.AttachedTemplates[i]?.Purchased &&
+          this.AttachedTemplates[i]?.price > 0
+        ) {
+          let msg =
+            'تأكد من شراء الإمتحان " ' +
+            this.AttachedTemplates[i]?.Name +
+            ' " اولاً';
+          this.toastr.warning(msg, "خطاَ");
+          this.tempsReady = false;
+        }
+
+        // IF Temp Purchased or Free
+        else if (
+          this.AttachedTemplates[i]?.Purchased ||
+          this.AttachedTemplates[i]?.price == 0
+        ) {
+          // 1- Temp Unsolved
+          if (this.AttachedTemplates[i]?.studentMark == -1) {
+            let msg =
+              'تأكد من حل الإمتحان  " ' +
+              this.AttachedTemplates[i]?.Name +
+              ' " ';
+            this.toastr.warning(msg, "خطاَ");
+            this.tempsReady = false;
+          }
+
+          // 2- Temp  Solved
+          else if (this.AttachedTemplates[i]?.studentMark >= 0) {
+            // Required Mark To Pass
+            if (
+              this.AttachedTemplates[i]?.requiredMarkToPass != null ||
+              this.AttachedTemplates[i]?.requiredMarkToPass != 0
+            ) {
+              // requiredMarkToPass>studentMark
+              if (
+                this.AttachedTemplates[i]?.requiredMarkToPass >
+                this.AttachedTemplates[i]?.studentMark
+              ) {
+                let msg =
+                  'تأكد من الحصول علي الدرجه المطلوبه للنجاح في " ' +
+                  this.AttachedTemplates[i]?.Name +
+                  ' " ';
+                this.toastr.warning(msg, "خطاَ");
+                this.tempsReady = false;
+              }
+              //studentMark > requiredMarkToPass
+              else {
+                // Exams Ready to open video
+                this.tempsReady = true;
+              }
+            } else {
+              // Exams Ready to open video
+              this.tempsReady = true;
+            }
+          }
+        }
+      } // end For
+    } //end if temp length>0
+  } // End checkTemps()
+
   // Reload  Current Component
   reloadComponent() {
     let currentUrl = this.router.url;

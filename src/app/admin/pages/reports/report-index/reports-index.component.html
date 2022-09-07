@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "Navbar.Reports" | translate }}
+      </mat-card-title>
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-4 col-12" *ngFor="let report of reports">
+            <a
+              class="media-body text-left"
+              [routerLink]="[
+                '/dashboard/reports/report-details/',
+                report.ReportId
+              ]"
+              target="_blank"
+            >
+              <mat-card class="card card-inverse bg-info">
+                <mat-card-content>
+                  <div class="media">
+                    <div>
+                      <h4 class="card-text">
+                        {{ report.ReportNameAr }}
+                      </h4>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </a>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

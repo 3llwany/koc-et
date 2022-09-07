@@ -6,7 +6,7 @@
           <!-- user timeline image -->
           <img
             *ngIf="!TeacherData?.banner_path"
-            src="assets/img/banner/bak.jpeg"
+            src="assets/img/banner/bak.png"
             class="img-fluid rounded-top user-timeline-image"
             alt="User Timeline Image"
           />
@@ -149,7 +149,7 @@
               </div>
             </mat-tab>
             <!-- Live Lectures Tab -->
-            <mat-tab label="{{ 'labels.LiveLectures' | translate }}">
+            <mat-tab label="{{ 'reports.LiveLectures' | translate }}">
               <div class="mt pr-10">
                 <app-live-lectures
                   [teacherSubjectId]="teacherSubjectId"

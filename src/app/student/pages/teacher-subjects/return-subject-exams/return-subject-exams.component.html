@@ -2,162 +2,297 @@
 
 <!-- If Chapters -->
 <div class="row cart-tabsec" *ngIf="isChapter">
-    <!-- Subject Chapters -->
-    <div class="col-md-4 col-12" *ngFor="let Chapter of subjectRevisions">
-        <mat-card class="card chpter">
-            <img mat-card-image class="card-img rounded mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <mat-card-title>
-                {{ Chapter.subject_ar_name }}
-            </mat-card-title>
+  <!-- Subject Chapters -->
+  <div class="col-md-4 col-12" *ngFor="let Chapter of subjectRevisions">
+    <mat-card class="card chpter">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="Chapter.subject_ar_name"
+      />
 
-            <mat-card-content>
-                {{ Chapter.subjectDescription }}
-                <p>{{ "Material.ExamsCount" | translate }} : {{ Chapter.examCount }}</p>
-            </mat-card-content>
-            <mat-card-actions *ngIf="Chapter.examCount > 0">
-                <button mat-raised-button (click)="ReturneExamsList(Chapter.subject_id, 1)" class="btn btn-primary">
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="Chapter.subject_ar_name"
+      />
+      <mat-card-title>
+        {{ Chapter.subject_ar_name }}
+      </mat-card-title>
+
+      <mat-card-content>
+        {{ Chapter.subjectDescription }}
+        <p>{{ "Material.ExamsCount" | translate }} : {{ Chapter.examCount }}</p>
+      </mat-card-content>
+      <mat-card-actions *ngIf="Chapter.examCount > 0">
+        <button
+          mat-raised-button
+          (click)="ReturneExamsList(Chapter.subject_id, 1)"
+          class="btn btn-primary"
+        >
           {{ "General.View" | translate }}
         </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 
-    <!-- Units  Chapters-->
-    <div class="col-md-4 col-12" *ngFor="let Chapter of unitRevisions">
-        <mat-card class="card chpter">
-            <img mat-card-image class="card-img rounded mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <mat-card-title> {{ Chapter.unit_ar_name }} </mat-card-title>
+  <!-- Units  Chapters-->
+  <div class="col-md-4 col-12" *ngFor="let Chapter of unitRevisions">
+    <mat-card class="card chpter">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="Chapter.unit_ar_name"
+      />
 
-            <mat-card-content>
-                {{ Chapter.unitDescription }}
-                <p>{{ "Material.ExamsCount" | translate }} : {{ Chapter.examCount }}</p>
-            </mat-card-content>
-            <mat-card-actions *ngIf="Chapter.examCount > 0">
-                <button mat-raised-button (click)="ReturneExamsList(Chapter.id, 2)" class="btn btn-primary">
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="Chapter.unit_ar_name"
+      />
+      <mat-card-title> {{ Chapter.unit_ar_name }} </mat-card-title>
+
+      <mat-card-content>
+        {{ Chapter.unitDescription }}
+        <p>{{ "Material.ExamsCount" | translate }} : {{ Chapter.examCount }}</p>
+      </mat-card-content>
+      <mat-card-actions *ngIf="Chapter.examCount > 0">
+        <button
+          mat-raised-button
+          (click)="ReturneExamsList(Chapter.id, 2)"
+          class="btn btn-primary"
+        >
           {{ "General.View" | translate }}
         </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 
-    <!-- Lessons  Chapters-->
-    <div class="col-md-4 col-12" *ngFor="let Chapter of lessonsChapters">
-        <mat-card class="card chpter">
-            <img mat-card-image class="card-img rounded mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <mat-card-title> {{ Chapter.lesson_ar_name }} </mat-card-title>
+  <!-- Lessons  Chapters-->
+  <div class="col-md-4 col-12" *ngFor="let Chapter of lessonsChapters">
+    <mat-card class="card chpter">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="Chapter.lesson_ar_name"
+      />
 
-            <mat-card-content>
-                <p>{{ "Material.ExamsCount" | translate }}: {{ Chapter.examCount }}</p>
-            </mat-card-content>
-            <mat-card-actions *ngIf="Chapter.examCount > 0">
-                <button mat-raised-button (click)="ReturneExamsList(Chapter.id, 3)" class="btn btn-primary">
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="Chapter.lesson_ar_name"
+      />
+      <mat-card-title> {{ Chapter.lesson_ar_name }} </mat-card-title>
+
+      <mat-card-content>
+        <p>{{ "Material.ExamsCount" | translate }}: {{ Chapter.examCount }}</p>
+      </mat-card-content>
+      <mat-card-actions *ngIf="Chapter.examCount > 0">
+        <button
+          mat-raised-button
+          (click)="ReturneExamsList(Chapter.id, 3)"
+          class="btn btn-primary"
+        >
           {{ "General.View" | translate }}
         </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
 
 <!-- If Exams Of Chapters -->
 <div class="row" *ngIf="!isChapter">
-    <div class="col-12">
-        <div class="alert bg-light-primary mb-2 rounded" role="alert">
-            <h5 class="d-inline-block">{{ SubjectName }} - {{ ChapterName }}</h5>
-            <button mat-raised-button class="btn btn-primary float-right" (click)="isChapter = true">
+  <div class="col-12">
+    <div class="alert bg-light-primary mb-2 rounded" role="alert">
+      <h5 class="d-inline-block">{{ SubjectName }} - {{ ChapterName }}</h5>
+      <button
+        mat-raised-button
+        class="btn btn-primary float-right"
+        (click)="isChapter = true"
+      >
         {{ "General.Back" | translate }}
       </button>
-        </div>
     </div>
+  </div>
 
-    <!-- Exams List -->
-    <div class="col-md-4 col-12" *ngFor="let exam of ExamsList">
-        <mat-card class="card chpter" id="mat-{{ exam.id }}">
-            <img mat-card-image class="card-img rounded img-overlay mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <!-- <div class="card-img-overlay overlay-dark rounded"></div> -->
-            <span mat-icon-button class="btn btn-danger rounded price-icon">
+  <!-- Exams List -->
+  <div class="col-md-4 col-12" *ngFor="let exam of ExamsList">
+    <mat-card class="card chpter" id="mat-{{ exam.id }}">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="exam.exam_ar_name"
+      />
+
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="exam.exam_ar_name"
+      />
+      <!-- <div class="card-img-overlay overlay-dark rounded"></div> -->
+      <span mat-icon-button class="btn btn-danger rounded price-icon">
         {{ exam.price }} LE
       </span>
-            <mat-card-title>
-                {{ exam.exam_ar_name }}
-            </mat-card-title>
+      <mat-card-title>
+        {{ exam.exam_ar_name }}
+      </mat-card-title>
 
-            <mat-card-content>
-                <br /> Avaliable To : {{ exam.toDate | date: "dd/MM/yyyy" }}
-            </mat-card-content>
-            <mat-card-actions>
-                <ng-container *ngIf="exam.IsAvaliable">
-                    <a mat-raised-button routerLink="/student/exam/{{ exam.id }}" target="_blank" id="exam-{{ exam.id }}" class="btn btn-primary" *ngIf="exam.Purchased || (!exam.Purchased && exam.price == 0)">
+      <mat-card-content>
+        <br />
+        Avaliable To : {{ exam.toDate | date: "dd/MM/yyyy" }}
+      </mat-card-content>
+      <mat-card-actions>
+        <ng-container *ngIf="exam.IsAvaliable">
+          <a
+            mat-raised-button
+            routerLink="/student/exam/{{ exam.id }}"
+            target="_blank"
+            id="exam-{{ exam.id }}"
+            class="btn btn-primary"
+            *ngIf="exam.Purchased || (!exam.Purchased && exam.price == 0)"
+          >
             {{ "General.View" | translate }}
           </a>
 
-                    <a mat-raised-button routerLink="/student/exam/{{ exam.id }}" target="_blank" id="ex-open-{{ exam.id }}" class="btn btn-primary" style="display: none">
+          <a
+            mat-raised-button
+            routerLink="/student/exam/{{ exam.id }}"
+            target="_blank"
+            id="ex-open-{{ exam.id }}"
+            class="btn btn-primary"
+            style="display: none"
+          >
             {{ "General.View" | translate }}
           </a>
 
-                    <button mat-raised-button (click)="openBuyDialog(exam.id, 'Exam')" id="buy-exam-{{ exam.id }}" class="btn btn-primary" *ngIf="!exam.Purchased && exam.price > 0">
+          <button
+            mat-raised-button
+            (click)="openBuyDialog(exam.id, 'Exam')"
+            id="buy-exam-{{ exam.id }}"
+            class="btn btn-primary"
+            *ngIf="!exam.Purchased && exam.price > 0"
+          >
             {{ "Material.Buy" | translate }}
           </button>
 
-                    <button mat-raised-button (click)="
+          <button
+            mat-raised-button
+            (click)="
               openResetDialog(exam.id, exam.StudentRepeatExamCost, 'resetExam')
-            " target="_blank" id="temp-{{ exam.id }}" class="btn btn-primary" *ngIf="exam.IsSolved && exam.Purchased">
+            "
+            target="_blank"
+            id="temp-{{ exam.id }}"
+            class="btn btn-primary"
+            *ngIf="exam.IsSolved && exam.Purchased && exam.repeatableExam"
+          >
             {{ "Material.ResetExam" | translate }}
           </button>
-                </ng-container>
+        </ng-container>
 
-                <ng-container *ngIf="!exam.IsAvaliable">
-                    <span mat-raised-button class="btn btn-danger">
+        <ng-container *ngIf="!exam.IsAvaliable">
+          <span mat-raised-button class="btn btn-danger">
             {{ "General.Unavailable" | translate }}
           </span>
-                </ng-container>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+        </ng-container>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 
-    <!-- Templates List -->
-    <div class="col-md-4 col-12" *ngFor="let templet of templatesList">
-        <mat-card class="card chpter" id="mat-{{ templet.Id }}">
-            <img mat-card-image class="card-img rounded img-overlay mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <!-- <div class="card-img-overlay overlay-dark rounded"></div> -->
-            <span mat-icon-button class="btn btn-danger rounded price-icon">
+  <!-- Templates List -->
+  <div class="col-md-4 col-12" *ngFor="let templet of templatesList">
+    <mat-card class="card chpter" id="mat-{{ templet.Id }}">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="templet.Name"
+      />
+
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="templet.Name"
+      />
+      <!-- <div class="card-img-overlay overlay-dark rounded"></div> -->
+      <span mat-icon-button class="btn btn-danger rounded price-icon">
         {{ templet.price }} LE
       </span>
-            <mat-card-title>
-                {{ templet.Name }}
-            </mat-card-title>
+      <mat-card-title>
+        {{ templet.Name }}
+      </mat-card-title>
 
-            <mat-card-content>
-                <br /> Avaliable To : {{ templet.Avilable_Date_To | date: "dd/MM/yyyy" }}
-            </mat-card-content>
-            <mat-card-actions>
-                <ng-container *ngIf="templet.IsAvaliable">
-                    <a mat-raised-button (click)="GenerateExamFromTemplate(templet.Id)" target="_blank" id="temp-{{ templet.Id }}" class="btn btn-primary" *ngIf="
+      <mat-card-content>
+        <br />
+        Avaliable To : {{ templet.Avilable_Date_To | date: "dd/MM/yyyy" }}
+      </mat-card-content>
+      <mat-card-actions>
+        <ng-container *ngIf="templet.IsAvaliable">
+          <a
+            mat-raised-button
+            (click)="GenerateExamFromTemplate(templet.Id)"
+            target="_blank"
+            id="temp-{{ templet.Id }}"
+            class="btn btn-primary"
+            *ngIf="
               templet.Purchased || (!templet.Purchased && templet.price == 0)
-            ">
+            "
+          >
             {{ "General.View" | translate }}
           </a>
 
-                    <a mat-raised-button (click)="
+          <a
+            mat-raised-button
+            (click)="
               openResetDialog(
                 templet.Id,
                 templet.StudentRepeatExamCost,
                 'resetTemplate'
               )
-            " target="_blank" id="re-temp-{{ templet.Id }}" class="btn btn-primary" *ngIf="templet.IsSolved && templet.Purchased">
+            "
+            target="_blank"
+            id="re-temp-{{ templet.Id }}"
+            class="btn btn-primary"
+            *ngIf="templet.IsSolved && templet.Purchased"
+          >
             {{ "Material.ResetExam" | translate }}
           </a>
 
-                    <button mat-raised-button (click)="openBuyDialog(templet.Id, 'Template')" id="buy-temp-{{ templet.Id }}" class="btn btn-primary" *ngIf="!templet.Purchased && templet.price > 0">
+          <button
+            mat-raised-button
+            (click)="openBuyDialog(templet.Id, 'Template')"
+            id="buy-temp-{{ templet.Id }}"
+            class="btn btn-primary"
+            *ngIf="!templet.Purchased && templet.price > 0"
+          >
             {{ "Material.Buy" | translate }}
           </button>
-                </ng-container>
+        </ng-container>
 
-                <ng-container *ngIf="!templet.IsAvaliable">
-                    <span mat-raised-button class="btn btn-danger">
+        <ng-container *ngIf="!templet.IsAvaliable">
+          <span mat-raised-button class="btn btn-danger">
             {{ "Material.Unavailable" | translate }}
           </span>
-                </ng-container>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+        </ng-container>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>

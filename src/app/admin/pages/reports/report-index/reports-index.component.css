@@ -1,0 +1,17 @@
+
+.reportw.widget_categories li a {
+    display: block;
+    font-family: Droid !important;
+    font-size: 16px;
+    color: #666;
+    background-color: #fff;
+    padding: 20px 15px;
+    margin-bottom: 25px;
+    line-height: 1.6em;
+    border-radius: 5px;
+}
+
+.reportw.widget_categories li a:hover {
+    background-color: #ef4036;
+    color: #FFF;
+}

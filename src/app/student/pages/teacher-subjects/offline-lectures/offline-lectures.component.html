@@ -2,114 +2,204 @@
 
 <!-- If Chapters -->
 <div class="row cart-tabsec" *ngIf="isChapter">
-    <!-- Subject Chapters -->
-    <div class="col-md-4 col-12" *ngFor="let Chapter of subjectRevisions">
-        <mat-card class="card chpter">
-            <img mat-card-image class="card-img rounded mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <mat-card-title>
-                {{ Chapter.subject_ar_name }}
-            </mat-card-title>
+  <!-- Subject Chapters -->
+  <div class="col-md-4 col-12" *ngFor="let Chapter of subjectRevisions">
+    <mat-card class="card chpter">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="Chapter.subject_ar_name"
+      />
 
-            <mat-card-content>
-                {{ Chapter.subjectDescription }}
-                <p>
-                    {{ "Material.MatCount" | translate }} : {{ Chapter.offlineMatCount }}
-                </p>
-            </mat-card-content>
-            <mat-card-actions *ngIf="Chapter.offlineMatCount > 0">
-                <button mat-raised-button (click)="ReturneofflineLectures(Chapter.subject_id, 1)" class="btn btn-primary">
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="Chapter.subject_ar_name"
+      />
+      <mat-card-title>
+        {{ Chapter.subject_ar_name }}
+      </mat-card-title>
+
+      <mat-card-content>
+        {{ Chapter.subjectDescription }}
+        <p>
+          {{ "Material.MatCount" | translate }} : {{ Chapter.offlineMatCount }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions *ngIf="Chapter.offlineMatCount > 0">
+        <button
+          mat-raised-button
+          (click)="ReturneofflineLectures(Chapter.subject_id, 1)"
+          class="btn btn-primary"
+        >
           {{ "General.View" | translate }}
         </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 
-    <!-- Units  Chapters-->
-    <div class="col-md-4 col-12" *ngFor="let Chapter of unitRevisions">
-        <mat-card class="card chpter">
-            <img mat-card-image class="card-img rounded mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <mat-card-title> {{ Chapter.unit_ar_name }} </mat-card-title>
+  <!-- Units  Chapters-->
+  <div class="col-md-4 col-12" *ngFor="let Chapter of unitRevisions">
+    <mat-card class="card chpter">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="Chapter.unit_ar_name"
+      />
 
-            <mat-card-content>
-                {{ Chapter.unitDescription }}
-                <p>
-                    {{ "Material.MatCount" | translate }}: {{ Chapter.offlineMatCount }}
-                </p>
-            </mat-card-content>
-            <mat-card-actions *ngIf="Chapter.offlineMatCount > 0">
-                <button mat-raised-button (click)="ReturneofflineLectures(Chapter.id, 2)" class="btn btn-primary">
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="Chapter.unit_ar_name"
+      />
+      <mat-card-title> {{ Chapter.unit_ar_name }} </mat-card-title>
+
+      <mat-card-content>
+        {{ Chapter.unitDescription }}
+        <p>
+          {{ "Material.MatCount" | translate }}: {{ Chapter.offlineMatCount }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions *ngIf="Chapter.offlineMatCount > 0">
+        <button
+          mat-raised-button
+          (click)="ReturneofflineLectures(Chapter.id, 2)"
+          class="btn btn-primary"
+        >
           {{ "General.View" | translate }}
         </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 
-    <!-- Lessons  Chapters-->
-    <div class="col-md-4 col-12" *ngFor="let Chapter of lessonsChapters">
-        <mat-card class="card chpter">
-            <img mat-card-image class="card-img rounded mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <mat-card-title> {{ Chapter.lesson_ar_name }} </mat-card-title>
+  <!-- Lessons  Chapters-->
+  <div class="col-md-4 col-12" *ngFor="let Chapter of lessonsChapters">
+    <mat-card class="card chpter">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="Chapter.lesson_ar_name"
+      />
 
-            <mat-card-content>
-                <p>
-                    {{ "Material.MatCount" | translate }} : {{ Chapter.offlineMatCount }}
-                </p>
-            </mat-card-content>
-            <mat-card-actions *ngIf="Chapter.offlineMatCount > 0">
-                <button mat-raised-button (click)="ReturneofflineLectures(Chapter.id, 3)" class="btn btn-primary">
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="Chapter.lesson_ar_name"
+      />
+      <mat-card-title> {{ Chapter.lesson_ar_name }} </mat-card-title>
+
+      <mat-card-content>
+        <p>
+          {{ "Material.MatCount" | translate }} : {{ Chapter.offlineMatCount }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions *ngIf="Chapter.offlineMatCount > 0">
+        <button
+          mat-raised-button
+          (click)="ReturneofflineLectures(Chapter.id, 3)"
+          class="btn btn-primary"
+        >
           {{ "General.View" | translate }}
         </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
 
 <!-- If Lectures Of Chapters -->
 <div class="row" *ngIf="!isChapter">
-    <div class="col-12">
-        <div class="alert bg-light-primary mb-2 rounded" role="alert">
-            <h5 class="d-inline-block">{{ SubjectName }} - {{ ChapterName }}</h5>
-            <button mat-raised-button class="btn btn-primary float-right" (click)="isChapter = true">
+  <div class="col-12">
+    <div class="alert bg-light-primary mb-2 rounded" role="alert">
+      <h5 class="d-inline-block">{{ SubjectName }} - {{ ChapterName }}</h5>
+      <button
+        mat-raised-button
+        class="btn btn-primary float-right"
+        (click)="isChapter = true"
+      >
         {{ "General.Back" | translate }}
       </button>
-        </div>
     </div>
+  </div>
 
-    <!-- Lectures List -->
-    <div class="col-md-4 col-12" *ngFor="let lecture of lecturesList">
-        <mat-card class="card chpter" id="mat-{{ lecture.id }}">
-            <img mat-card-image class="card-img rounded img-overlay mb-3" src="assets/img/licpic.jpeg" alt="Photo of a Shiba Inu" />
-            <!-- <div class="card-img-overlay overlay-dark rounded"></div> -->
-            <span mat-icon-button class="btn btn-danger rounded price-icon">
+  <!-- Lectures List -->
+  <div class="col-md-4 col-12" *ngFor="let lecture of lecturesList">
+    <mat-card class="card chpter" id="mat-{{ lecture.id }}">
+      <img
+        *ngIf="teacherId == 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/licpic.jpeg"
+        [alt]="lecture.material_name"
+      />
+
+      <img
+        *ngIf="teacherId != 22"
+        mat-card-image
+        class="card-img rounded mb-3"
+        src="assets/img/lectureBackground.jpeg"
+        [alt]="lecture.material_name"
+      />
+      <!-- <div class="card-img-overlay overlay-dark rounded"></div> -->
+      <span mat-icon-button class="btn btn-danger rounded price-icon">
         {{ lecture.price }} LE
       </span>
-            <mat-card-title>
-                {{ lecture.material_name }}
-            </mat-card-title>
+      <mat-card-title>
+        {{ lecture.material_name }}
+      </mat-card-title>
 
-            <mat-card-content>
-                <br /> Avaliable To : {{ lecture.toDate | date: "dd/MM/yyyy" }}
-            </mat-card-content>
-            <mat-card-actions>
-                <ng-container *ngIf="lecture.IsAvaliable">
-                    <button mat-raised-button id="matbuy-{{ lecture.id }}" class="btn btn-primary" (click)="openBuyDialog(lecture.id)" *ngIf="
+      <mat-card-content>
+        <br />
+        Avaliable To : {{ lecture.toDate | date: "dd/MM/yyyy" }}
+      </mat-card-content>
+      <mat-card-actions>
+        <ng-container *ngIf="lecture.IsAvaliable">
+          <button
+            mat-raised-button
+            id="matbuy-{{ lecture.id }}"
+            class="btn btn-primary"
+            (click)="openBuyDialog(lecture.id)"
+            *ngIf="
               !lecture.Purchased && lecture.buyByCredit && lecture.price > 0
-            ">
+            "
+          >
             {{ "Material.Buy" | translate }}
           </button>
 
-                    <a mat-raised-button target="_blank" id="matEnter-{{ lecture.id }}" class="btn btn-primary" *ngIf="
+          <a
+            mat-raised-button
+            target="_blank"
+            id="matEnter-{{ lecture.id }}"
+            class="btn btn-primary"
+            *ngIf="
               lecture.Purchased || (lecture.price == 0 && !lecture.buyByCode)
-            " routerLink="material/{{ lecture.id }}">
+            "
+            routerLink="material/{{ lecture.id }}"
+          >
             {{ "General.Enter" | translate }}
           </a>
-                </ng-container>
+        </ng-container>
 
-                <ng-container *ngIf="!lecture.IsAvaliable"> </ng-container>
-                <span mat-raised-button class="btn btn-danger" *ngIf="!lecture.IsAvaliable">
+        <ng-container *ngIf="!lecture.IsAvaliable"> </ng-container>
+        <span
+          mat-raised-button
+          class="btn btn-danger"
+          *ngIf="!lecture.IsAvaliable"
+        >
           {{ "General.Unavailable" | translate }}
         </span>
-            </mat-card-actions>
-        </mat-card>
-    </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>

@@ -165,7 +165,7 @@ export class ReservationStatusComponent implements OnInit {
       });
   }
 
-  SubmitReservationStatus() {
+  SubmitReservationStatus(event: any) {
     this.CenterBranchId.setValue(this.branchId);
 
     if (!this.CenterBranchId?.value) {
@@ -173,13 +173,16 @@ export class ReservationStatusComponent implements OnInit {
       return;
     }
     if (this.myForm.valid) {
+      event.target.disabled = true;
       this.spinner.show();
       this.reservationServ
         .SubmitReservationStatus(this.myForm.value)
         .subscribe((res: any) => {
+          event.target.disabled = false;
           if (res.returnValue == 200 && res.returnString == "Success") {
             this.toaster.success("تم حفظ التغيرات بنجاح");
             this.ReservationStatusPaging(1);
+            this.getStudentStatus(this.reservationId, this.EduCompId); //retrieving the latest EduCompUserStatus Id
           } else {
             this.toaster.error(res.returnString, res.returnValue);
           }

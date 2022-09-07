@@ -16,6 +16,7 @@ import {
 } from "app/admin/models/admin/AddEditQuestionModel";
 import { IUnitModel, ILessionModel } from "app/admin/models/admin/exam";
 import { ExamsService } from "app/admin/services/Admin/exams.service";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
   selector: "app-add-sub-question",
@@ -23,9 +24,12 @@ import { ExamsService } from "app/admin/services/Admin/exams.service";
   styleUrls: ["./add-sub-question.component.scss"],
 })
 export class AddSubQuestionComponent implements OnInit {
-  @Input("examId") examId: any;
-  @Input("examGroupHeaderId") examGroupHeaderId: any = 0;
-  @Input("subjectId") subjectId: any = 0;
+  examId: number;
+  examGroupHeaderId: number;
+  subjectId: number;
+  // @Input("examId") examId: any;
+  // @Input("examGroupHeaderId") examGroupHeaderId: any = 0;
+  // @Input("subjectId") subjectId: any = 0;
   unitId: number = 0;
   lessonId: number = 0;
 
@@ -43,32 +47,11 @@ export class AddSubQuestionComponent implements OnInit {
   twoIsCorrect: boolean = false;
   threeIsCorrect: boolean = false;
   fourIsCorrect: boolean = false;
-  questionFile: any = {
-    name: "",
-    size: 0,
-    type: "",
-  };
-
-  answerOneFile: any = {
-    name: "",
-    size: 0,
-    type: "",
-  };
-  answerTwoFile: any = {
-    name: "",
-    size: 0,
-    type: "",
-  };
-  answerThreeFile: any = {
-    name: "",
-    size: 0,
-    type: "",
-  };
-  answerFourFile: any = {
-    name: "",
-    size: 0,
-    type: "",
-  };
+  questionFile: any = null;
+  answerOneFile: any = null;
+  answerTwoFile: any = null;
+  answerThreeFile: any = null;
+  answerFourFile: any = null;
 
   get mainQuestionCtrl() {
     return this.myForm.get("mainQuestion");
@@ -91,7 +74,7 @@ export class AddSubQuestionComponent implements OnInit {
   }
 
   get questionTextCtrl() {
-    return this.myForm.get("questionText");
+    return this.myForm.get("exam_question_text");
   }
 
   get questionPerfectAnswerCtrl() {
@@ -171,8 +154,18 @@ export class AddSubQuestionComponent implements OnInit {
     private examService: ExamsService,
     public authserv: AuthService,
     public toastr: ToastrService,
-    private spinner: NgxSpinnerService
-  ) {}
+    private spinner: NgxSpinnerService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.examId = data.examId;
+    this.examGroupHeaderId = data.examGroupHeaderId;
+    this.subjectId = data.subjectId;
+    if (this.examGroupHeaderId != 0) this.getAllQuestionsByHeadId();
+    if (this.subjectId != 0) this.getAllUnitsBySublectId();
+    console.log("this.examId", this.examId);
+    console.log("this.examGroupHeaderId", this.examGroupHeaderId);
+    console.log("this.subjectId", this.subjectId);
+  }
 
   ngOnInit(): void {
     this.myForm = this.fb.group({
@@ -181,7 +174,7 @@ export class AddSubQuestionComponent implements OnInit {
       questionImage: [""],
       unitId: [""],
       lessionId: [""],
-      questionText: [""],
+      exam_question_text: [""],
       questionPerfectAnswer: [""],
       questionMark: ["", [Validators.required, CustomeValidator.minusNum]],
       answerOneId: [""],
@@ -204,21 +197,11 @@ export class AddSubQuestionComponent implements OnInit {
 
     this.educationCompanyId = this.authserv.getEduCompId();
     this.questionTypeValidation();
-
-    // $('#stack1').on('hidden.bs.modal', () => {
-    //   console.log('Model Closed!');
-    //   this.myForm.reset();
-    //   this.questionsInGrid = [];
-    // });
-  }
-
-  ngOnChanges() {
-    if (this.examGroupHeaderId != 0) this.getAllQuestionsByHeadId();
-    if (this.subjectId != 0) this.getAllUnitsBySublectId();
   }
 
   //get all question for this header
   getAllQuestionsByHeadId() {
+    this.spinner.show();
     this.examService
       .getAllQuestionsByHeadId<IQuestionForGridModel[]>(this.examGroupHeaderId)
       .subscribe((response) => {
@@ -226,6 +209,7 @@ export class AddSubQuestionComponent implements OnInit {
           //   console.log('getAllQuestionsByHeadId', response);
           this.questionsInGrid = [];
           this.questionsInGrid = response;
+          this.spinner.hide();
         }
       });
   }
@@ -244,12 +228,13 @@ export class AddSubQuestionComponent implements OnInit {
     if (this.questionTypeIdCtrl?.value == 1) {
       // مقالي
 
-      let image: examQuestionImage = {
-        FileAsBase64: "",
-        name: this.questionFile.name,
-        size: this.questionFile.size,
-        type: this.questionFile.type,
-      };
+      let image: examQuestionImage = this.questionFile || null;
+      // let image: examQuestionImage = this.questionFile || null {
+      //   FileAsBase64: this.questionFile.FileAsBase64 || null,
+      //   name: this.questionFile.name,
+      //   size: this.questionFile.size,
+      //   type: this.questionFile.type,
+      // };
 
       let toAddEdit: IAddEditQuestionTextModel = {
         exam_question_main_question: this.mainQuestionCtrl?.value,
@@ -278,33 +263,36 @@ export class AddSubQuestionComponent implements OnInit {
     if (this.questionTypeIdCtrl?.value == 2) {
       // اختيارات
 
-      let image: examQuestionImage = {
-        FileAsBase64: "",
-        name: this.questionFile.name,
-        size: this.questionFile.size,
-        type: this.questionFile.type,
-      };
+      let image: examQuestionImage = this.questionFile || null;
+      // let image: examQuestionImage = {
+      //   FileAsBase64: this.questionFile.FileAsBase64 || null,
+      //   name: this.questionFile.name,
+      //   size: this.questionFile.size,
+      //   type: this.questionFile.type,
+      // };
 
-      let imageOne: examQuestionImage = {
-        FileAsBase64: "",
-        name: this.answerOneFile.name,
-        size: this.answerOneFile.size,
-        type: this.answerOneFile.type,
-      };
+      let imageOne: examQuestionImage = this.answerOneFile || null;
+      // let imageOne: examQuestionImage = {
+      //   FileAsBase64: this.answerOneFile.FileAsBase64 || null,
+      //   name: this.answerOneFile.name,
+      //   size: this.answerOneFile.size,
+      //   type: this.answerOneFile.type,
+      // };
 
       let choice1: IMcqChoices = {
         choice_id: this.answerOneIdCtrl?.value ?? 0,
         choice_text: this.answerOneCtrl?.value,
-        is_correct: this.answerOneIsCorrectCtrl?.value ? true : false,
+        is_correct: this.answerOneIsCorrectCtrl?.value == 0 ? true : false,
         choice_image: imageOne,
       };
 
-      let imageTwo: examQuestionImage = {
-        FileAsBase64: "",
-        name: this.answerTwoFile.name,
-        size: this.answerTwoFile.size,
-        type: this.answerTwoFile.type,
-      };
+      let imageTwo: examQuestionImage = this.answerTwoFile || null;
+      // let imageTwo: examQuestionImage = {
+      //   FileAsBase64: this.answerTwoFile.FileAsBase64 || null,
+      //   name: this.answerTwoFile.name,
+      //   size: this.answerTwoFile.size,
+      //   type: this.answerTwoFile.type,
+      // };
 
       let choice2: IMcqChoices = {
         choice_id: this.answerTwoIdCtrl?.value ?? 0,
@@ -313,12 +301,13 @@ export class AddSubQuestionComponent implements OnInit {
         choice_image: imageTwo,
       };
 
-      let imageThree: examQuestionImage = {
-        FileAsBase64: "",
-        name: this.answerThreeFile.name,
-        size: this.answerThreeFile.size,
-        type: this.answerThreeFile.type,
-      };
+      let imageThree: examQuestionImage = this.answerThreeFile || null;
+      // let imageThree: examQuestionImage = {
+      //   FileAsBase64: this.answerThreeFile.FileAsBase64 || null,
+      //   name: this.answerThreeFile.name,
+      //   size: this.answerThreeFile.size,
+      //   type: this.answerThreeFile.type,
+      // };
 
       let choice3: IMcqChoices = {
         choice_id: this.answerThreeIdCtrl?.value ?? 0,
@@ -327,12 +316,13 @@ export class AddSubQuestionComponent implements OnInit {
         choice_image: imageThree,
       };
 
-      let imageFour: examQuestionImage = {
-        FileAsBase64: "",
-        name: this.answerFourFile.name,
-        size: this.answerFourFile.size,
-        type: this.answerFourFile.type,
-      };
+      let imageFour: examQuestionImage = this.answerFourFile || null;
+      // let imageFour: examQuestionImage = {
+      //   FileAsBase64: this.answerFourFile.FileAsBase64 || null,
+      //   name: this.answerFourFile.name,
+      //   size: this.answerFourFile.size,
+      //   type: this.answerFourFile.type,
+      // };
 
       let choice4: IMcqChoices = {
         choice_id: this.answerFourIdCtrl?.value ?? 0,
@@ -354,23 +344,33 @@ export class AddSubQuestionComponent implements OnInit {
         mcq_choices: [choice1, choice2, choice3, choice4],
       };
 
-      // console.log('mcq_choices', toAddEdit.mcq_choices);
+      console.log("mcq_choices", toAddEdit.mcq_choices);
 
       if (
-        (choice1.choice_text != null ||
-          choice1.choice_image.FileAsBase64 != "") &&
-        (choice2.choice_text != null ||
-          choice2.choice_image.FileAsBase64 != "") &&
-        (choice3.choice_text != null ||
-          choice3.choice_image.FileAsBase64 != "") &&
-        (choice4.choice_text != null || choice4.choice_image.FileAsBase64 != "")
+        !choice1.is_correct &&
+        !choice2.is_correct &&
+        !choice3.is_correct &&
+        !choice4.is_correct
       ) {
-        if (this.questionId > 0) {
-          this.editMcqQuestion(toAddEdit);
-        } else {
-          this.addMcqQuestion(toAddEdit);
-        }
-      } else this.toastr.error("Please Check Your Inputs");
+        this.toastr.warning("يجب اختيار الإجابة الصحيحة");
+      } else {
+        if (
+          (choice1.choice_text != null ||
+            choice1.choice_image.FileAsBase64 != "") &&
+          (choice2.choice_text != null ||
+            choice2.choice_image.FileAsBase64 != "") &&
+          (choice3.choice_text != null ||
+            choice3.choice_image.FileAsBase64 != "") &&
+          (choice4.choice_text != null ||
+            choice4.choice_image.FileAsBase64 != "")
+        ) {
+          if (this.questionId > 0) {
+            this.editMcqQuestion(toAddEdit);
+          } else {
+            this.addMcqQuestion(toAddEdit);
+          }
+        } else this.toastr.error("Please Check Your Inputs");
+      }
     }
   }
 
@@ -438,6 +438,7 @@ export class AddSubQuestionComponent implements OnInit {
 
   addMcqQuestion(toAddEdit: IAddEditQuestionMcqModel) {
     // console.log('on add ', toAddEdit);
+    // if (this.myForm.valid) {
     this.spinner.show();
     this.examService
       .addQuestion<IAddedTextExamResponse>(toAddEdit)
@@ -460,15 +461,17 @@ export class AddSubQuestionComponent implements OnInit {
         }
         this.spinner.hide();
       });
+    //}
   }
 
   editMcqQuestion(toAddEdit: IAddEditQuestionMcqModel) {
-    // console.log('tooEdiiiiiiit', toAddEdit);
+    console.log("editMcqQuestion", toAddEdit);
+    // if (this.myForm.valid) {
     this.spinner.show();
     this.examService
       .editQuestion<IQuestionDetailsForEditModel>(toAddEdit)
       .subscribe((response) => {
-        //  console.log('ediiiiiitResponse', response);
+        console.log("editMcqQuestion", response);
         if (response) {
           let toEdit = this.questionsInGrid.find(
             (q) => q.Id == this.questionId
@@ -496,20 +499,24 @@ export class AddSubQuestionComponent implements OnInit {
         }
         this.spinner.hide();
       });
+    //}
   }
 
-  editExamQuestionForm(questionId: number) {
+  getQuestionForEditByID(questionId: number) {
     //  console.log('questionIddddddddddddddd', questionId);
     this.spinner.show();
     this.examService
       .getQuestionForEditByID<IQuestionDetailsForEditModel>(questionId)
       .subscribe((response) => {
-        //   console.log('resssssponse', response);
+        console.log("getQuestionForEditByID", response);
         if (response) {
           this.mainQuestionCtrl?.setValue(response.main_question);
           this.questionMarkCtrl?.setValue(response.mark);
           this.questionTextCtrl?.setValue(response.question_text);
-          //this.questionImageCtrl?.setValue(response.attach_path);
+          this.questionImageCtrl?.setValue(
+            "mozakretyapi" + response?.attach_path
+          );
+          // this.questionFile.FileAsBase64 = response.attach_path;
           this.questionTypeIdCtrl?.setValue(response.question_type_id);
           this.questionId = questionId;
 
@@ -520,7 +527,11 @@ export class AddSubQuestionComponent implements OnInit {
           if (response.question_type_id == 2) {
             this.answerOneIdCtrl?.setValue(response.MCQ_Choices[0].Id);
             this.answerOneCtrl?.setValue(response.MCQ_Choices[0].Text);
-            //this.answerOneImageCtrl?.setValue(response.MCQ_Choices[0].Image);
+            this.answerOneImageCtrl?.setValue(
+              "mozakretyapi" + response?.MCQ_Choices[0].Image
+            );
+            // this.answerOneImageCtrl?.setValue(response.MCQ_Choices[0].Image);
+            //  this.answerOneFile.FileAsBase64 = response.MCQ_Choices[0].Image;
             this.answerOneIsCorrectCtrl?.setValue(
               response.MCQ_Choices[0].Is_Correct
             );
@@ -528,7 +539,11 @@ export class AddSubQuestionComponent implements OnInit {
 
             this.answerTwoIdCtrl?.setValue(response.MCQ_Choices[1].Id);
             this.answerTwoCtrl?.setValue(response.MCQ_Choices[1].Text);
-            //this.answerTwoImageCtrl?.setValue(response.MCQ_Choices[1].Image);
+            this.answerTwoImageCtrl?.setValue(
+              "mozakretyapi" + response?.MCQ_Choices[1].Image
+            );
+            //  this.answerTwoImageCtrl?.setValue(response.MCQ_Choices[1].Image);
+            // this.answerTwoFile.FileAsBase64 = response.MCQ_Choices[1].Image;
             this.answerTwoIsCorrectCtrl?.setValue(
               response.MCQ_Choices[1].Is_Correct
             );
@@ -536,7 +551,11 @@ export class AddSubQuestionComponent implements OnInit {
 
             this.answerThreeIdCtrl?.setValue(response.MCQ_Choices[2].Id);
             this.answerThreeCtrl?.setValue(response.MCQ_Choices[2].Text);
-            //this.answerThreeImageCtrl?.setValue(response.MCQ_Choices[2].Image);
+            this.answerThreeImageCtrl?.setValue(
+              "mozakretyapi" + response?.MCQ_Choices[2].Image
+            );
+            // this.answerThreeImageCtrl?.setValue(response.MCQ_Choices[2].Image);
+            //  this.answerThreeFile.FileAsBase64 = response.MCQ_Choices[2].Image;
             this.answerThreeIsCorrectCtrl?.setValue(
               response.MCQ_Choices[2].Is_Correct
             );
@@ -544,7 +563,11 @@ export class AddSubQuestionComponent implements OnInit {
 
             this.answerFourIdCtrl?.setValue(response.MCQ_Choices[3].Id);
             this.answerFourCtrl?.setValue(response.MCQ_Choices[3].Text);
-            //this.answerFourImageCtrl?.setValue(response.MCQ_Choices[3].Image);
+            this.answerFourImageCtrl?.setValue(
+              "mozakretyapi" + response?.MCQ_Choices[3].Image
+            );
+            //  this.answerFourImageCtrl?.setValue(response.MCQ_Choices[3].Image);
+            //  this.answerFourFile.FileAsBase64 = response.MCQ_Choices[3].Image;
             this.answerFourIsCorrectCtrl?.setValue(
               response.MCQ_Choices[3].Is_Correct
             );
@@ -561,65 +584,158 @@ export class AddSubQuestionComponent implements OnInit {
   }
 
   removeExamQuestion(questionId: number) {
+    let confirmed = confirm("هل انت متأكد من الحذف");
     // console.log('questionId', questionId);
-    this.spinner.show();
-    this.examService
-      .deleteExamQuestion<any>(questionId)
-      .subscribe((response) => {
-        // console.log('deleteResponse', response);
-        if ((response.returnString = "Done")) {
-          let toDeleteIndex = this.questionsInGrid.findIndex(
-            (q) => q.Id == questionId
-          );
-          this.questionsInGrid.splice(toDeleteIndex, 1);
-        }
-        this.spinner.hide();
-      });
+    if (confirmed) {
+      this.spinner.show();
+      this.examService
+        .deleteExamQuestion<any>(questionId)
+        .subscribe((response) => {
+          // console.log('deleteResponse', response);
+          if ((response.returnString = "Done")) {
+            let toDeleteIndex = this.questionsInGrid.findIndex(
+              (q) => q.Id == questionId
+            );
+            this.questionsInGrid.splice(toDeleteIndex, 1);
+          } else this.toastr.info(response.returnString);
+          this.spinner.hide();
+        });
+    }
   }
 
   importFile(event: any) {
-    if (event.target.files.length == 0) {
-      console.log("No file selected!");
-      return;
+    let fileName = <File>event.target.files[0].name;
+    let fileSize = <File>event.target.files[0].size;
+    let fileType = <File>event.target.files[0].type;
+    let LastModified = <File>event.target.files[0].lastModified;
+    let LastModifiedDate = <File>event.target.files[0].lastModifiedDate;
+
+    if (event.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event: any) => {
+        let fileReder = event.target.result;
+        let data = {
+          FileAsBase64: fileReder,
+          name: fileName,
+          size: fileSize,
+          type: fileType,
+          LastModified: LastModified,
+          LastModifiedDate: LastModifiedDate,
+        };
+        this.questionImageCtrl.setValue(fileReder);
+        this.questionFile = data;
+        //  console.log("file selected", this.questionFile);
+      };
     }
-    this.questionFile = event.target.files[0];
-    console.log("file selected", this.questionFile);
   }
 
   importOneFile(event: any) {
-    if (event.target.files.length == 0) {
-      console.log("No file selected!");
-      return;
+    let fileName = <File>event.target.files[0].name;
+    let fileSize = <File>event.target.files[0].size;
+    let fileType = <File>event.target.files[0].type;
+    let LastModified = <File>event.target.files[0].lastModified;
+    let LastModifiedDate = <File>event.target.files[0].lastModifiedDate;
+
+    if (event.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event: any) => {
+        let fileReder = event.target.result;
+        let data = {
+          FileAsBase64: fileReder,
+          name: fileName,
+          size: fileSize,
+          type: fileType,
+          LastModified: LastModified,
+          LastModifiedDate: LastModifiedDate,
+        };
+        this.answerOneFile = data;
+        this.answerOneImageCtrl.setValue(fileReder);
+        //  console.log("file selected", this.answerOneFile);
+      };
     }
-    this.answerOneFile = event.target.files[0];
-    console.log("file selected", this.answerOneFile);
   }
 
   importTwoFile(event: any) {
-    if (event.target.files.length == 0) {
-      console.log("No file selected!");
-      return;
+    let fileName = <File>event.target.files[0].name;
+    let fileSize = <File>event.target.files[0].size;
+    let fileType = <File>event.target.files[0].type;
+    let LastModified = <File>event.target.files[0].lastModified;
+    let LastModifiedDate = <File>event.target.files[0].lastModifiedDate;
+
+    if (event.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event: any) => {
+        let fileReder = event.target.result;
+        let data = {
+          FileAsBase64: fileReder,
+          name: fileName,
+          size: fileSize,
+          type: fileType,
+          LastModified: LastModified,
+          LastModifiedDate: LastModifiedDate,
+        };
+        this.answerTwoFile = data;
+        this.answerTwoImageCtrl.setValue(fileReder);
+        //  console.log("file selected", this.answerTwoFile);
+      };
     }
-    this.answerTwoFile = event.target.files[0];
-    console.log("file selected", this.answerTwoFile);
   }
 
   importThreeFile(event: any) {
-    if (event.target.files.length == 0) {
-      console.log("No file selected!");
-      return;
+    let fileName = <File>event.target.files[0].name;
+    let fileSize = <File>event.target.files[0].size;
+    let fileType = <File>event.target.files[0].type;
+    let LastModified = <File>event.target.files[0].lastModified;
+    let LastModifiedDate = <File>event.target.files[0].lastModifiedDate;
+
+    if (event.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event: any) => {
+        let fileReder = event.target.result;
+        let data = {
+          FileAsBase64: fileReder,
+          name: fileName,
+          size: fileSize,
+          type: fileType,
+          LastModified: LastModified,
+          LastModifiedDate: LastModifiedDate,
+        };
+        this.answerThreeFile = data;
+        this.answerThreeImageCtrl.setValue(fileReder);
+        //  console.log("file selected", this.answerThreeFile);
+      };
     }
-    this.answerThreeFile = event.target.files[0];
-    console.log("file selected", this.answerThreeFile);
   }
 
   importFourFile(event: any) {
-    if (event.target.files.length == 0) {
-      console.log("No file selected!");
-      return;
+    let fileName = <File>event.target.files[0].name;
+    let fileSize = <File>event.target.files[0].size;
+    let fileType = <File>event.target.files[0].type;
+    let LastModified = <File>event.target.files[0].lastModified;
+    let LastModifiedDate = <File>event.target.files[0].lastModifiedDate;
+
+    if (event.target.files) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event: any) => {
+        let fileReder = event.target.result;
+        let data = {
+          FileAsBase64: fileReder,
+          name: fileName,
+          size: fileSize,
+          type: fileType,
+          LastModified: LastModified,
+          LastModifiedDate: LastModifiedDate,
+        };
+        this.answerFourFile = data;
+        this.answerFourImageCtrl.setValue(fileReder);
+        //  console.log("file selected", this.answerFourFile);
+      };
     }
-    this.answerFourFile = event.target.files[0];
-    console.log("file selected", this.answerFourFile);
   }
 
   getAllUnitsBySublectId() {
@@ -642,26 +758,30 @@ export class AddSubQuestionComponent implements OnInit {
   }
 
   onSelectCorrect(answerNumber: number) {
-    console.log("answer is selecteddddd", answerNumber);
-    if (answerNumber == 0) {
+    console.log("answer is Correct", answerNumber);
+    if (answerNumber === 0) {
+      this.answerOneIsCorrectCtrl?.setValue(0);
       this.answerTwoIsCorrectCtrl?.setValue(null);
       this.answerThreeIsCorrectCtrl?.setValue(null);
       this.answerFourIsCorrectCtrl?.setValue(null);
     }
-    if (answerNumber == 1) {
+    if (answerNumber === 1) {
       this.answerOneIsCorrectCtrl?.setValue(null);
+      this.answerTwoIsCorrectCtrl?.setValue(1);
       this.answerThreeIsCorrectCtrl?.setValue(null);
       this.answerFourIsCorrectCtrl?.setValue(null);
     }
-    if (answerNumber == 2) {
-      this.answerTwoIsCorrectCtrl?.setValue(null);
+    if (answerNumber === 2) {
       this.answerOneIsCorrectCtrl?.setValue(null);
+      this.answerTwoIsCorrectCtrl?.setValue(null);
+      this.answerThreeIsCorrectCtrl?.setValue(2);
       this.answerFourIsCorrectCtrl?.setValue(null);
     }
-    if (answerNumber == 3) {
+    if (answerNumber === 3) {
+      this.answerOneIsCorrectCtrl?.setValue(null);
       this.answerTwoIsCorrectCtrl?.setValue(null);
       this.answerThreeIsCorrectCtrl?.setValue(null);
-      this.answerOneIsCorrectCtrl?.setValue(null);
+      this.answerFourIsCorrectCtrl?.setValue(3);
     }
   }
 }

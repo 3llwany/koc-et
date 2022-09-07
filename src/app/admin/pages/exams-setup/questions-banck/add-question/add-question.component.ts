@@ -26,7 +26,6 @@ export class AddQuestionComponent implements OnInit {
   questionID: any = null;
   myForm!: FormGroup;
   submitted = false;
-  questionsInputs: IMcqChoiceVM[];
 
   Teachers: teacherByEduCompId[];
   subjects: GeneralDropdownVM[];
@@ -39,6 +38,41 @@ export class AddQuestionComponent implements OnInit {
 
   //Images
   QuestionAttachPath: any = null;
+
+  questionsInputs: IMcqChoiceVM[] = [
+    {
+      choice_id: 0,
+      choice_text: "",
+      thumbnailPic: "",
+      ChoiceAttachPath: "",
+      //  IsCorrect: false,
+      remove_image: false,
+    },
+    {
+      choice_id: 1,
+      choice_text: "",
+      thumbnailPic: "",
+      ChoiceAttachPath: "",
+      // IsCorrect: false,
+      remove_image: false,
+    },
+    {
+      choice_id: 2,
+      choice_text: "",
+      thumbnailPic: "",
+      ChoiceAttachPath: "",
+      // IsCorrect: false,
+      remove_image: false,
+    },
+    {
+      choice_id: 3,
+      choice_text: "",
+      thumbnailPic: "",
+      ChoiceAttachPath: "",
+      // IsCorrect: false,
+      remove_image: false,
+    },
+  ];
 
   get choices() {
     return this.myForm.get("choices") as FormArray;
@@ -174,26 +208,9 @@ export class AddQuestionComponent implements OnInit {
       picked_choice_index: [null],
       choices: this.fb.array([]),
     });
-    /*
-    this.myForm = this.fb.group({
-      question_id: [this.questionID],
-      question_bank_id: [this.questionID],
-      question_type_id: ["", Validators.required],
-      question_attach: [""],
-      teacherUserId: ["", Validators.required],
-      main_subject_id: ["", Validators.required],
-      unitId: [""],
-      lessonId: [""],
-      topicId: [""],
-      difficulty_level: ["", [Validators.required]],
-      question_ar_text: ["", [Validators.required]],
-      perfect_answer: [],
-      mark: [, [Validators.required, CustomeValidator.minusNum]],
-      picked_choice_index: [""],
-      choices: this.fb.array([], [Validators.required]),
-    });*/
+
     this.changeQuestionType();
-    this.data();
+    this.setDefaultChoises();
   }
 
   ngAfterViewInit() {
@@ -207,62 +224,7 @@ export class AddQuestionComponent implements OnInit {
     });
   }
 
-  /*
-  private data() {
-    this.questionsInputs = [
-      { id: null, choice_text: "", choice_attach: "" },
-      { id: null, choice_text: "", choice_attach: "" },
-      { id: null, choice_text: "", choice_attach: "" },
-      { id: null, choice_text: "", choice_attach: "" },
-    ];
-
-    this.questionsInputs.map((d) =>
-      this.choices.push(
-        this.fb.group({
-          id: d.id,
-          choice_text: d.choice_text,
-          choice_attach: d.choice_attach,
-        })
-      )
-    );
-  }*/
-
-  private data() {
-    this.questionsInputs = [
-      {
-        choice_id: 0,
-        choice_text: "",
-        thumbnailPic: "",
-        ChoiceAttachPath: "",
-        //  IsCorrect: false,
-        remove_image: false,
-      },
-      {
-        choice_id: 1,
-        choice_text: "",
-        thumbnailPic: "",
-        ChoiceAttachPath: "",
-        // IsCorrect: false,
-        remove_image: false,
-      },
-      {
-        choice_id: 2,
-        choice_text: "",
-        thumbnailPic: "",
-        ChoiceAttachPath: "",
-        // IsCorrect: false,
-        remove_image: false,
-      },
-      {
-        choice_id: 3,
-        choice_text: "",
-        thumbnailPic: "",
-        ChoiceAttachPath: "",
-        // IsCorrect: false,
-        remove_image: false,
-      },
-    ];
-
+  private setDefaultChoises() {
     this.questionsInputs.map((d) =>
       this.choices.push(
         this.fb.group({
@@ -279,7 +241,7 @@ export class AddQuestionComponent implements OnInit {
   getQuestionByID(id: any) {
     this.spinner.show();
     this.examsService.getQuestionByID(id).subscribe((res: any) => {
-      console.log("getQuestionByID: ", res);
+      //  console.log("getQuestionByID: ", res);
       if (res.QuestionId != null) {
         this.teacherUserId?.enable();
         this.main_subject_id?.enable();
@@ -291,22 +253,22 @@ export class AddQuestionComponent implements OnInit {
         this.QuestionBankId?.setValue(res.QuestionBankId);
         this.QuestionId?.setValue(res.QuestionId);
         this.question_id?.setValue(res.QuestionId);
-        this.main_subject_id?.setValue(res.SubjectId);
+        this.main_subject_id?.setValue(String(res.SubjectId));
         this.question_type_id?.setValue(res.QuestionTypeId);
         this.teacherUserId?.setValue(res.TeacherUserId);
-        this.unitId?.setValue(res.UnitId);
-        this.lessonId?.setValue(res.LessonId);
-        this.topicId?.setValue(res.TopicId);
+        this.unitId?.setValue(String(res.UnitId));
+        this.lessonId?.setValue(String(res.LessonId));
+        this.topicId?.setValue(String(res.TopicId));
         this.difficulty_level?.setValue(res.DifficultyLevel);
         this.question_ar_text?.setValue(res.QuestionTextAr);
         this.perfect_answer?.setValue(res.PerfectAnswer);
         this.mark?.setValue(res.Mark);
         this.thumbnailPic?.setValue(res.QuestionAttachId);
 
-        this.QuestionAttachPath = res.QuestionAttachPath;
+        this.QuestionAttachPath = "mozakretyapi" + res.QuestionAttachPath;
         if (res.Choices.length != 0) {
           let d = res.Choices;
-          this.questionsInputs = [];
+          this.choices.clear();
           this.questionsInputs = res.Choices;
           this.questionsInputs.map((d: any) =>
             this.choices.push(
@@ -314,14 +276,14 @@ export class AddQuestionComponent implements OnInit {
                 choice_id: d.ChoiceId,
                 choice_text: d.ChoiceText,
                 thumbnailPic: d.thumbnailPic,
-                ChoiceAttachPath: d.ChoiceAttachPath,
+                ChoiceAttachPath: "mozakretyapi" + d.ChoiceAttachPath,
                 //  IsCorrect: d.IsCorrect,
                 remove_image: false,
               })
             )
           );
-          console.log("this.questionsInputs", this.questionsInputs);
-          console.log("this.Choices", this.choices.value);
+          // console.log("this.questionsInputs", this.questionsInputs);
+          // console.log("this.Choices", this.choices.value);
 
           for (let obj of res.Choices) {
             if (obj.IsCorrect == true) {
@@ -332,7 +294,7 @@ export class AddQuestionComponent implements OnInit {
             }
           }
         } else {
-          this.data();
+          this.setDefaultChoises();
         }
       }
 
@@ -342,7 +304,7 @@ export class AddQuestionComponent implements OnInit {
 
   addUpdateQuestion() {
     this.submitted = true;
-    console.log(this.myForm.value);
+    // console.log(this.myForm.value);
     console.log("valid?: ", this.myForm.valid);
 
     //If MCQ Validation
@@ -352,7 +314,7 @@ export class AddQuestionComponent implements OnInit {
     ) {
       //answer 1
       if (
-        !this.choices.value[0].choice_attach &&
+        !this.choices.value[0].thumbnailPic &&
         !this.choices.value[0].choice_text
       ) {
         this.toastr.warning("Must Enter answer 1 text or picture");
@@ -361,7 +323,7 @@ export class AddQuestionComponent implements OnInit {
 
       //answer 2
       if (
-        !this.choices.value[1].choice_attach &&
+        !this.choices.value[1].thumbnailPic &&
         !this.choices.value[1].choice_text
       ) {
         this.toastr.warning("Must Enter answer 2 text or picture");
@@ -370,7 +332,7 @@ export class AddQuestionComponent implements OnInit {
 
       //answer 3
       if (
-        !this.choices.value[2].choice_attach &&
+        !this.choices.value[2].thumbnailPic &&
         !this.choices.value[2].choice_text
       ) {
         this.toastr.warning("Must Enter answer 3 text or picture");
@@ -379,7 +341,7 @@ export class AddQuestionComponent implements OnInit {
 
       //answer 4
       if (
-        !this.choices.value[3].choice_attach &&
+        !this.choices.value[3].thumbnailPic &&
         !this.choices.value[3].choice_text
       ) {
         this.toastr.warning("Must Enter answer 4 text or picture");
@@ -387,7 +349,7 @@ export class AddQuestionComponent implements OnInit {
       }
 
       //Correct answer
-      if (!this.FormCtrl.picked_choice_index.value) {
+      if (this.FormCtrl.picked_choice_index.value < 0) {
         this.toastr.warning("Must Choose Correct answer ");
         return;
       }
@@ -399,90 +361,22 @@ export class AddQuestionComponent implements OnInit {
       this.examsService
         .addEditQuestion(this.EduCompId, this.myForm.value)
         .subscribe((res: any) => {
-          console.log("addQuestion", res);
-          if (res.exam_question_id != null) {
-            this.question_id.setValue(res.exam_question_id);
-            this.questionID = res.exam_question_id;
-            this.router.navigate([], {
-              queryParams: {
-                questionId: res.Id,
-              },
-              queryParamsHandling: "merge",
-            });
+          //   console.log("addQuestion", res);
+          if (res.questionId != null) {
+            this.question_id.setValue(res.questionId);
+            this.questionID = res.questionId;
+            // this.router.navigate([], {
+            //   queryParams: {
+            //     questionId: res.questionId,
+            //   },
+            //   queryParamsHandling: "merge",
+            // });
             this.toastr.success("Question Added Successful");
           }
           this.spinner.hide();
         });
     }
   }
-
-  /*
-  updateQuestion() {
-    this.submitted = true;
-    //If MCQ Validation
-    if (
-      this.question_type_id.value == 2 ||
-      this.question_type_id.value == 3
-    ) {
-      //answer 1
-      if (
-        !this.choices.value[0].choice_attach &&
-        !this.choices.value[0].choice_text
-      ) {
-        this.toastr.warning("Must Enter answer 1 text or picture");
-        return;
-      }
-
-      //answer 2
-      if (
-        !this.choices.value[1].choice_attach &&
-        !this.choices.value[1].choice_text
-      ) {
-        this.toastr.warning("Must Enter answer 2 text or picture");
-        return;
-      }
-
-      //answer 3
-      if (
-        !this.choices.value[2].choice_attach &&
-        !this.choices.value[2].choice_text
-      ) {
-        this.toastr.warning("Must Enter answer 3 text or picture");
-        return;
-      }
-
-      //answer 4
-      if (
-        !this.choices.value[3].choice_attach &&
-        !this.choices.value[3].choice_text
-      ) {
-        this.toastr.warning("Must Enter answer 4 text or picture");
-        return;
-      }
-
-      //Correct answer
-      if (!this.FormCtrl.picked_choice_index.value) {
-        this.toastr.warning("Must Choose Correct answer ");
-        return;
-      }
-    }
-
-    if (this.myForm.valid) {
-      let id = this.myForm.controls["Id"].value;
-      this.spinner.show();
-      this.examsService
-        .updateQuestion(id, this.myForm.value)
-        .subscribe((res: any) => {
-          console.log("updateQuestion", res);
-          if (res.Id == id) {
-            this.toastr.success("Question Updated");
-            this.resetManual();
-            this.spinner.hide();
-          }
-        });
-    }
-  }
-*/
 
   getTeachersByEducompId(EduCompId: any) {
     // this.main_subject_id?.setValue("");
@@ -507,39 +401,15 @@ export class AddQuestionComponent implements OnInit {
   }
 
   getSubjectByTeacherId(teacherId: any) {
-    this.GeneralService.getSubjectByTeacherId(teacherId).subscribe(
-      (res: any) => {
-        this.subjects = res.lsts;
-      }
-    );
+    if (teacherId != null) {
+      this.GeneralService.getSubjectByTeacherId(teacherId).subscribe(
+        (res: any) => {
+          this.subjects = res.lsts;
+        }
+      );
+    }
   }
 
-  // getSubjectsByTeacherId(teacherId: any) {
-  //   this.main_subject_id?.setValue("");
-  //   this.unitId?.setValue("");
-  //   this.lessonId?.setValue("");
-  //   this.topicId?.setValue("");
-  //   if (teacherId != "") {
-  //     this.examsService
-  //       .getSubjectsByTeacherId({ teacherId: teacherId })
-  //       .subscribe((res: any) => {
-  //         if (teacherId == null) {
-  //           this.subjects = res.subjects;
-  //         } else {
-  //           this.subjects = res.lsts;
-  //         }
-  //         this.main_subject_id?.enable();
-  //       });
-  //   } else {
-  //     this.main_subject_id?.setValue("");
-  //     this.main_subject_id?.disable();
-  //     this.unitId?.disable();
-  //     this.lessonId?.disable();
-  //     this.topicId?.disable();
-  //   }
-  // }
-
-  //return Units BY SubjectId
   GetUnits(SubjectId: any) {
     // this.unitId?.setValue("");
     // this.lessonId?.setValue("");
@@ -557,7 +427,6 @@ export class AddQuestionComponent implements OnInit {
     }
   }
 
-  //return Lessons BY unitId
   GetLessons(unitId: any) {
     // this.lessonId?.setValue("");
     // this.topicId?.setValue("");
@@ -573,7 +442,6 @@ export class AddQuestionComponent implements OnInit {
     }
   }
 
-  //return Topics BY LessonId
   GetTopics(LessonId: any) {
     //  this.topicId?.setValue("");
     if (LessonId != "") {
@@ -658,9 +526,11 @@ export class AddQuestionComponent implements OnInit {
           let objIndex = this.choices.value.indexOf(obj);
           if (objIndex == i) {
             obj.thumbnailPic = data;
+            this.questionsInputs[i].ChoiceAttachPath = fileReder;
             break;
           }
         }
+        console.log(this.questionsInputs);
       };
     }
   }

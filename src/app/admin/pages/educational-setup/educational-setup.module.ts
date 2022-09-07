@@ -17,6 +17,9 @@ import { AddMaterialFilesComponent } from "./EducationalSubject/add-materials/ad
 import { AddMaterialExamComponent } from "./EducationalSubject/add-materials/add-exams/add-material-exam/add-material-exam.component";
 import { AddPopQuestionComponent } from "./EducationalSubject/add-materials/add-exams/add-pop-question/add-pop-question.component";
 import { UploadExamStudentGradesComponent } from './EducationalSubject/upload-exam-student-grades/upload-exam-student-grades.component';
+import { StudentGroupIndexComponent } from "./student-groups/student-group-index/student-group-index.component";
+import { AddStudentGroupComponent } from "./student-groups/add-student-group/add-student-group.component";
+import {AssignStudentToGroupComponent} from "./student-groups/assign-student-to-group/assign-student-to-group.component";
 
 @NgModule({
   declarations: [
@@ -31,6 +34,10 @@ import { UploadExamStudentGradesComponent } from './EducationalSubject/upload-ex
     AddMaterialExamComponent,
     AddPopQuestionComponent,
     UploadExamStudentGradesComponent,
+    StudentGroupIndexComponent,
+    AddStudentGroupComponent,
+    AssignStudentToGroupComponent,
+   
   ],
   imports: [
   CommonModule,

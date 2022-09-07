@@ -148,7 +148,17 @@
                       </table>
                     </div>
                     <ng-container *ngIf="!isSolved">
-                      <div class="form-group row align-items-center">
+                      <div
+                        class="form-group row align-items-center"
+                        *ngIf="
+                          (!isSolved &&
+                            Question.QuestionDetails.StudentChoice == null) ||
+                          (!isSolved &&
+                            Question.QuestionDetails.StudentChoice != null &&
+                            Question.QuestionDetails.StudentChoice.RESULT ==
+                              'F')
+                        "
+                      >
                         <div class="col-3">
                           <label
                             for="last-name"
@@ -302,6 +312,7 @@
                           >
                             <th scope="row">
                               {{ mcqIndex + 1 }}
+
                               <i
                                 *ngIf="
                                   (isSolved && mcq.IsCorrect) ||
@@ -404,6 +415,59 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Exam Not Avaliable Section -->
+<section *ngIf="!IsAvaliable">
+  <div class="row">
+    <div class="col-12 text-center">
+      <img
+        src="assets/img/gallery/lock.png"
+        alt=""
+        class="img-fluid error-img mt-2"
+        height="300"
+        width="400"
+      />
+      <h1 class="mt-4">
+        {{ "labels.ExamNotAvaliable" | translate }}
+      </h1>
+      <a [routerLink]="['/']" class="btn btn-warning my-2">
+        {{ "General.BackToHome" | translate }}</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Exam Results not Avaliable Section -->
+<section *ngIf="!IsResultAvalable && isSolved">
+  <div class="row">
+    <div class="col-12 text-center">
+      <img
+        src="assets/img/gallery/maintenance.png"
+        alt=""
+        class="img-fluid error-img mt-2"
+        height="300"
+        width="400"
+      />
+      <h1 class="mt-4">
+        {{ "labels.ExamResultNotAvaliable" | translate }}
+      </h1>
+      <div class="w-75 error-text mx-auto mt-4">
+        <p>
+          {{ "labels.ExamResultDate" | translate }}: {{ examResultDate | date }}
+          <br />
+          {{ "labels.examResultTime" | translate }}:
+          {{ examResultTime }}
+          <br />
+          {{ "labels.StudentMark" | translate }} : {{ studentMark }} /
+          {{ examTotalMark }}
+          <br />
+          {{ "labels.StudentAnswerPeriod" | translate }} : {{ examDuration }}
+        </p>
+      </div>
+      <a [routerLink]="['/']" class="btn btn-warning my-2">Back To Home</a>
     </div>
   </div>
 </section>

@@ -34,12 +34,16 @@ import {
 } from "../../../../models/admin/AddExamGroupHeader";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from "ngx-spinner";
-import { IRowFunctionVM } from "app/shared/models/general/general";
+import {
+  IRowFunctionVM,
+  teacherByEduCompId,
+} from "app/shared/models/general/general";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { DeleteDialogComponent } from "app/shared/components/dialogs/delete-dialog/delete-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { AddSubQuestionComponent } from "../add-sub-question/add-sub-question.component";
+import { GeneralService } from "app/shared/services/General/general.service";
 
 @Component({
   selector: "app-add-exam",
@@ -55,7 +59,7 @@ export class AddExamComponent implements OnInit {
   stages: IStageDropModel[] = [];
   educationYears: IEducationYearDropModel[] = [];
   subjects: ISubjectDropModel[] = [];
-  teachers: ITeacherDropModel[] = [];
+  teachers: teacherByEduCompId[];
   examTypes: IExamTypeModel[] = [];
 
   units: IUnitModel[] = [];
@@ -186,6 +190,7 @@ export class AddExamComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private msg: ToastrService,
+    private generalService: GeneralService,
     private dialog: MatDialog,
     private spinner: NgxSpinnerService
   ) {
@@ -263,6 +268,7 @@ export class AddExamComponent implements OnInit {
     this.getAllQuestionHeaders();
 
     this.examTypeValidator();
+    this.RepeatableValidator();
   }
 
   ngAfterViewInit() {
@@ -442,29 +448,44 @@ export class AddExamComponent implements OnInit {
   }
 
   addExam(toAddEdit: IAddEditExamHeaderModel) {
-    let valid = this.myForm.valid;
     let validGroupHeadersForm = this.GroupHeadersForm.valid;
     this.submitted = true;
     if (this.examId == 0 && !validGroupHeadersForm) {
       this.GroupHeadsubmitted = true;
     } else {
-      if (valid) {
+      if (
+        this.hasCustomDiscountCtrl?.value == true &&
+        this.repeatNumbersCtrl.value <= 0
+      ) {
+        this.msg.warning("يجب ادخال عدد مرات التكرار");
+        return;
+      }
+
+      if (
+        this.hasCustomDiscountCtrl?.value == true &&
+        this.repeatingPriceCtrl.value < 0
+      ) {
+        this.msg.warning("يجب ادخال سعر تجديد الامتحان ");
+        return;
+      }
+      if (this.myForm.valid) {
         this.spinner.show();
         this.examService
           .addExam<IAddEditExamHeaderModel, any>(toAddEdit)
           .subscribe((response) => {
             //  console.log('addExam', response);
-            if (response.returnValue == 200 && response.examId) {
-              if (this.examId > 0) {
-                this.examId = response.examId;
-                this.router.navigate([], {
-                  queryParams: {
-                    examId: response.examId,
-                  },
-                  queryParamsHandling: "merge",
-                });
-                this.onAddExamGroupHeader();
-              } else this.msg.success("تم اضافه/ تعديل الامتحان بنجاح");
+            if (response.returnValue == 200 && response.examId > 0) {
+              console.log("addExam", response);
+              this.examId = response.examId;
+              this.router.navigate([], {
+                queryParams: {
+                  examId: response.examId,
+                },
+                queryParamsHandling: "merge",
+              });
+              this.onAddExamGroupHeader();
+
+              this.msg.success("تم اضافة/ تعديل الامتحان بنجاح");
               this.submitted = false;
             }
             this.spinner.hide();
@@ -501,8 +522,7 @@ export class AddExamComponent implements OnInit {
       exam: tempExam,
     };
 
-    let valid = this.GroupHeadersForm.valid;
-    if (valid) {
+    if (this.GroupHeadersForm.valid) {
       this.spinner.show();
       this.examService
         .addExamGroupHeader<IAddExamGroupHeaderModel, any>(ToAddExamGroupHeader)
@@ -526,7 +546,9 @@ export class AddExamComponent implements OnInit {
             this.spinner.hide();
           }
         });
-    } else this.msg.error("Check your inputs");
+    } else {
+      if (this.examId == 0) this.msg.error("Check your inputs");
+    }
   }
 
   getExamHeadById(examGroupHeader: IExamGroupHeaderModel) {
@@ -607,10 +629,10 @@ export class AddExamComponent implements OnInit {
     this.dialog
       .open(AddSubQuestionComponent, {
         data: {
-          msg: groupHeader,
+          examId: this.examId,
+          examGroupHeaderId: groupHeader.id,
+          subjectId: this.subjectIdCtrl.value,
         },
-        minHeight: "90vh",
-        minWidth: "90vw",
       })
       .afterClosed()
       .subscribe((confirm) => {
@@ -738,14 +760,15 @@ export class AddExamComponent implements OnInit {
     //   this.teacherUserIdCtrl?.setValue("");
     if (this.subjectIdCtrl?.value) {
       forkJoin([
-        this.examService.getAllTeachersBySublectId<ITeacherDropModel[]>(
+        this.generalService.getTeacherBySubjectAndEduCompId(
+          this.EduCompId,
           this.subjectIdCtrl?.value
         ),
         this.examService.getAllUnitsBySublectId<any[]>(
           this.subjectIdCtrl?.value
         ),
-      ]).subscribe((results) => {
-        this.teachers = results[0];
+      ]).subscribe((results: any) => {
+        this.teachers = results[0].teachers;
         this.units = results[1];
         this.teacherUserIdCtrl?.enable();
       });
@@ -783,5 +806,20 @@ export class AddExamComponent implements OnInit {
     }
     this.unitIdCtrl?.updateValueAndValidity();
     this.lessionIdCtrl?.updateValueAndValidity();
+  }
+
+  RepeatableValidator() {
+    let CustomDiscount = this.hasCustomDiscountCtrl?.value;
+    if (CustomDiscount == true) {
+      this.repeatNumbersCtrl?.setValidators([Validators.required]);
+      this.repeatingPriceCtrl?.setValidators([Validators.required]);
+    } else if (CustomDiscount == false) {
+      this.repeatNumbersCtrl?.clearValidators();
+      this.repeatingPriceCtrl?.clearValidators();
+      this.repeatNumbersCtrl?.reset();
+      this.repeatingPriceCtrl?.reset();
+    }
+    this.repeatNumbersCtrl?.updateValueAndValidity();
+    this.repeatingPriceCtrl?.updateValueAndValidity();
   }
 }

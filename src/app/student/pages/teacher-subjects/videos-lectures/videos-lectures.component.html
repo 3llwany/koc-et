@@ -10,9 +10,18 @@
     <mat-card class="card chpter">
       <div class="leccardimg">
         <img
+          *ngIf="teacherId == 22"
           mat-card-image
           class="card-img rounded mb-3"
           src="assets/img/licpic.jpeg"
+          [alt]="Chapter.subject_ar_name"
+        />
+
+        <img
+          *ngIf="teacherId != 22"
+          mat-card-image
+          class="card-img rounded mb-3"
+          src="assets/img/lectureBackground.jpeg"
           [alt]="Chapter.subject_ar_name"
         />
       </div>
@@ -45,9 +54,18 @@
     <mat-card class="card chpter">
       <div class="leccardimg">
         <img
+          *ngIf="teacherId == 22"
           mat-card-image
           class="card-img rounded mb-3"
           src="assets/img/licpic.jpeg"
+          [alt]="Chapter.unit_ar_name"
+        />
+
+        <img
+          *ngIf="teacherId != 22"
+          mat-card-image
+          class="card-img rounded mb-3"
+          src="assets/img/lectureBackground.jpeg"
           [alt]="Chapter.unit_ar_name"
         />
       </div>
@@ -77,9 +95,18 @@
     <mat-card class="card chpter">
       <div class="leccardimg">
         <img
+          *ngIf="teacherId == 22"
           mat-card-image
           class="card-img rounded mb-3"
           src="assets/img/licpic.jpeg"
+          [alt]="Chapter.lesson_ar_name"
+        />
+
+        <img
+          *ngIf="teacherId != 22"
+          mat-card-image
+          class="card-img rounded mb-3"
+          src="assets/img/lectureBackground.jpeg"
           [alt]="Chapter.lesson_ar_name"
         />
       </div>
@@ -121,9 +148,18 @@
     <mat-card class="card chpter" id="mat-{{ lecture.id }}">
       <div class="leccardimg">
         <img
+          *ngIf="teacherId == 22"
           mat-card-image
-          class="card-img rounded img-overlay mb-3"
+          class="card-img rounded mb-3"
           src="assets/img/licpic.jpeg"
+          [alt]="lecture.material_name"
+        />
+
+        <img
+          *ngIf="teacherId != 22"
+          mat-card-image
+          class="card-img rounded mb-3"
+          src="assets/img/lectureBackground.jpeg"
           [alt]="lecture.material_name"
         />
       </div>

@@ -1,0 +1,239 @@
+<div class="row">
+  <div class="col-12">
+    <div class="content-header primary">
+      {{ reportParamters.ReportNameAr }}
+      <button
+        mat-raised-button
+        class="btn btn-info bg-light-info float-right"
+        (click)="refresh()"
+      >
+        Reset
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="form-conainer" *ngIf="lecturesExamsViewsCountReportMode">
+  <div class="modal-body">
+    <app-lectures-exams-views-count-report [reportObj]="obj">
+    </app-lectures-exams-views-count-report>
+  </div>
+</div>
+
+<div class="form-conainer" *ngIf="studentsFollowUpReportMode">
+  <div class="modal-body">
+    <app-students-follow-up-report [reportObj]="obj">
+    </app-students-follow-up-report>
+  </div>
+</div>
+
+<div class="form-conainer" *ngIf="manualPaymentsReportMode">
+  <div class="modal-body">
+    <app-manual-payments-report [reportObj]="obj"> </app-manual-payments-report>
+  </div>
+</div>
+
+<div class="form-conainer" *ngIf="reservationReportMode">
+  <div class="modal-body">
+    <app-reservation-report [reportObj]="obj"> </app-reservation-report>
+  </div>
+</div>
+
+<div class="form-conainer" *ngIf="financialSummaryReportMode">
+  <div class="modal-body">
+    <app-financial-summary-report [reportObj]="obj">
+    </app-financial-summary-report>
+  </div>
+</div>
+
+<div class="form-conainer" *ngIf="financialDetailedReportMode">
+  <div class="modal-body">
+    <app-financial-detailed-report [reportObj]="obj">
+    </app-financial-detailed-report>
+  </div>
+</div>
+
+<!-- ############################################# -->
+<div class="form-conainer" *ngIf="lecturesSalesReportMode">
+  <div class="modal-body">
+    <app-lectures-sales-report [reportObj]="obj"> </app-lectures-sales-report>
+  </div>
+</div>
+
+<div class="form-conainer" *ngIf="financialReportMode">
+  <div class="modal-body">
+    <app-financial-report [reportObj]="obj"> </app-financial-report>
+  </div>
+</div>
+
+<div class="form-conainer" *ngIf="materialCodesReportMode">
+  <div class="modal-body">
+    <app-material-codes-report [reportObj]="obj"> </app-material-codes-report>
+  </div>
+</div>
+<!-- ############################################# -->
+
+<!-- <div class="row" *ngIf="!isSubmitted">
+  <div class="col-12">
+    <div class="content-header primary">
+      {{ reportParamters.ReportNameAr }}
+    </div>
+  </div>
+</div> -->
+
+<div class="row" *ngIf="!isSubmitted">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="myForm" class="form-conainer" *ngIf="!isSubmitted">
+          <div class="row">
+            <div
+              class="col-md-4 col-12"
+              *ngIf="reportParamters.IsCenterParameter"
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label>{{ "labels.Center" | translate }}</mat-label>
+                <mat-select
+                  formControlName="centerId"
+                  (selectionChange)="onSelectCenter()"
+                >
+                  <mat-option>{{ "General.Choose" | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let center of centers"
+                    [value]="center.Id"
+                  >
+                    {{ center.Name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div
+              class="col-md-4 col-12"
+              *ngIf="reportParamters.IsTeacherParameter"
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label>{{ "labels.Teacher" | translate }}</mat-label>
+                <mat-select formControlName="teacherUserId">
+                  <mat-option>{{ "General.Choose" | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let teacher of teachers"
+                    [value]="teacher.TeacherId"
+                  >
+                    {{ teacher.TeacherName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div
+              class="col-md-4 col-12"
+              *ngIf="reportParamters.IsFromDateParameter"
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.FromDate" | translate }}</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="fromDate"
+                  formControlName="fromDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="fromDate"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #fromDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div
+              class="col-md-4 col-12"
+              *ngIf="reportParamters.IsFromToParameter"
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label> {{ "labels.ToDate" | translate }}</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="toDate"
+                  formControlName="toDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="toDate"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #toDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div
+              class="col-md-4 col-12"
+              *ngIf="reportParamters.IsStudentParameter"
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label>{{ "labels.SearchStudent" | translate }}</mat-label>
+                <input
+                  type="text"
+                  placeholder="ادخل الاسم او البريد او رقم الموبايل"
+                  matInput
+                  [matAutocomplete]="auto"
+                  formControlName="studentName"
+                  (keyup)="onStudentSearch()"
+                />
+                <mat-autocomplete
+                  autoActiveFirstOption
+                  #auto="matAutocomplete"
+                  (optionSelected)="onSelectStudent($event)"
+                >
+                  <mat-option
+                    *ngFor="let student of students"
+                    [value]="student.StudentId"
+                  >
+                    {{ student.StudentName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+
+              <!-- <mat-form-field appearance="legacy">
+                <mat-label>{{ "labels.SearchStudent" | translate }}</mat-label>
+                <input
+                  matInput
+                  formControlName="studentName"
+                  placeholder="student name"
+                />
+              </mat-form-field>
+              <button
+                mat-raised-button
+                class="btn btn-primary"
+                (click)="onStudentSearch()"
+              >
+                {{ "General.Search" | translate }}
+              </button> -->
+            </div>
+
+            <!-- <div
+              class="col-md-4 col-12"
+              *ngIf="reportParamters.IsStudentParameter"
+            >
+              <mat-form-field appearance="legacy">
+                <mat-label>{{ "Navbar.Students" | translate }}</mat-label>
+                <mat-select formControlName="studentId">
+                  <mat-option>{{ "General.Choose" | translate }}</mat-option>
+                  <mat-option
+                    *ngFor="let student of students"
+                    [value]="student.StudentId"
+                  >
+                    {{ student.StudentName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button class="btn btn-primary" (click)="onSubmit()">
+          {{ "General.CreateReport" | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

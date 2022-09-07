@@ -56,6 +56,11 @@ export interface ITeacherDropModel {
   Name: string;
 }
 
+export interface ITeacherReportDropModel {
+  teacherUserId: number;
+  TeacherName: string;
+}
+
 export interface IExamTypeModel {
   exam_type_id: number;
   exam_ar_type_name: string;
@@ -81,12 +86,10 @@ export interface IExamHeaderModel {
   Id: number;
   Name: string;
 }
-
 export interface IPickedChoiceIdVM {
   questionId: number;
   choiceId: number;
 }
-
 export interface IExamGroupsVM {
   GroupId: number;
   GroupName: string;

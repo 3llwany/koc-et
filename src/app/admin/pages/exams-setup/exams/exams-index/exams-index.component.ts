@@ -1,3 +1,4 @@
+import { GeneralService } from "./../../../../../shared/services/General/general.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -19,7 +20,10 @@ import {
   ITeacherDropModel,
 } from "app/admin/models/admin/exam";
 import { DeleteDialogComponent } from "app/shared/components/dialogs/delete-dialog/delete-dialog.component";
-import { IRowFunctionVM } from "app/shared/models/general/general";
+import {
+  IRowFunctionVM,
+  teacherByEduCompId,
+} from "app/shared/models/general/general";
 
 @Component({
   selector: "app-exams-index",
@@ -35,7 +39,7 @@ export class ExamsIndexComponent implements OnInit {
   stages: IStageDropModel[] = [];
   educationYears: IEducationYearDropModel[] = [];
   subjects: ISubjectDropModel[] = [];
-  teachers: ITeacherDropModel[] = [];
+  teachers: teacherByEduCompId[];
 
   displayedColumns: string[] = [
     "#",
@@ -61,6 +65,7 @@ export class ExamsIndexComponent implements OnInit {
     private examService: ExamsService,
     private msg: ToastrService,
     private spinner: NgxSpinnerService,
+    private generalService: GeneralService,
     private dialog: MatDialog
   ) {
     route.queryParamMap.subscribe((params) => {
@@ -289,14 +294,15 @@ export class ExamsIndexComponent implements OnInit {
     this.teacherUserIdCtrl?.setValue("");
     if (this.subjectIdCtrl?.value) {
       //console.log("SELECTED subject: ", this.stageIdCtrl?.value);
-      this.examService
-        .getAllTeachersBySublectId<ITeacherDropModel[]>(
+      this.generalService
+        .getTeacherBySubjectAndEduCompId(
+          this.EduCompId,
           this.subjectIdCtrl?.value
         )
-        .subscribe((response) => {
+        .subscribe((response: any) => {
           if (response) {
-            this.teachers = response;
-            //console.log("teachers:", response);
+            this.teachers = response.teachers;
+            console.log("teachers:", response);
             this.teacherUserIdCtrl?.enable();
           }
         });

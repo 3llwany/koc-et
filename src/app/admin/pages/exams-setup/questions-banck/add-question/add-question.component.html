@@ -30,7 +30,7 @@
                     <div class="col-md-3 col-12">
                       <mat-form-field appearance="legacy">
                         <mat-label>
-                          {{ "labels.questioType" | translate }}
+                          {{ "labels.QuestionType" | translate }}
                         </mat-label>
                         <mat-select
                           formControlName="question_type_id"
@@ -192,9 +192,7 @@
 
                   <div class="col-md-3 col-12">
                     <mat-form-field appearance="legacy">
-                      <mat-label>{{
-                        "labels.difficulty_level" | translate
-                      }}</mat-label>
+                      <mat-label>{{ "labels.Level" | translate }}</mat-label>
                       <mat-select formControlName="difficulty_level">
                         <mat-option>
                           {{ "General.Choose" | translate }}
@@ -272,7 +270,7 @@
 
                       <div class="col-md-8 col-12">
                         <div class="question-img">
-                          <img class="img-fluid" [src]="thumbnailPic.value" />
+                          <img class="img-fluid" [src]="QuestionAttachPath" />
                         </div>
                       </div>
                     </ng-container>
@@ -318,6 +316,7 @@
                 "
               >
                 <!-- MCQ -->
+                <!--  let question of choices.ccontrols; -->
                 <mat-card
                   formArrayName="choices"
                   *ngFor="
@@ -369,7 +368,7 @@
                             <div class="question-img">
                               <img
                                 class="img-fluid"
-                                [src]="question.choice_attach"
+                                [src]="question.ChoiceAttachPath"
                               />
                             </div>
                           </div>
@@ -390,22 +389,22 @@
                       class="row"
                     >
                       <div class="col-3">
-                        <mat-radio-button [value]="1">
+                        <mat-radio-button [value]="0">
                           {{ "labels.AnswerOne" | translate }}
                         </mat-radio-button>
                       </div>
                       <div class="col-3">
-                        <mat-radio-button [value]="2">
+                        <mat-radio-button [value]="1">
                           {{ "labels.AnswerTwo" | translate }}
                         </mat-radio-button>
                       </div>
                       <div class="col-3">
-                        <mat-radio-button [value]="3">
+                        <mat-radio-button [value]="2">
                           {{ "labels.AnswerThree" | translate }}
                         </mat-radio-button>
                       </div>
                       <div class="col-3">
-                        <mat-radio-button [value]="4">
+                        <mat-radio-button [value]="3">
                           {{ "labels.AnswerFour" | translate }}
                         </mat-radio-button>
                       </div>

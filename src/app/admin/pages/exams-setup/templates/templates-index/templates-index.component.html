@@ -1,0 +1,405 @@
+<ngx-spinner></ngx-spinner>
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "General.Search" | translate }}
+
+        <a
+          mat-raised-button
+          routerLink="../add-template"
+          [queryParams]="{
+            functionId: functionId
+          }"
+          class="btn btn-info bg-light-info float-right"
+        >
+          <i class="fa fa-plus-square"></i>
+          {{ "General.Add" | translate }}
+        </a>
+
+        <a
+          mat-raised-button
+          (click)="getTemplates(1)"
+          class="btn btn-info float-right"
+        >
+          <i class="fa fa-search"></i>
+          {{ "General.Search" | translate }}
+        </a>
+      </mat-card-title>
+      <mat-card-content class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="myForm" class="form-container">
+              <div class="row">
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>
+                      {{ "Material.Teacher" | translate }}
+                    </mat-label>
+                    <mat-select
+                      formControlName="teacherUserId"
+                      (selectionChange)="getStageByTeacherId()"
+                    >
+                      <mat-option value="">
+                        {{ "Material.Teacher" | translate }}</mat-option
+                      >
+                      <mat-option
+                        *ngFor="let teach of Teachers"
+                        [value]="teach.teacherUserId"
+                      >
+                        {{ teach.teacher_ar_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{
+                      "Navbar.EducationalStage" | translate
+                    }}</mat-label>
+                    <mat-select
+                      (selectionChange)="returnYears()"
+                      formControlName="stageId"
+                    >
+                      <mat-option value="">{{
+                        "Navbar.EducationalStage" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let stage of stages"
+                        [value]="stage.Value"
+                      >
+                        {{ stage.Text }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        stageIdCtrl?.invalid &&
+                        (stageIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="myForm.stageIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{
+                      "labels.EducationalYear" | translate
+                    }}</mat-label>
+                    <mat-select
+                      (selectionChange)="returnTeacherSubjects()"
+                      formControlName="yearId"
+                    >
+                      <mat-option value="">{{
+                        "labels.EducationalYear" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let year of years"
+                        [value]="year.Value"
+                      >
+                        {{ year.Text_Ar }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        educationYearIdCtrl?.invalid &&
+                        (educationYearIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="educationYearIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "Material.Subjects" | translate }}</mat-label>
+                    <mat-select
+                      (selectionChange)="GetUnits()"
+                      formControlName="subjectId"
+                    >
+                      <mat-option value="">{{
+                        "Material.Subjects" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let sub of subjects"
+                        [value]="sub.Value"
+                      >
+                        {{ sub.Text }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        subjectIdCtrl?.invalid &&
+                        (subjectIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="subjectIdCtrl?.errors?.required">
+                        {{ "labels.MustChoosevalue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Unit" | translate }}</mat-label>
+                    <mat-select
+                      (selectionChange)="GetLessons()"
+                      formControlName="unitId"
+                    >
+                      <mat-option value="">{{
+                        "labels.Unit" | translate
+                      }}</mat-option>
+                      <mat-option
+                        *ngFor="let unit of units"
+                        [value]="unit.Value"
+                      >
+                        {{ unit.Text }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        unitIdCtrl?.invalid &&
+                        (unitIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="unitIdCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Lesson" | translate }}</mat-label>
+                    <mat-select
+                      formControlName="lessonId"
+                      (selectionChange)="GetTopics()"
+                    >
+                      <mat-option value="">{{
+                        "labels.Lesson" | translate
+                      }}</mat-option>
+                      <mat-option
+                        [value]="lession.Value"
+                        *ngFor="let lession of lessons"
+                      >
+                        {{ lession.Text }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        lessonIdCtrl?.invalid &&
+                        (lessonIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="lessionIdCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 col-12">
+                  <mat-form-field appearance="legacy">
+                    <mat-label>{{ "labels.Topic" | translate }}</mat-label>
+                    <mat-select formControlName="topicId">
+                      <mat-option value="">{{
+                        "labels.Topic" | translate
+                      }}</mat-option>
+                      <mat-option
+                        [value]="topic.Value"
+                        *ngFor="let topic of topics"
+                      >
+                        {{ topic.Text }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
+                        lessonIdCtrl?.invalid &&
+                        (lessonIdCtrl?.touched || submitted)
+                      "
+                    >
+                      <span *ngIf="lessionIdCtrl?.errors?.required">
+                        {{ "labels.mustEnterValue" | translate }}
+                      </span>
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-title>
+        {{ "Navbar.Templates" | translate }}
+      </mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="standard">
+          <mat-label>Filter</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Ex. ium"
+            #input
+          />
+        </mat-form-field>
+        <div class="mat-elevation-z8 f-w">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Name" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.Name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Subject">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Materials" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.Subject }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Year">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.EducationalYear" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.Year }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Teacher">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Teacher" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.Teacher }}</td>
+            </ng-container>
+
+            <!-- publish Column -->
+            <ng-container matColumnDef="publish">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.ThePublish" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">
+                <span *ngIf="ele?.isPublish">
+                  {{ "labels.Published" | translate }}
+                  <i class="fa fa-check-circle success ml-1" aria-hidden="true">
+                  </i>
+                </span>
+                <span *ngIf="!ele?.isPublish">
+                  {{ "labels.UnPublished" | translate }}
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+
+              <td mat-cell *matCellDef="let template">
+                <div ngbDropdown class="d-inline-block">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    id="dropdownBasic1"
+                    ngbDropdownToggle
+                  >
+                    actions
+                    <!-- <i class="fa fa-ellipsis-h"></i> -->
+                  </button>
+                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <ng-container *ngFor="let fun of rowFunctions">
+                      <a
+                        *ngIf="fun.functionName === 'Publish'"
+                        (click)="PublishDepublishTemplate(template.Id)"
+                        ngbDropdownItem
+                      >
+                        <span *ngIf="!template.isPublish">
+                          <i class="ft-upload font-medium-3 mr-2"></i>
+                          {{ "labels.Publish" | translate }}
+                        </span>
+
+                        <span *ngIf="template.isPublish">
+                          <i class="ft-download font-medium-3 mr-2"></i>
+                          {{ "labels.Unpublish" | translate }}
+                        </span>
+                      </a>
+
+                      <a
+                        *ngIf="fun.functionName === 'Edit'"
+                        ngbDropdownItem
+                        routerLink="../add-template"
+                        [queryParams]="{
+                          templateId: template.Id,
+                          functionId: functionId
+                        }"
+                      >
+                        <i class="fa fa-edit mr-2"></i>
+                        {{ "General.Edit" | translate }}
+                      </a>
+
+                      <a
+                        *ngIf="fun.functionName === 'Points'"
+                        ngbDropdownItem
+                        routerLink=""
+                        [queryParams]="{
+                          groupId: template.Id,
+                          functionId: functionId
+                        }"
+                      >
+                        <i class="fa fa-edit mr-2"></i>
+                        {{ "labels.Points" | translate }}
+                      </a>
+
+                      <a
+                        ngbDropdownItem
+                        *ngIf="fun.functionName === 'Delete'"
+                        (click)="openDeleateDialog(template)"
+                      >
+                        <i class="fa fa-times mr-2"></i>
+                        {{ "General.Delete" | translate }}
+                      </a>
+                    </ng-container>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              [class.bg-light-info]="!row?.isPublish"
+            ></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data matching the filter "{{ input.value }}"
+              </td>
+            </tr>
+          </table>
+          <mat-paginator
+            [pageSizeOptions]="[10]"
+            (page)="getTemplates($event.pageIndex + 1)"
+            [length]="itemsCount"
+            [pageSize]="10"
+            showFirstLastButtons
+            aria-label="Select page of users"
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

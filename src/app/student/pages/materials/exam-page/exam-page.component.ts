@@ -179,7 +179,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
       this.TeacherName = res.teacherName;
       this.SubjectName = res.SubjectName;
       //this.studentId = res.ex.exam_student.student_id;
-      //this.IsAvaliable = res.item.details.IsAvaliable;
+      this.IsAvaliable = res.item.details.IsAvaliable;
       this.examTotalMark = res.ex.total_mark;
       this.student_grade = res.ex.exam_student?.student_grade;
       this.studentMark = res.ex.exam_result;
@@ -202,32 +202,40 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   }
 
   PickedChoiceId: IPickedChoiceIdVM[] = [];
+
   onRadioChange(Studentanswer: number, question: IExamQuestionsVM) {
+    console.log("Studentanswer", Studentanswer);
+
     let answer: IPickedChoiceIdVM = {
       questionId: question.QuestionDetails.questionId,
       choiceId: Number(
         Studentanswer > 0 && Studentanswer <= question.MCQ?.length + 1
-          ? question.MCQ[Studentanswer - 1]?.Id
+          ? question.MCQ[Studentanswer - 1]?.Id || null
           : null
       ),
     };
-    if (Studentanswer > 0 && Studentanswer <= 4) {
-      let questionIndex: any = this.PickedChoiceId.findIndex(
-        (e) => e.questionId === question?.QuestionDetails?.questionId
-      );
-      if (questionIndex >= 0) this.PickedChoiceId[questionIndex] = answer;
-      else this.PickedChoiceId.push(answer);
-      // console.log("questionIndex", questionIndex);
-      //console.log("answer=>:  ", answer);
-      //  console.log("questionId=>:  ", question?.QuestionDetails?.questionId);
-      //console.log("PickedChoiceId", this.PickedChoiceId);
-    }
+
+    let questionIndex: any = this.PickedChoiceId.findIndex(
+      (e) => e.questionId === question?.QuestionDetails?.questionId
+    );
+
+    if (questionIndex >= 0) this.PickedChoiceId[questionIndex] = answer;
+    else this.PickedChoiceId.push(answer);
+
+    console.log("questionIndex", questionIndex);
+    console.log("answer=>:  ", answer);
+    console.log("questionId=>:  ", question?.QuestionDetails?.questionId);
+    console.log("PickedChoiceId", this.PickedChoiceId);
   }
 
   SingleQuestionForm(questionId: any) {
     let answer = this.PickedChoiceId.find((e) => e.questionId === questionId);
     console.log("answerFromSigleQ", answer);
-    if (answer?.choiceId == null || answer?.choiceId == undefined) {
+    if (
+      answer?.choiceId == null ||
+      answer?.choiceId == undefined ||
+      answer?.choiceId == 0
+    ) {
       this.toastr.warning("من فضلك اختر إجابة");
       return;
     } else {

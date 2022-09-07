@@ -107,6 +107,7 @@ export class UploadAttendanceComponent implements OnInit {
       this.materialId,
       p
     ).subscribe((res) => {
+      console.log("offlineLectureAttendeesTable", res);
       this.dataSource = new MatTableDataSource(res.model);
       this.itemsCount = res.itemsCount;
       this.spinner.hide();

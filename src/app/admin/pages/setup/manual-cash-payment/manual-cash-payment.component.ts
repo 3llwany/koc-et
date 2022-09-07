@@ -125,7 +125,7 @@ export class ManualCashPaymentComponent implements OnInit {
       this.searchForm.value,
       this.EduCompId
     ).subscribe((res: any) => {
-      // console.log('PaymentSearch', res);
+      console.log("PaymentSearch", res);
       if (res.model?.userId) {
         //  this.Teachers = res.lstTeachers;
         this.paymentFormCtrl.userId.setValue(res.model.userId);

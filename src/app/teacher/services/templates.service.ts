@@ -40,7 +40,7 @@ export class TemplatesService {
     );
   }
 
-  createTemplate(eduCompId: any, data: any) {
+  addUpdateTemplate(data: any) {
     return this.http.post(environment.apiURL + "template/addtemplate", data);
   }
 

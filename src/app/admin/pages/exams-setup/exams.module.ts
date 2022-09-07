@@ -12,6 +12,9 @@ import { QuestionsIndexComponent } from "./questions-banck/questions-index/quest
 import { AddQuestionComponent } from "./questions-banck/add-question/add-question.component";
 import { ExamsIndexComponent } from "./exams/exams-index/exams-index.component";
 import { AddSubQuestionComponent } from "./exams/add-sub-question/add-sub-question.component";
+import { TemplatesIndexComponent } from "./templates/templates-index/templates-index.component";
+import { AddTemplateComponent } from './templates/add-template/add-template.component';
+import { CorrectionIndexComponent } from "./exam-correction/correction-index/correction-index.component";
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { AddSubQuestionComponent } from "./exams/add-sub-question/add-sub-questi
     AddSubQuestionComponent,
     QuestionsIndexComponent,
     AddQuestionComponent,
+    TemplatesIndexComponent,
+    AddTemplateComponent,
+    CorrectionIndexComponent
   ],
   imports: [
     ExamsRoutingModule,

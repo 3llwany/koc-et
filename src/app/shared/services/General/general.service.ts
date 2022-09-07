@@ -99,4 +99,10 @@ export class GeneralService {
   ReadNotification(id: any) {
     return this.http.get(environment.apiURL + "AJAX/ReadNotification/" + id);
   }
+
+  getTeacherBySubjectAndEduCompId(EduCompId: any, subjectId: any) {
+    return this.http.get(
+      `${environment.apiURL}Admin/getTeachersByEduCompID/${EduCompId}/${subjectId}`
+    );
+  }
 }
