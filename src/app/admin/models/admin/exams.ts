@@ -144,11 +144,9 @@ export interface IGetMatAttachedQuizVM {
   examDetails: IExamVM[];
 }
 export interface IMcqChoiceVM {
-  // id: number;
-  //  choice_attach: string;
   choice_id: number;
   choice_text: string;
-  thumbnailPic: string;
+  thumbnailPic: any;
   ChoiceAttachPath: string;
   remove_image: boolean;
   //  IsCorrect: boolean;
