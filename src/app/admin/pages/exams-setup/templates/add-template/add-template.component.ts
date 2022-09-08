@@ -95,7 +95,7 @@ export class AddTemplateComponent implements OnInit {
       price: ["", [Validators.required, CustomeValidator.minusNum]],
       exam_minute: ["", [Validators.required, CustomeValidator.minusNum]],
       exam_hour: ["", [Validators.required, CustomeValidator.minusNum]],
-      priceDiscount: ["", [Validators.required, CustomeValidator.minusNum]],
+      priceDiscount: [""],
       Avilable_Date_From: [""],
       priceDiscountType: [0],
       Avilable_Date_To: [""],
@@ -103,13 +103,13 @@ export class AddTemplateComponent implements OnInit {
       toHour: [""],
       ResultDate: [""],
       ResultTime: [""],
-      //  Publish: [false],
       Individually_Purchased: [false],
       repeatableExam: [false],
       repeatableExam_Count: [false],
       SendWhatsApp: [false],
       CustomDiscountApplied: [false],
       StudentRepeatExamCost: [""],
+      Publish: [false],
     });
 
     this.DetailForm = this.fb.group({

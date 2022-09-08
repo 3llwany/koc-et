@@ -159,7 +159,7 @@
       </mat-card-content>
       <mat-card-actions>
         <ng-container *ngIf="exam.IsAvaliable">
-          <a
+          <!-- <a
             mat-raised-button
             routerLink="/student/exam/{{ exam.id }}"
             target="_blank"
@@ -170,13 +170,22 @@
             {{ "General.View" | translate }}
           </a>
 
+          <button
+            mat-raised-button
+            (click)="openBuyDialog(exam.id, 'Exam')"
+            id="buy-exam-{{ exam.id }}"
+            class="btn btn-primary"
+            *ngIf="!exam.Purchased && exam.price > 0"
+          >
+            {{ "Material.Buy" | translate }}
+          </button> -->
           <a
             mat-raised-button
             routerLink="/student/exam/{{ exam.id }}"
             target="_blank"
-            id="ex-open-{{ exam.id }}"
+            id="exam-{{ exam.id }}"
             class="btn btn-primary"
-            style="display: none"
+            *ngIf="exam.Purchased"
           >
             {{ "General.View" | translate }}
           </a>
@@ -186,7 +195,7 @@
             (click)="openBuyDialog(exam.id, 'Exam')"
             id="buy-exam-{{ exam.id }}"
             class="btn btn-primary"
-            *ngIf="!exam.Purchased && exam.price > 0"
+            *ngIf="!exam.Purchased"
           >
             {{ "Material.Buy" | translate }}
           </button>
@@ -246,7 +255,7 @@
       </mat-card-content>
       <mat-card-actions>
         <ng-container *ngIf="templet.IsAvaliable">
-          <a
+          <!-- <a
             mat-raised-button
             (click)="GenerateExamFromTemplate(templet.Id)"
             target="_blank"
@@ -258,6 +267,36 @@
           >
             {{ "General.View" | translate }}
           </a>
+          <button
+            mat-raised-button
+            (click)="openBuyDialog(templet.Id, 'Template')"
+            id="buy-temp-{{ templet.Id }}"
+            class="btn btn-primary"
+            *ngIf="!templet.Purchased && templet.price > 0"
+          >
+            {{ "Material.Buy" | translate }}
+          </button> -->
+
+          <a
+            mat-raised-button
+            (click)="GenerateExamFromTemplate(templet.Id)"
+            target="_blank"
+            id="temp-{{ templet.Id }}"
+            class="btn btn-primary"
+            *ngIf="templet.Purchased"
+          >
+            {{ "General.View" | translate }}
+          </a>
+
+          <button
+            mat-raised-button
+            (click)="openBuyDialog(templet.Id, 'Template')"
+            id="buy-temp-{{ templet.Id }}"
+            class="btn btn-primary"
+            *ngIf="!templet.Purchased"
+          >
+            {{ "Material.Buy" | translate }}
+          </button>
 
           <a
             mat-raised-button
@@ -275,16 +314,6 @@
           >
             {{ "Material.ResetExam" | translate }}
           </a>
-
-          <button
-            mat-raised-button
-            (click)="openBuyDialog(templet.Id, 'Template')"
-            id="buy-temp-{{ templet.Id }}"
-            class="btn btn-primary"
-            *ngIf="!templet.Purchased && templet.price > 0"
-          >
-            {{ "Material.Buy" | translate }}
-          </button>
         </ng-container>
 
         <ng-container *ngIf="!templet.IsAvaliable">

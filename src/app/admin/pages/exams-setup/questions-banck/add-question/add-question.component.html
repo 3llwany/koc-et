@@ -270,6 +270,14 @@
 
                       <div class="col-md-8 col-12">
                         <div class="question-img">
+                          <mat-checkbox
+                            *ngIf="QuestionAttachPath"
+                            formControlName="remove_image"
+                            [value]="true"
+                            class="remove_image"
+                          >
+                            Remove Image
+                          </mat-checkbox>
                           <img class="img-fluid" [src]="QuestionAttachPath" />
                         </div>
                       </div>
@@ -366,6 +374,14 @@
 
                           <div class="col-md-8 col-12">
                             <div class="question-img">
+                              <mat-checkbox
+                                *ngIf="question.ChoiceAttachPath"
+                                formControlName="remove_image"
+                                [value]="true"
+                                class="remove_image"
+                              >
+                                Remove Image
+                              </mat-checkbox>
                               <img
                                 class="img-fluid"
                                 [src]="question.ChoiceAttachPath"

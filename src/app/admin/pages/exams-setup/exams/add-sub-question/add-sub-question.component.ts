@@ -176,7 +176,7 @@ export class AddSubQuestionComponent implements OnInit {
       lessionId: [""],
       exam_question_text: [""],
       questionPerfectAnswer: [""],
-      questionMark: ["", [Validators.required, CustomeValidator.minusNum]],
+      questionMark: ["", [Validators.required, CustomeValidator.bigZero]],
       answerOneId: [""],
       answerOne: [""],
       answerOneIsCorrect: [],
@@ -215,16 +215,19 @@ export class AddSubQuestionComponent implements OnInit {
   }
 
   questionTypeValidation() {
-    if (this.questionTypeIdCtrl?.value == 1) {
+    if (this.questionTypeIdCtrl?.value === 1) {
+      console.log("PerfectAnswer is required");
       this.questionPerfectAnswerCtrl?.setValidators(Validators.required);
     } else {
-      this.questionPerfectAnswerCtrl?.reset();
+      console.log("PerfectAnswer is not required");
       this.questionPerfectAnswerCtrl?.clearAsyncValidators();
+      this.questionPerfectAnswerCtrl?.reset();
     }
     this.questionPerfectAnswerCtrl?.updateValueAndValidity();
   }
 
   onSubmit() {
+    this.submitted = true;
     if (this.questionTypeIdCtrl?.value == 1) {
       // مقالي
 
@@ -344,8 +347,16 @@ export class AddSubQuestionComponent implements OnInit {
         mcq_choices: [choice1, choice2, choice3, choice4],
       };
 
-      console.log("mcq_choices", toAddEdit.mcq_choices);
+      console.log("FormValue", toAddEdit);
+      console.log("myForm", this.myForm);
 
+      // if no question Text or img
+      if (!this.questionTextCtrl?.value && image == null) {
+        this.toastr.warning("يجب ادخال نص السؤال او اختيار صوره السؤال");
+        return;
+      }
+
+      // if no correct answer
       if (
         !choice1.is_correct &&
         !choice2.is_correct &&
@@ -353,23 +364,52 @@ export class AddSubQuestionComponent implements OnInit {
         !choice4.is_correct
       ) {
         this.toastr.warning("يجب اختيار الإجابة الصحيحة");
-      } else {
-        if (
-          (choice1.choice_text != null ||
-            choice1.choice_image.FileAsBase64 != "") &&
-          (choice2.choice_text != null ||
-            choice2.choice_image.FileAsBase64 != "") &&
-          (choice3.choice_text != null ||
-            choice3.choice_image.FileAsBase64 != "") &&
-          (choice4.choice_text != null ||
-            choice4.choice_image.FileAsBase64 != "")
-        ) {
-          if (this.questionId > 0) {
-            this.editMcqQuestion(toAddEdit);
-          } else {
-            this.addMcqQuestion(toAddEdit);
-          }
-        } else this.toastr.error("Please Check Your Inputs");
+        return;
+      }
+
+      // if mcq 1 no text or img
+      if (choice1.choice_text === "" && choice1.choice_image === null) {
+        this.toastr.warning("يجب ادخال نص السؤال الأول او اختيار صورة ");
+        return;
+      }
+
+      // if mcq 2 no text or img
+      if (choice2.choice_text === "" && choice2.choice_image === null) {
+        this.toastr.warning("يجب ادخال نص السؤال الثاني او اختيار صورة ");
+        return;
+      }
+
+      // if mcq 3 no text or img
+      if (choice3.choice_text === "" && choice3.choice_image === null) {
+        this.toastr.warning("يجب ادخال نص السؤال الثالث او اختيار صورة ");
+        return;
+      }
+
+      // if mcq 4 no text or img
+      if (choice4.choice_text === "" && choice4.choice_image === null) {
+        this.toastr.warning("يجب ادخال نص السؤال الرابع او اختيار صورة ");
+        return;
+      }
+
+      // if (
+      //   (choice1.choice_text === "" ||
+      //     choice1.choice_image?.FileAsBase64 === null) &&
+      //   (choice2.choice_text === "" ||
+      //     choice2.choice_image?.FileAsBase64 === null) &&
+      //   (choice3.choice_text === "" ||
+      //     choice3.choice_image?.FileAsBase64 === null) &&
+      //   (choice4.choice_text === "" ||
+      //     choice4.choice_image.FileAsBase64 === null)
+      // ) {
+      //   this.toastr.warning("يجب ادخال نص جميع الاجابات او اختيار صور ");
+      //   return;
+      // }
+      else {
+        if (this.questionId > 0) {
+          this.editMcqQuestion(toAddEdit);
+        } else {
+          this.addMcqQuestion(toAddEdit);
+        }
       }
     }
   }
@@ -438,68 +478,70 @@ export class AddSubQuestionComponent implements OnInit {
 
   addMcqQuestion(toAddEdit: IAddEditQuestionMcqModel) {
     // console.log('on add ', toAddEdit);
-    // if (this.myForm.valid) {
-    this.spinner.show();
-    this.examService
-      .addQuestion<IAddedTextExamResponse>(toAddEdit)
-      .subscribe((response) => {
-        // console.log('respooooooonse', response);
+    if (this.myForm.valid) {
+      this.spinner.show();
+      this.examService
+        .addQuestion<IAddedTextExamResponse>(toAddEdit)
+        .subscribe((response) => {
+          // console.log('respooooooonse', response);
 
-        if (response.returnValue == 200) {
-          this.getAllQuestionsByHeadId();
+          if (response.returnValue == 200) {
+            this.getAllQuestionsByHeadId();
 
-          this.mainQuestionCtrl?.setValue(null);
-          this.questionMarkCtrl?.setValue(null);
-          this.questionTypeIdCtrl?.setValue(null);
-          this.questionImageCtrl?.setValue(null);
-          this.questionTextCtrl?.setValue(null);
-          this.questionPerfectAnswerCtrl?.setValue(null);
-          this.unitIdCtrl?.setValue(null);
-          this.lessonIdCtrl?.setValue(null);
+            this.mainQuestionCtrl?.setValue(null);
+            this.questionMarkCtrl?.setValue(null);
+            this.questionTypeIdCtrl?.setValue(null);
+            this.questionImageCtrl?.setValue(null);
+            this.questionTextCtrl?.setValue(null);
+            this.questionPerfectAnswerCtrl?.setValue(null);
+            this.unitIdCtrl?.setValue(null);
+            this.lessonIdCtrl?.setValue(null);
 
-          this.myForm.reset();
-        }
-        this.spinner.hide();
-      });
-    //}
+            this.myForm.reset();
+            this.submitted = false;
+          }
+          this.spinner.hide();
+        });
+    }
   }
 
   editMcqQuestion(toAddEdit: IAddEditQuestionMcqModel) {
     console.log("editMcqQuestion", toAddEdit);
-    // if (this.myForm.valid) {
-    this.spinner.show();
-    this.examService
-      .editQuestion<IQuestionDetailsForEditModel>(toAddEdit)
-      .subscribe((response) => {
-        console.log("editMcqQuestion", response);
-        if (response) {
-          let toEdit = this.questionsInGrid.find(
-            (q) => q.Id == this.questionId
-          );
+    if (this.myForm.valid) {
+      this.spinner.show();
+      this.examService
+        .editQuestion<IQuestionDetailsForEditModel>(toAddEdit)
+        .subscribe((response) => {
+          console.log("editMcqQuestion", response);
+          if (response) {
+            let toEdit = this.questionsInGrid.find(
+              (q) => q.Id == this.questionId
+            );
 
-          if (toEdit) {
-            toEdit.Text = this.questionTextCtrl?.value;
-            toEdit.QuestionTypeAr = "اختيار من متعدد";
-            toEdit.Image = this.questionImageCtrl?.value;
+            if (toEdit) {
+              toEdit.Text = this.questionTextCtrl?.value;
+              toEdit.QuestionTypeAr = "اختيار من متعدد";
+              toEdit.Image = this.questionImageCtrl?.value;
+            }
+
+            this.mainQuestionCtrl?.setValue(null);
+            this.questionMarkCtrl?.setValue(null);
+            this.questionTypeIdCtrl?.setValue(null);
+            this.questionImageCtrl?.setValue(null);
+            this.questionTextCtrl?.setValue(null);
+            this.questionPerfectAnswerCtrl?.setValue(null);
+
+            this.unitIdCtrl?.setValue(null);
+            this.lessonIdCtrl?.setValue(null);
+
+            this.myForm.reset();
+            this.submitted = false;
+
+            this.questionId = 0; // return to add mode
           }
-
-          this.mainQuestionCtrl?.setValue(null);
-          this.questionMarkCtrl?.setValue(null);
-          this.questionTypeIdCtrl?.setValue(null);
-          this.questionImageCtrl?.setValue(null);
-          this.questionTextCtrl?.setValue(null);
-          this.questionPerfectAnswerCtrl?.setValue(null);
-
-          this.unitIdCtrl?.setValue(null);
-          this.lessonIdCtrl?.setValue(null);
-
-          this.myForm.reset();
-
-          this.questionId = 0; // return to add mode
-        }
-        this.spinner.hide();
-      });
-    //}
+          this.spinner.hide();
+        });
+    }
   }
 
   getQuestionForEditByID(questionId: number) {
@@ -525,53 +567,53 @@ export class AddSubQuestionComponent implements OnInit {
           }
 
           if (response.question_type_id == 2) {
-            this.answerOneIdCtrl?.setValue(response.MCQ_Choices[0].Id);
-            this.answerOneCtrl?.setValue(response.MCQ_Choices[0].Text);
+            this.answerOneIdCtrl?.setValue(response.MCQ_Choices[0]?.Id);
+            this.answerOneCtrl?.setValue(response.MCQ_Choices[0]?.Text);
             this.answerOneImageCtrl?.setValue(
-              "mozakretyapi" + response?.MCQ_Choices[0].Image
+              "mozakretyapi" + response?.MCQ_Choices[0]?.Image
             );
             // this.answerOneImageCtrl?.setValue(response.MCQ_Choices[0].Image);
             //  this.answerOneFile.FileAsBase64 = response.MCQ_Choices[0].Image;
             this.answerOneIsCorrectCtrl?.setValue(
-              response.MCQ_Choices[0].Is_Correct
+              response.MCQ_Choices[0]?.Is_Correct
             );
-            this.oneIsCorrect = response.MCQ_Choices[0].Is_Correct;
+            this.oneIsCorrect = response.MCQ_Choices[0]?.Is_Correct;
 
-            this.answerTwoIdCtrl?.setValue(response.MCQ_Choices[1].Id);
-            this.answerTwoCtrl?.setValue(response.MCQ_Choices[1].Text);
+            this.answerTwoIdCtrl?.setValue(response.MCQ_Choices[1]?.Id);
+            this.answerTwoCtrl?.setValue(response.MCQ_Choices[1]?.Text);
             this.answerTwoImageCtrl?.setValue(
-              "mozakretyapi" + response?.MCQ_Choices[1].Image
+              "mozakretyapi" + response?.MCQ_Choices[1]?.Image
             );
             //  this.answerTwoImageCtrl?.setValue(response.MCQ_Choices[1].Image);
             // this.answerTwoFile.FileAsBase64 = response.MCQ_Choices[1].Image;
             this.answerTwoIsCorrectCtrl?.setValue(
-              response.MCQ_Choices[1].Is_Correct
+              response.MCQ_Choices[1]?.Is_Correct
             );
-            this.twoIsCorrect = response.MCQ_Choices[1].Is_Correct;
+            this.twoIsCorrect = response.MCQ_Choices[1]?.Is_Correct;
 
-            this.answerThreeIdCtrl?.setValue(response.MCQ_Choices[2].Id);
-            this.answerThreeCtrl?.setValue(response.MCQ_Choices[2].Text);
+            this.answerThreeIdCtrl?.setValue(response.MCQ_Choices[2]?.Id);
+            this.answerThreeCtrl?.setValue(response.MCQ_Choices[2]?.Text);
             this.answerThreeImageCtrl?.setValue(
-              "mozakretyapi" + response?.MCQ_Choices[2].Image
+              "mozakretyapi" + response?.MCQ_Choices[2]?.Image
             );
             // this.answerThreeImageCtrl?.setValue(response.MCQ_Choices[2].Image);
             //  this.answerThreeFile.FileAsBase64 = response.MCQ_Choices[2].Image;
             this.answerThreeIsCorrectCtrl?.setValue(
-              response.MCQ_Choices[2].Is_Correct
+              response.MCQ_Choices[2]?.Is_Correct
             );
-            this.threeIsCorrect = response.MCQ_Choices[2].Is_Correct;
+            this.threeIsCorrect = response.MCQ_Choices[2]?.Is_Correct;
 
-            this.answerFourIdCtrl?.setValue(response.MCQ_Choices[3].Id);
-            this.answerFourCtrl?.setValue(response.MCQ_Choices[3].Text);
+            this.answerFourIdCtrl?.setValue(response.MCQ_Choices[3]?.Id);
+            this.answerFourCtrl?.setValue(response.MCQ_Choices[3]?.Text);
             this.answerFourImageCtrl?.setValue(
-              "mozakretyapi" + response?.MCQ_Choices[3].Image
+              "mozakretyapi" + response?.MCQ_Choices[3]?.Image
             );
             //  this.answerFourImageCtrl?.setValue(response.MCQ_Choices[3].Image);
             //  this.answerFourFile.FileAsBase64 = response.MCQ_Choices[3].Image;
             this.answerFourIsCorrectCtrl?.setValue(
-              response.MCQ_Choices[3].Is_Correct
+              response.MCQ_Choices[3]?.Is_Correct
             );
-            this.fourIsCorrect = response.MCQ_Choices[3].Is_Correct;
+            this.fourIsCorrect = response.MCQ_Choices[3]?.Is_Correct;
           }
 
           console.log("answer 1", this.oneIsCorrect);

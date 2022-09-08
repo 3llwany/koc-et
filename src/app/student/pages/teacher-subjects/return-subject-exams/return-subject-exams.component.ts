@@ -120,8 +120,7 @@ export class ReturnSubjectExamsComponent implements OnInit {
       if (res.returnValue == 1) {
         this.toastr.success("تم شراء الإمتحان");
         this.GenerateExamFromTemplate(id);
-        this.router.navigateByUrl(`/student/exam/${id}`);
-        // window.open(`/student/exam/${id}`);
+        //this.router.navigateByUrl(`/student/exam/${id}`);
       } else if (res.returnValue == 0) {
         this.toastr.info(res.returnString, "خطأ");
       } else if (res.returnValue == 3) {
@@ -169,8 +168,7 @@ export class ReturnSubjectExamsComponent implements OnInit {
     this.MaterialsService.ResetTemplateAsStudent(id).subscribe((res: any) => {
       if (res.returnValue == 1) {
         this.GenerateExamFromTemplate(id);
-        this.router.navigateByUrl(`/student/exam/${id}`);
-        // window.open(`/student/exam/${id}`);
+        // this.router.navigateByUrl(`/student/exam/${id}`);
       } else if (res.returnValue == 0) {
         this.toastr.info(res.returnString, "خطأ");
       }

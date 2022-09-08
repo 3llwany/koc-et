@@ -160,7 +160,6 @@ export class AddQuestionComponent implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       this.questionID = params.get("questionId");
       this.functionId = Number(params.get("functionId"));
-      console.log(" this.questionID ", this.questionID);
       if (this.functionId) {
         this.authService
           .getUserRowFunctions(this.functionId)
@@ -241,7 +240,7 @@ export class AddQuestionComponent implements OnInit {
   getQuestionByID(id: any) {
     this.spinner.show();
     this.examsService.getQuestionByID(id).subscribe((res: any) => {
-      //  console.log("getQuestionByID: ", res);
+      console.log("getQuestionByID: ", res);
       if (res.QuestionId != null) {
         this.teacherUserId?.enable();
         this.main_subject_id?.enable();
@@ -278,7 +277,7 @@ export class AddQuestionComponent implements OnInit {
                 thumbnailPic: d.thumbnailPic,
                 ChoiceAttachPath: "mozakretyapi" + d.ChoiceAttachPath,
                 //  IsCorrect: d.IsCorrect,
-                remove_image: false,
+                remove_image: d.remove_image || false,
               })
             )
           );
@@ -304,7 +303,6 @@ export class AddQuestionComponent implements OnInit {
 
   addUpdateQuestion() {
     this.submitted = true;
-    // console.log(this.myForm.value);
     console.log("valid?: ", this.myForm.valid);
 
     //If MCQ Validation
@@ -355,6 +353,7 @@ export class AddQuestionComponent implements OnInit {
       }
     }
 
+    console.log("myFormValue ", this.myForm.value);
     if (this.myForm.valid) {
       console.log("Call API");
       this.spinner.show();
@@ -524,13 +523,18 @@ export class AddQuestionComponent implements OnInit {
         // if question answers img
         for (const obj of this.choices.value) {
           let objIndex = this.choices.value.indexOf(obj);
+          console.log("objIndex", objIndex);
+          console.log("obj", obj[i]);
           if (objIndex == i) {
             obj.thumbnailPic = data;
+            obj.ChoiceAttachPath = fileReder;
+            this.questionsInputs[i].thumbnailPic = data;
             this.questionsInputs[i].ChoiceAttachPath = fileReder;
             break;
           }
         }
-        console.log(this.questionsInputs);
+        console.log("questionsInputs: ", this.questionsInputs);
+        console.log("choices.value: ", this.choices.value);
       };
     }
   }

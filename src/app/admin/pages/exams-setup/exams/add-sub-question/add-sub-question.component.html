@@ -76,10 +76,10 @@
               (questionMarkCtrl.touched || submitted)
             "
           >
-            <span *ngIf="questionMarkCtrl?.errors?.required">
+            <span *ngIf="questionMarkCtrl.errors?.required">
               {{ "labels.mustEnterValue" | translate }}
             </span>
-            <span *ngIf="questionMarkCtrl?.errors?.minusNum">
+            <span *ngIf="questionMarkCtrl.errors?.bigZero">
               {{ "labels.mustEnterCorrectValue" | translate }}
             </span>
           </mat-hint>

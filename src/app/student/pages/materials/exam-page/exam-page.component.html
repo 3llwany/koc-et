@@ -122,7 +122,7 @@
                       let question = index
                     "
                   >
-                    <h4 class="card-title questcolor">
+                    <h4 class="card-header questcolor">
                       {{ group.GroupName }} - {{ head.HeadName }}
                     </h4>
                     <div class="table-responsive">
@@ -384,7 +384,7 @@
                             class="danger"
                             *ngIf="
                               Question.QuestionDetails?.StudentChoice
-                                .student_choice_id == 0
+                                ?.student_choice_id == 0
                             "
                             class="danger"
                           >
