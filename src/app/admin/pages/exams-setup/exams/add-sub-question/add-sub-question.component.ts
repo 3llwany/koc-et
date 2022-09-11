@@ -149,6 +149,26 @@ export class AddSubQuestionComponent implements OnInit {
     return this.myForm.get("answerFourImage");
   }
 
+  get answerOneRemove_imageCtrl() {
+    return this.myForm.get("answerOneRemove_image");
+  }
+
+  get answerTwoRemove_imageCtrl() {
+    return this.myForm.get("answerTwoRemove_image");
+  }
+
+  get answerThreeRemove_imageCtrl() {
+    return this.myForm.get("answerThreeRemove_image");
+  }
+
+  get answerFourRemove_imageCtrl() {
+    return this.myForm.get("answerFourRemove_image");
+  }
+
+  get questionImageRemove_imageCtrl() {
+    return this.myForm.get("remove_image");
+  }
+
   constructor(
     private fb: FormBuilder,
     private examService: ExamsService,
@@ -169,9 +189,10 @@ export class AddSubQuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.myForm = this.fb.group({
-      mainQuestion: ["", Validators.required],
+      mainQuestion: [""],
       questionTypeId: ["", Validators.required],
       questionImage: [""],
+      remove_image: [false],
       unitId: [""],
       lessionId: [""],
       exam_question_text: [""],
@@ -193,8 +214,12 @@ export class AddSubQuestionComponent implements OnInit {
       answerFour: [""],
       answerFourIsCorrect: [],
       answerFourImage: [""],
+      answerOneRemove_image: [false],
+      answerTwoRemove_image: [false],
+      answerThreeRemove_image: [false],
+      answerFourRemove_image: [false],
     });
-
+    //remove_image: d.remove_image,
     this.educationCompanyId = this.authserv.getEduCompId();
     this.questionTypeValidation();
   }
@@ -206,7 +231,7 @@ export class AddSubQuestionComponent implements OnInit {
       .getAllQuestionsByHeadId<IQuestionForGridModel[]>(this.examGroupHeaderId)
       .subscribe((response) => {
         if (response) {
-          //   console.log('getAllQuestionsByHeadId', response);
+          console.log("getAllQuestionsByHeadId", response);
           this.questionsInGrid = [];
           this.questionsInGrid = response;
           this.spinner.hide();
@@ -248,6 +273,7 @@ export class AddSubQuestionComponent implements OnInit {
         exam_selected_question_head_id: this.examGroupHeaderId,
         exam_selected_subject_id: this.subjectId,
         exam_question_image: image,
+        remove_image: this.questionImageRemove_imageCtrl?.value,
         exam_question_id: this.questionId,
       };
 
@@ -267,6 +293,7 @@ export class AddSubQuestionComponent implements OnInit {
       // اختيارات
 
       let image: examQuestionImage = this.questionFile || null;
+      let questionImagePath = this.questionImageCtrl;
       // let image: examQuestionImage = {
       //   FileAsBase64: this.questionFile.FileAsBase64 || null,
       //   name: this.questionFile.name,
@@ -285,8 +312,10 @@ export class AddSubQuestionComponent implements OnInit {
       let choice1: IMcqChoices = {
         choice_id: this.answerOneIdCtrl?.value ?? 0,
         choice_text: this.answerOneCtrl?.value,
-        is_correct: this.answerOneIsCorrectCtrl?.value == 0 ? true : false,
+        is_correct: this.answerOneIsCorrectCtrl.value ? true : false,
         choice_image: imageOne,
+        remove_image: this.answerOneRemove_imageCtrl?.value,
+        path: this.answerOneImageCtrl?.value,
       };
 
       let imageTwo: examQuestionImage = this.answerTwoFile || null;
@@ -302,6 +331,8 @@ export class AddSubQuestionComponent implements OnInit {
         choice_text: this.answerTwoCtrl?.value,
         is_correct: this.answerTwoIsCorrectCtrl?.value ? true : false,
         choice_image: imageTwo,
+        remove_image: this.answerTwoRemove_imageCtrl?.value,
+        path: this.answerTwoImageCtrl?.value,
       };
 
       let imageThree: examQuestionImage = this.answerThreeFile || null;
@@ -317,6 +348,8 @@ export class AddSubQuestionComponent implements OnInit {
         choice_text: this.answerThreeCtrl?.value,
         is_correct: this.answerThreeIsCorrectCtrl?.value ? true : false,
         choice_image: imageThree,
+        remove_image: this.answerThreeRemove_imageCtrl?.value,
+        path: this.answerThreeImageCtrl?.value,
       };
 
       let imageFour: examQuestionImage = this.answerFourFile || null;
@@ -332,6 +365,8 @@ export class AddSubQuestionComponent implements OnInit {
         choice_text: this.answerFourCtrl?.value,
         is_correct: this.answerFourIsCorrectCtrl?.value ? true : false,
         choice_image: imageFour,
+        remove_image: this.answerFourRemove_imageCtrl?.value,
+        path: this.answerFourImageCtrl?.value,
       };
 
       let toAddEdit: IAddEditQuestionMcqModel = {
@@ -343,15 +378,18 @@ export class AddSubQuestionComponent implements OnInit {
         exam_selected_question_head_id: this.examGroupHeaderId,
         exam_selected_subject_id: this.subjectId,
         exam_question_image: image,
+        remove_image: this.questionImageRemove_imageCtrl?.value,
         exam_question_id: this.questionId,
         mcq_choices: [choice1, choice2, choice3, choice4],
       };
 
       console.log("FormValue", toAddEdit);
-      console.log("myForm", this.myForm);
-
       // if no question Text or img
-      if (!this.questionTextCtrl?.value && image == null) {
+      if (
+        !this.questionTextCtrl?.value &&
+        image == null &&
+        questionImagePath == null
+      ) {
         this.toastr.warning("يجب ادخال نص السؤال او اختيار صوره السؤال");
         return;
       }
@@ -368,25 +406,41 @@ export class AddSubQuestionComponent implements OnInit {
       }
 
       // if mcq 1 no text or img
-      if (choice1.choice_text === "" && choice1.choice_image === null) {
+      if (
+        choice1.choice_text === "" &&
+        choice1.choice_image === null &&
+        choice1.path == null
+      ) {
         this.toastr.warning("يجب ادخال نص السؤال الأول او اختيار صورة ");
         return;
       }
 
       // if mcq 2 no text or img
-      if (choice2.choice_text === "" && choice2.choice_image === null) {
+      if (
+        choice2.choice_text === "" &&
+        choice2.choice_image === null &&
+        choice2.path == null
+      ) {
         this.toastr.warning("يجب ادخال نص السؤال الثاني او اختيار صورة ");
         return;
       }
 
       // if mcq 3 no text or img
-      if (choice3.choice_text === "" && choice3.choice_image === null) {
+      if (
+        choice3.choice_text === "" &&
+        choice3.choice_image === null &&
+        choice3.path == null
+      ) {
         this.toastr.warning("يجب ادخال نص السؤال الثالث او اختيار صورة ");
         return;
       }
 
       // if mcq 4 no text or img
-      if (choice4.choice_text === "" && choice4.choice_image === null) {
+      if (
+        choice4.choice_text === "" &&
+        choice4.choice_image === null &&
+        choice4.path == null
+      ) {
         this.toastr.warning("يجب ادخال نص السؤال الرابع او اختيار صورة ");
         return;
       }
@@ -514,16 +568,7 @@ export class AddSubQuestionComponent implements OnInit {
         .subscribe((response) => {
           console.log("editMcqQuestion", response);
           if (response) {
-            let toEdit = this.questionsInGrid.find(
-              (q) => q.Id == this.questionId
-            );
-
-            if (toEdit) {
-              toEdit.Text = this.questionTextCtrl?.value;
-              toEdit.QuestionTypeAr = "اختيار من متعدد";
-              toEdit.Image = this.questionImageCtrl?.value;
-            }
-
+            this.getAllQuestionsByHeadId();
             this.mainQuestionCtrl?.setValue(null);
             this.questionMarkCtrl?.setValue(null);
             this.questionTypeIdCtrl?.setValue(null);
@@ -556,7 +601,9 @@ export class AddSubQuestionComponent implements OnInit {
           this.questionMarkCtrl?.setValue(response.mark);
           this.questionTextCtrl?.setValue(response.question_text);
           this.questionImageCtrl?.setValue(
-            "mozakretyapi" + response?.attach_path
+            response?.attach_path != null
+              ? "mozakretyapi" + response?.attach_path
+              : null
           );
           // this.questionFile.FileAsBase64 = response.attach_path;
           this.questionTypeIdCtrl?.setValue(response.question_type_id);
@@ -570,7 +617,9 @@ export class AddSubQuestionComponent implements OnInit {
             this.answerOneIdCtrl?.setValue(response.MCQ_Choices[0]?.Id);
             this.answerOneCtrl?.setValue(response.MCQ_Choices[0]?.Text);
             this.answerOneImageCtrl?.setValue(
-              "mozakretyapi" + response?.MCQ_Choices[0]?.Image
+              response?.MCQ_Choices[0]?.Image != null
+                ? "mozakretyapi" + response?.MCQ_Choices[0]?.Image
+                : null
             );
             // this.answerOneImageCtrl?.setValue(response.MCQ_Choices[0].Image);
             //  this.answerOneFile.FileAsBase64 = response.MCQ_Choices[0].Image;
@@ -582,7 +631,9 @@ export class AddSubQuestionComponent implements OnInit {
             this.answerTwoIdCtrl?.setValue(response.MCQ_Choices[1]?.Id);
             this.answerTwoCtrl?.setValue(response.MCQ_Choices[1]?.Text);
             this.answerTwoImageCtrl?.setValue(
-              "mozakretyapi" + response?.MCQ_Choices[1]?.Image
+              response?.MCQ_Choices[1]?.Image != null
+                ? "mozakretyapi" + response?.MCQ_Choices[1]?.Image
+                : null
             );
             //  this.answerTwoImageCtrl?.setValue(response.MCQ_Choices[1].Image);
             // this.answerTwoFile.FileAsBase64 = response.MCQ_Choices[1].Image;
@@ -594,7 +645,9 @@ export class AddSubQuestionComponent implements OnInit {
             this.answerThreeIdCtrl?.setValue(response.MCQ_Choices[2]?.Id);
             this.answerThreeCtrl?.setValue(response.MCQ_Choices[2]?.Text);
             this.answerThreeImageCtrl?.setValue(
-              "mozakretyapi" + response?.MCQ_Choices[2]?.Image
+              response?.MCQ_Choices[2]?.Image != null
+                ? "mozakretyapi" + response?.MCQ_Choices[2]?.Image
+                : null
             );
             // this.answerThreeImageCtrl?.setValue(response.MCQ_Choices[2].Image);
             //  this.answerThreeFile.FileAsBase64 = response.MCQ_Choices[2].Image;
@@ -606,7 +659,9 @@ export class AddSubQuestionComponent implements OnInit {
             this.answerFourIdCtrl?.setValue(response.MCQ_Choices[3]?.Id);
             this.answerFourCtrl?.setValue(response.MCQ_Choices[3]?.Text);
             this.answerFourImageCtrl?.setValue(
-              "mozakretyapi" + response?.MCQ_Choices[3]?.Image
+              response?.MCQ_Choices[3]?.Image != null
+                ? "mozakretyapi" + response?.MCQ_Choices[3]?.Image
+                : null
             );
             //  this.answerFourImageCtrl?.setValue(response.MCQ_Choices[3].Image);
             //  this.answerFourFile.FileAsBase64 = response.MCQ_Choices[3].Image;
@@ -634,7 +689,7 @@ export class AddSubQuestionComponent implements OnInit {
         .deleteExamQuestion<any>(questionId)
         .subscribe((response) => {
           // console.log('deleteResponse', response);
-          if ((response.returnString = "Done")) {
+          if (response.returnString === "Done") {
             let toDeleteIndex = this.questionsInGrid.findIndex(
               (q) => q.Id == questionId
             );

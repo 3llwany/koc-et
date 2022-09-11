@@ -26,12 +26,14 @@
                     class="row"
                   >
                     <div class="col-md-4 col-12">
-                      <mat-radio-button [value]="false">
+                      <mat-radio-button [value]="0"   (change)="getAllQuestions(1,0)">
+                      
                         {{ "labels.CorrectedQuestions" | translate }}
                       </mat-radio-button>
                     </div>
                     <div class="col-md-4 col-12">
-                      <mat-radio-button [value]="true">
+                      <mat-radio-button [value]="1"   (change)="getAllQuestions(1,1)">
+                      
                         {{ "labels.UnCorrectedQuestions" | translate }}
                       </mat-radio-button>
                     </div>
@@ -63,55 +65,43 @@
         </mat-form-field>
         <div class="mat-elevation-z8 f-w">
           <table mat-table [dataSource]="dataSource" matSort>
-            <ng-container matColumnDef="name">
+            <ng-container matColumnDef="examName">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "labels.Name" | translate }}
+                {{ "labels.ExamNm" | translate }}
               </th>
-              <td mat-cell *matCellDef="let ele">{{ ele.Name }}</td>
-            </ng-container>
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "labels.Name" | translate }}
-              </th>
-              <td mat-cell *matCellDef="let ele">{{ ele.Name }}</td>
-            </ng-container>
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "labels.Name" | translate }}
-              </th>
-              <td mat-cell *matCellDef="let ele">{{ ele.Name }}</td>
-            </ng-container>
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let ele">{{ ele.examName }}</td>
+            </ng-container> 
 
-              <td mat-cell *matCellDef="let group">
-                <div ngbDropdown class="d-inline-block">
+            <ng-container matColumnDef="questionName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.َQuestionContent" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.questionName }}</td>
+            </ng-container>  
+
+            
+             <ng-container matColumnDef="teacherName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "labels.Teacher" | translate }}
+              </th>
+              <td mat-cell *matCellDef="let ele">{{ ele.teacherName }}</td>
+            </ng-container> 
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>actions</th>
+                <td mat-cell *matCellDef="let question">
                   <button
-                    type="button"
-                    class="btn btn-outline-primary"
-                    id="dropdownBasic1"
-                    ngbDropdownToggle
-                  >
-                    actions
-                    <!-- <i class="fa fa-ellipsis-h"></i> -->
-                  </button>
-                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <ng-container *ngFor="let fun of rowFunctions">                   
-                      <a
-                        ngbDropdownItem
-                        *ngIf="fun.functionName === 'Delete'"
-                        (click)="openDeleateDialog(group)"
-                      >
-                        <i class="fa fa-times mr-2"></i>
-                        {{ "General.Delete" | translate }}
-                      </a>                   
-                    </ng-container>
-                  </div>
-                </div>
-              </td>
+                  (click)="openCorrectDialog(question)"
+                  mat-mini-fab
+                  color="warn"
+                >
+                  <mat-icon>done</mat-icon>
+                </button>
+                  </td>
+
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
             <tr class="mat-row" *matNoDataRow>
               <td class="mat-cell" colspan="4">
                 No data matching the filter "{{ input.value }}"
@@ -120,7 +110,7 @@
           </table>
           <mat-paginator
           [pageSizeOptions]="[10]"
-          (page)="0"
+          (page)="getAllQuestions($event.pageIndex + 1,CorrectedQuestionsIdCtrl.value)"
           [length]="0"
           [pageSize]="10"
           showFirstLastButtons

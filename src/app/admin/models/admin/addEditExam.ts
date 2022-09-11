@@ -9,6 +9,7 @@ export interface IAddEditExamHeaderModel {
 
 export interface IAddEditExamModel {
   id: number;
+  isPublish: number;
   exam_ar_name: string;
   Avilable_Date_From: string;
   Avilable_Date_To: string;

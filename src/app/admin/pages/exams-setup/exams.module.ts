@@ -15,6 +15,7 @@ import { AddSubQuestionComponent } from "./exams/add-sub-question/add-sub-questi
 import { TemplatesIndexComponent } from "./templates/templates-index/templates-index.component";
 import { AddTemplateComponent } from './templates/add-template/add-template.component';
 import { CorrectionIndexComponent } from "./exam-correction/correction-index/correction-index.component";
+import { CorrectionDialogComponent } from "./exam-correction/correction-dialog/correction-dialog.component";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CorrectionIndexComponent } from "./exam-correction/correction-index/cor
     AddQuestionComponent,
     TemplatesIndexComponent,
     AddTemplateComponent,
-    CorrectionIndexComponent
+    CorrectionIndexComponent,
+    CorrectionDialogComponent
   ],
   imports: [
     ExamsRoutingModule,

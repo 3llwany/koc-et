@@ -141,6 +141,14 @@
 
           <div class="col-md-8 col-12">
             <div class="question-img">
+              <mat-checkbox
+                *ngIf="questionImageCtrl.value"
+                formControlName="remove_image"
+                [value]="true"
+                class="remove_image"
+              >
+                Remove Image
+              </mat-checkbox>
               <img class="img-fluid" [src]="questionImageCtrl?.value" />
             </div>
           </div>
@@ -224,6 +232,14 @@
                 </div>
 
                 <div class="col-md-8 col-12">
+                  <mat-checkbox
+                    *ngIf="answerOneImageCtrl.value"
+                    formControlName="answerOneRemove_image"
+                    [value]="true"
+                    class="remove_image"
+                  >
+                    Remove Image
+                  </mat-checkbox>
                   <div class="question-img">
                     <img class="img-fluid" [src]="answerOneImageCtrl.value" />
                   </div>
@@ -282,6 +298,14 @@
 
                 <div class="col-md-8 col-12">
                   <div class="question-img">
+                    <mat-checkbox
+                      *ngIf="answerTwoImageCtrl.value"
+                      formControlName="answerTwoRemove_image"
+                      [value]="true"
+                      class="remove_image"
+                    >
+                      Remove Image
+                    </mat-checkbox>
                     <img class="img-fluid" [src]="answerTwoImageCtrl.value" />
                   </div>
                 </div>
@@ -339,6 +363,15 @@
 
                 <div class="col-md-8 col-12">
                   <div class="question-img">
+                    <mat-checkbox
+                      *ngIf="answerThreeImageCtrl.value"
+                      formControlName="answerThreeRemove_image"
+                      [value]="true"
+                      class="remove_image"
+                    >
+                      Remove Image
+                    </mat-checkbox>
+
                     <img class="img-fluid" [src]="answerThreeImageCtrl.value" />
                   </div>
                 </div>
@@ -396,6 +429,14 @@
 
                 <div class="col-md-8 col-12">
                   <div class="question-img">
+                    <mat-checkbox
+                      *ngIf="answerFourImageCtrl.value"
+                      formControlName="answerFourRemove_image"
+                      [value]="true"
+                      class="remove_image"
+                    >
+                      Remove Image
+                    </mat-checkbox>
                     <img class="img-fluid" [src]="answerFourImageCtrl.value" />
                   </div>
                 </div>
@@ -437,7 +478,7 @@
             <tr>
               <th>#</th>
               <th>{{ "labels.question_ar_text" | translate }}</th>
-              <th>{{ "labels.QuestionImage" | translate }}</th>
+              <!-- <th>{{ "labels.QuestionImage" | translate }}</th> -->
               <th>{{ "labels.QuestionType" | translate }}</th>
               <th>­</th>
             </tr>
@@ -446,9 +487,16 @@
             <tr id="ExamQuestion-2626853" *ngFor="let ques of questionsInGrid">
               <td>{{ ques.Id }}</td>
               <td>{{ ques.Text }}</td>
-              <td>
-                <a [href]="ques.Image" target="_blank"> عرض</a>
-              </td>
+              <!-- <td>
+                <a
+                  *ngIf="ques.Image != null || ques.Image != ''; else noImg"
+                  [href]="ques.Image"
+                  target="_blank"
+                >
+                  عرض
+                </a>
+                <span #noImg>لايوجد صورة</span>
+              </td> -->
               <td>{{ ques.QuestionTypeAr }}</td>
               <td>
                 <button

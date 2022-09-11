@@ -124,3 +124,18 @@ export interface IExamQuestionDetailsVM {
   questionType: string;
   questionTypeId: number;
 }
+
+export interface ICorrectionQuestionViewModel {
+  examId: number;
+  examName: string;
+  examStudentId: string;
+  teacherName: string;
+  teacherUserId: string;
+  questionId: number;
+  questionName: string;
+  imageAttach: any;
+  studentUserId: number;
+  studentAnswer: string;
+  questionMark: number;
+  prefectAnswer: string;
+}

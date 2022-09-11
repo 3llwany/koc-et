@@ -180,6 +180,9 @@ export class AddExamComponent implements OnInit {
   get examContentCtrl() {
     return this.GroupHeadersForm.get("examContent");
   }
+  get isPublishCtrl() {
+    return this.myForm.get("isPublish");
+  }
 
   constructor(
     public location: Location,
@@ -244,6 +247,7 @@ export class AddExamComponent implements OnInit {
       repeatingPrice: [0],
       hasCustomDiscount: [false, Validators.required],
       sendWhatsAppMsg: [false, Validators.required],
+      isPublish: [0],
     });
 
     this.GroupHeadersForm = this.fb.group({
@@ -291,7 +295,7 @@ export class AddExamComponent implements OnInit {
     this.examService
       .getExamById<IExamResponseInDetails>(this.examId)
       .subscribe((response) => {
-        console.log("getExamById", response);
+        // console.log("getExamById", response);
         if (response) {
           this.stageIdCtrl?.enable();
           this.educationYearIdCtrl?.enable();
@@ -301,6 +305,7 @@ export class AddExamComponent implements OnInit {
           this.lessionIdCtrl?.enable();
 
           this.toHoursCtrl?.setValue(response?.toHour);
+          this.isPublishCtrl?.setValue(response?.isPublish);
           this.discountCtrl?.setValue(response?.Discount);
           this.examNameCtrl?.setValue(response?.exam_ar_name);
           this.exam_ar_name = response?.exam_ar_name;
@@ -432,6 +437,7 @@ export class AddExamComponent implements OnInit {
       unit_ID: this.unitIdCtrl?.value,
       exam_hour: this.examHoursCtrl?.value,
       exam_minute: this.examMinutesCtrl?.value,
+      isPublish: this.isPublishCtrl?.value,
     };
 
     let toAddEdit: IAddEditExamHeaderModel = {
@@ -441,7 +447,7 @@ export class AddExamComponent implements OnInit {
       exam: exam,
     };
 
-    // console.log('toAdd ', toAddEdit);
+    // console.log("toAdd ", toAddEdit);
 
     // if exam id = 0 the end point will add >> if the exam id > 0 the end point will edit
     this.addExam(toAddEdit);
@@ -475,7 +481,7 @@ export class AddExamComponent implements OnInit {
           .subscribe((response) => {
             //  console.log('addExam', response);
             if (response.returnValue == 200 && response.examId > 0) {
-              console.log("addExam", response);
+              //  console.log("addExam", response);
               this.examId = response.examId;
               this.router.navigate([], {
                 queryParams: {

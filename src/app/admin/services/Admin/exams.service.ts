@@ -216,4 +216,17 @@ export class ExamsService {
     let URL = environment.apiURL + "Exam/postStudentsGrades";
     return this.http.post(URL, data);
   }
+
+  getQuestionByCorrectionType(page: any, correctionStatus: any) {
+    return this.http.get(
+      `${environment.apiURL}Exam/CorrectionIndexPaging/${page}/${correctionStatus}`
+    );
+  }
+
+  submitCorrection(body: any) {
+    return this.http.post(
+      `${environment.apiURL}/Exam/submitQuestionCorrection`,
+      body
+    );
+  }
 }

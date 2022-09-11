@@ -10,6 +10,7 @@ export interface IAddEditQuestionTextModel {
   exam_question_id: number;
   //file image
   exam_question_image: examQuestionImage;
+  remove_image: boolean;
 }
 
 export interface examQuestionImage {
@@ -38,12 +39,15 @@ export interface IAddEditQuestionMcqModel {
   exam_question_image: examQuestionImage;
   //mcq choices if exam_question_type_id = 2
   mcq_choices: IMcqChoices[];
+  remove_image: boolean;
 }
 
 export interface IMcqChoices {
   choice_id: number;
+  path: string;
   choice_text: string;
   is_correct: boolean;
+  remove_image: boolean;
   choice_image: examQuestionImage;
 }
 

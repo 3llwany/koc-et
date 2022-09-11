@@ -221,6 +221,9 @@ export class AddQuestionComponent implements OnInit {
     this.authService.branchId.subscribe((e) => {
       this.branchId = e.branchId;
     });
+
+    //console.log("choices ", this.choices.value);
+    //  console.log("choices controls ", this.choices.controls);
   }
 
   private setDefaultChoises() {
@@ -240,7 +243,7 @@ export class AddQuestionComponent implements OnInit {
   getQuestionByID(id: any) {
     this.spinner.show();
     this.examsService.getQuestionByID(id).subscribe((res: any) => {
-      console.log("getQuestionByID: ", res);
+      //console.log("getQuestionByID: ", res);
       if (res.QuestionId != null) {
         this.teacherUserId?.enable();
         this.main_subject_id?.enable();
@@ -264,7 +267,11 @@ export class AddQuestionComponent implements OnInit {
         this.mark?.setValue(res.Mark);
         this.thumbnailPic?.setValue(res.QuestionAttachId);
 
-        this.QuestionAttachPath = "mozakretyapi" + res.QuestionAttachPath;
+        this.QuestionAttachPath =
+          res.QuestionAttachPath != null
+            ? "mozakretyapi" + res.QuestionAttachPath
+            : null;
+
         if (res.Choices.length != 0) {
           let d = res.Choices;
           this.choices.clear();
@@ -275,7 +282,10 @@ export class AddQuestionComponent implements OnInit {
                 choice_id: d.ChoiceId,
                 choice_text: d.ChoiceText,
                 thumbnailPic: d.thumbnailPic,
-                ChoiceAttachPath: "mozakretyapi" + d.ChoiceAttachPath,
+                ChoiceAttachPath:
+                  d.ChoiceAttachPath != null
+                    ? "mozakretyapi" + d.ChoiceAttachPath
+                    : null,
                 //  IsCorrect: d.IsCorrect,
                 remove_image: d.remove_image || false,
               })
@@ -303,7 +313,7 @@ export class AddQuestionComponent implements OnInit {
 
   addUpdateQuestion() {
     this.submitted = true;
-    console.log("valid?: ", this.myForm.valid);
+    // console.log("valid?: ", this.myForm.valid);
 
     //If MCQ Validation
     if (
@@ -353,9 +363,9 @@ export class AddQuestionComponent implements OnInit {
       }
     }
 
-    console.log("myFormValue ", this.myForm.value);
+    // console.log("myFormValue ", this.myForm.value);
     if (this.myForm.valid) {
-      console.log("Call API");
+      //  console.log("Call API");
       this.spinner.show();
       this.examsService
         .addEditQuestion(this.EduCompId, this.myForm.value)
@@ -518,23 +528,19 @@ export class AddQuestionComponent implements OnInit {
         if (i == -1) {
           this.thumbnailPic?.setValue(data);
           this.QuestionAttachPath = fileReder;
-        }
-
-        // if question answers img
-        for (const obj of this.choices.value) {
-          let objIndex = this.choices.value.indexOf(obj);
-          console.log("objIndex", objIndex);
-          console.log("obj", obj[i]);
-          if (objIndex == i) {
-            obj.thumbnailPic = data;
-            obj.ChoiceAttachPath = fileReder;
-            this.questionsInputs[i].thumbnailPic = data;
-            this.questionsInputs[i].ChoiceAttachPath = fileReder;
-            break;
+        } else {
+          for (const obj of this.choices.value) {
+            let objIndex = this.choices.value.indexOf(obj);
+            if (objIndex === i) {
+              obj.thumbnailPic = data;
+              obj.ChoiceAttachPath = fileReder;
+              break;
+            }
           }
         }
-        console.log("questionsInputs: ", this.questionsInputs);
-        console.log("choices.value: ", this.choices.value);
+
+        //  console.log("questionsInputs: ", this.questionsInputs);
+        // console.log("choices.value: ", this.choices.value);
       };
     }
   }

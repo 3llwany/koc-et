@@ -328,7 +328,7 @@
                 <mat-card
                   formArrayName="choices"
                   *ngFor="
-                    let question of questionsInputs;
+                    let question of choices.controls;
                     let questionIndex = index
                   "
                   class="card bg-light"
@@ -375,7 +375,9 @@
                           <div class="col-md-8 col-12">
                             <div class="question-img">
                               <mat-checkbox
-                                *ngIf="question.ChoiceAttachPath"
+                                *ngIf="
+                                  question.value?.ChoiceAttachPath !== null
+                                "
                                 formControlName="remove_image"
                                 [value]="true"
                                 class="remove_image"
@@ -384,7 +386,7 @@
                               </mat-checkbox>
                               <img
                                 class="img-fluid"
-                                [src]="question.ChoiceAttachPath"
+                                [src]="question.value?.ChoiceAttachPath"
                               />
                             </div>
                           </div>
