@@ -80,19 +80,15 @@ export class GeneralService {
     );
   }
 
-  getSubjectByTeacherId(teacherId: any) {
+  getSubjectByTeacherId(teacherId: number, yearId?: number) {
     return this.http.get(
-      environment.apiURL + "Admin/get-all-lectures/" + teacherId
+      `${environment.apiURL}Admin/get-all-lectures/${teacherId}/${yearId}`
     );
   }
 
   getAllNotifications(yearId: any, page: any) {
     return this.http.get(
-      environment.apiURL +
-        "AJAX/returnNotificationsByUserId/" +
-        yearId +
-        "/" +
-        page
+      `${environment.apiURL}AJAX/returnNotificationsByUserId/${yearId}/${page}`
     );
   }
 

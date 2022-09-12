@@ -8,12 +8,14 @@
         <span *ngIf="examId > 0">
           {{ "labels.EditExam" | translate }} - {{ exam_ar_name }}
         </span>
-        <a mat-raised-button
-           routerLink="../"
-           [queryParams]="{
+        <a
+          mat-raised-button
+          routerLink="../"
+          [queryParams]="{
             functionId: functionId
           }"
-           class="btn btn-info bg-light-info float-right">
+          class="btn btn-info bg-light-info float-right"
+        >
           {{ "General.Back" | translate }}
         </a>
       </mat-card-title>
@@ -30,7 +32,7 @@
                       formControlName="countryId"
                     >
                       <mat-option value="">
-                        {{ "labels.Country" | translate }}
+                        {{ "General.Choose" | translate }}
                       </mat-option>
                       <mat-option
                         *ngFor="let country of countries"
@@ -105,11 +107,13 @@
                         {{ year.Educational_year_ar_name }}
                       </mat-option>
                     </mat-select>
-                    <mat-hint class="danger"
-                              *ngIf="
+                    <mat-hint
+                      class="danger"
+                      *ngIf="
                         educationYearIdCtrl?.invalid &&
                         (educationYearIdCtrl?.touched || submitted)
-                      ">
+                      "
+                    >
                       <span *ngIf="educationYearIdCtrl?.errors?.required">
                         {{ "labels.MustChoosevalue" | translate }}
                       </span>
@@ -681,12 +685,15 @@
                 <mat-label>{{
                   "labels.َQuestionContent" | translate
                 }}</mat-label>
-                <textarea
-                  matInput
-                  formControlName="examContent"
-                  cols="20"
-                ></textarea>
+                <textarea matInput formControlName="examContent" cols="20">
+                </textarea>
               </mat-form-field>
+            </div>
+
+            <div class="col-12">
+              <quill-editor formControlName="examContent"></quill-editor>
+              <div [innerHTML]="examContentCtrl.value"></div>
+              {{ examContentCtrl.value }}
             </div>
           </div>
         </form>

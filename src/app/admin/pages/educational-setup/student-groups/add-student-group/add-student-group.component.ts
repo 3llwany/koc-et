@@ -138,8 +138,7 @@ export class AddStudentGroupComponent implements OnInit {
         (res: any) => {
           console.log("group added", res);
           if (res.returnValue == 1) {
-            if (this.groupId !== this.IdCtrl?.value)
-              this.msg.success("تم إضافة/تعديل المجموعة");
+            this.msg.success("تم إضافة المجموعة");
           } else this.msg.error(res.returnString);
           this.spinner.hide();
         }
@@ -156,9 +155,9 @@ export class AddStudentGroupComponent implements OnInit {
       this.spinner.show();
       this.StudentsGroupsService.addStudyingGroup(this.myForm.value).subscribe(
         (response: any) => {
-          if (response.returnValue == 200 && response.Id > 0) {
+          if (response.returnValue == 1) {
             //  console.log("update group", response);
-            this.msg.success("تم اضافة/ تعديل الامتحان بنجاح");
+            this.msg.success("تم تعديل المجموعة ");
             this.submitted = false;
           }
           this.spinner.hide();

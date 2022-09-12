@@ -44,6 +44,7 @@ import { DeleteDialogComponent } from "app/shared/components/dialogs/delete-dial
 import { MatDialog } from "@angular/material/dialog";
 import { AddSubQuestionComponent } from "../add-sub-question/add-sub-question.component";
 import { GeneralService } from "app/shared/services/General/general.service";
+import { QuillEditorComponent } from "ngx-quill";
 
 @Component({
   selector: "app-add-exam",
@@ -284,7 +285,7 @@ export class AddExamComponent implements OnInit {
       this.branchId = e.branchId;
     });
 
-    if (this.examId > 0) this.getExamById();
+    // if (this.examId > 0) this.getExamById();
 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

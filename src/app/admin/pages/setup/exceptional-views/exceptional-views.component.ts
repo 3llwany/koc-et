@@ -100,7 +100,8 @@ export class ExceptionalViewsComponent implements OnInit {
       if (res.returnValue == 1) {
         this.email = res.email;
         this.username = res.username;
-        this.resetForm.controls["userId"].setValue(res.userId);
+        this.resetFormCtrl.userId.setValue(res.userId);
+        this.resetFormCtrl.yearId.setValue(res.yearId);
       } else {
         this.toastr.error(res.returnString);
       }
@@ -144,58 +145,67 @@ export class ExceptionalViewsComponent implements OnInit {
     );
   }
 
-  //get Stages By teacherId
-  getStageByTeacherId(teacherId: any) {
-    this.lessons = [];
-    this.units = [];
-    this.subjects = [];
-    this.years = [];
-    this.stages = [];
-    this.materials = [];
-    if (this.resetFormCtrl.teacherUserId.value) {
-      this.EducationalService.getStageByTeacherId(teacherId).subscribe(
-        (res: any) => {
-          this.stages = res;
-          //console.log(res);
-        }
-      );
-    }
-  }
-
-  //get Years BY stageId
-  getYearsByStageId(stageId: any) {
-    this.lessons = [];
-    this.units = [];
-    this.subjects = [];
-    this.years = [];
-    this.materials = [];
-    if (this.resetFormCtrl.stageId.value) {
-      this.EducationalService.returnYears(stageId).subscribe((res: any) => {
-        this.years = res;
-        //console.log(res);
-      });
-    }
-  }
-
-  //return Teacher Subjects   //{ "yearId" : 36, "teacherId" : 17}
-  getSubjectsByYearId(yearId: any, teacherId: any) {
+  getSubjectByTeacherId() {
     this.lessons = [];
     this.units = [];
     this.subjects = [];
     this.materials = [];
     if (this.resetFormCtrl.yearId.value) {
-      let data = {
-        yearId: yearId,
-        teacherUserId: teacherId,
-      };
-      this.EducationalService.returnTeacherSubjects(data).subscribe(
-        (res: any) => {
-          this.subjects = res;
-          //console.log(res);
-        }
-      );
+      this.GeneralService.getSubjectByTeacherId(
+        this.resetFormCtrl.teacherUserId.value,
+        this.resetFormCtrl.yearId.value
+      ).subscribe((res: any) => {
+        this.subjects = res.lsts;
+      });
     }
   }
+
+  //  getStageByTeacherId(teacherId: any) {
+  //   this.lessons = [];
+  //   this.units = [];
+  //   this.subjects = [];
+  //   this.years = [];
+  //   this.stages = [];
+  //   this.materials = [];
+  //   if (this.resetFormCtrl.teacherUserId.value) {
+  //     this.EducationalService.getStageByTeacherId(teacherId).subscribe(
+  //       (res: any) => {
+  //         this.stages = res;
+  //        }
+  //     );
+  //   }
+  // }
+
+  //  getYearsByStageId(stageId: any) {
+  //   this.lessons = [];
+  //   this.units = [];
+  //   this.subjects = [];
+  //   this.years = [];
+  //   this.materials = [];
+  //   if (this.resetFormCtrl.stageId.value) {
+  //     this.EducationalService.returnYears(stageId).subscribe((res: any) => {
+  //       this.years = res;
+  //      });
+  //   }
+  // }
+
+  //  getSubjectsByYearId(yearId: any, teacherId: any) {
+  //   this.lessons = [];
+  //   this.units = [];
+  //   this.subjects = [];
+  //   this.materials = [];
+  //   if (this.resetFormCtrl.yearId.value) {
+  //     let data = {
+  //       yearId: yearId,
+  //       teacherUserId: teacherId,
+  //     };
+  //     this.EducationalService.returnTeacherSubjects(data).subscribe(
+  //       (res: any) => {
+  //         this.subjects = res;
+  //        }
+  //     );
+  //   }
+  // }
 
   //return Units BY SubjectId
   getUnitsBySubjectId(SubjectId: any) {

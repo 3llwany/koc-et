@@ -1,25 +1,24 @@
-
 export interface IRolesViewModel {
-    Id: number;
-    roleName: string;
+  Id: number;
+  EduCompId: number;
+  roleName: string;
 }
 
-
 export interface IFunctionsModel {
-    Id: number;
-    functionName: string;
-    function_en_name: string;
-    functionURL: string;
+  Id: number;
+  functionName: string;
+  function_en_name: string;
+  functionURL: string;
 }
 
 export interface IRoleFunctionsModel {
-    Id: number;
-    roleId: number;
-    roleName: string;
-    function: IFunctionsModel;
+  Id: number;
+  roleId: number;
+  roleName: string;
+  function: IFunctionsModel;
 }
 
 export interface IAddEditRoleFunctionsModel {
-    roleId: number;
-    functionsList: number[];
+  roleId: number;
+  functionsList: number[];
 }

@@ -13,9 +13,10 @@ import { AddQuestionComponent } from "./questions-banck/add-question/add-questio
 import { ExamsIndexComponent } from "./exams/exams-index/exams-index.component";
 import { AddSubQuestionComponent } from "./exams/add-sub-question/add-sub-question.component";
 import { TemplatesIndexComponent } from "./templates/templates-index/templates-index.component";
-import { AddTemplateComponent } from './templates/add-template/add-template.component';
+import { AddTemplateComponent } from "./templates/add-template/add-template.component";
 import { CorrectionIndexComponent } from "./exam-correction/correction-index/correction-index.component";
 import { CorrectionDialogComponent } from "./exam-correction/correction-dialog/correction-dialog.component";
+import { QuillModule } from "ngx-quill";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { CorrectionDialogComponent } from "./exam-correction/correction-dialog/c
     TemplatesIndexComponent,
     AddTemplateComponent,
     CorrectionIndexComponent,
-    CorrectionDialogComponent
+    CorrectionDialogComponent,
   ],
   imports: [
     ExamsRoutingModule,
@@ -38,6 +39,7 @@ import { CorrectionDialogComponent } from "./exam-correction/correction-dialog/c
     NgbModule,
     NgxSpinnerModule,
     NgxPaginationModule,
+    QuillModule.forRoot(),
   ],
 })
 export class ExamsModule {}

@@ -119,11 +119,13 @@ export class UsersComponent implements OnInit {
 
     this.EduCompId = Number(this.authserv.getEduCompId());
 
-    this.roleService.getAllRoles<IRolesViewModel[]>().subscribe((response) => {
-      if (response) {
-        this.roles = response;
-      }
-    });
+    this.roleService
+      .getAllRoles<IRolesViewModel[]>(this.EduCompId)
+      .subscribe((response) => {
+        if (response) {
+          this.roles = response;
+        }
+      });
 
     this.getAllUsers(1);
   }

@@ -23,12 +23,15 @@ export class AddRoleComponent implements OnInit {
   functionId: number;
   rowFunctions: IRowFunctionVM[];
   roles: IRolesViewModel[] = [];
-
+  EduCompId: any;
   get roleIdCtrl() {
     return this.myForm.get("roleId");
   }
   get roleNameCtrl() {
     return this.myForm.get("roleName");
+  }
+  get EduCompIdCtrl() {
+    return this.myForm.get("EduCompId");
   }
   displayedColumns: string[] = ["#", "Name", "actions"];
   dataSource: MatTableDataSource<IRolesViewModel>;
@@ -62,25 +65,43 @@ export class AddRoleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.EduCompId = this.authserv.getEduCompId();
     this.myForm = this.fb.group({
       roleId: [0],
       roleName: [null, [Validators.required]],
+      EduCompId: [this.EduCompId],
     });
     this.spinner.show();
-    this.roleService.getAllRoles<IRolesViewModel[]>().subscribe((response) => {
-      this.spinner.hide();
-      if (response) {
-        //  console.log("roles: ", response);
-        this.roles = response;
-        this.dataSource = new MatTableDataSource(response);
-        this.dataSource.paginator = this.paginator;
-      }
-    });
+    this.roleService
+      .getAllRoles<IRolesViewModel[]>(this.EduCompIdCtrl.value)
+      .subscribe((response) => {
+        this.spinner.hide();
+        if (response) {
+          console.log("roles init: ", response);
+          this.roles = response;
+          this.dataSource = new MatTableDataSource(response);
+          this.dataSource.paginator = this.paginator;
+        }
+      });
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.authserv.EduCompId.subscribe((e) => {
+      this.EduCompId = e.EduCompId;
+      this.EduCompIdCtrl.setValue(e.EduCompId);
+      this.roleService
+        .getAllRoles<IRolesViewModel[]>(this.EduCompIdCtrl.value)
+        .subscribe((response) => {
+          this.spinner.hide();
+          if (response) {
+            console.log("roles after init: ", response);
+            this.roles = response;
+            this.dataSource = new MatTableDataSource(response);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+        });
+    });
   }
 
   applyFilter(event: Event) {
@@ -91,6 +112,7 @@ export class AddRoleComponent implements OnInit {
   editRole(role: IRolesViewModel) {
     this.roleIdCtrl?.setValue(role.Id);
     this.roleNameCtrl?.setValue(role.roleName);
+    this.EduCompIdCtrl.setValue(role.EduCompId);
     this.addBtn.nativeElement.innerText = "update";
   }
 
@@ -119,7 +141,8 @@ export class AddRoleComponent implements OnInit {
       let obj = {} as IRolesViewModel;
       obj.Id = this.roleIdCtrl?.value;
       obj.roleName = this.roleNameCtrl.value;
-
+      obj.EduCompId = this.EduCompIdCtrl.value;
+      console.log("role model", obj);
       this.roleService
         .addEditRole<IRolesViewModel, any>(obj)
         .subscribe((response) => {

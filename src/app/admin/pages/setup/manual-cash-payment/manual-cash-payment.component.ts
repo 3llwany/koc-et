@@ -85,7 +85,7 @@ export class ManualCashPaymentComponent implements OnInit {
       itemPrice: [""],
       isPaymentExcel: [false],
 
-      stageId: [""],
+      // stageId: [""],
       yearId: [""],
       subjectId: [""],
       unitId: [""],
@@ -129,6 +129,7 @@ export class ManualCashPaymentComponent implements OnInit {
       if (res.model?.userId) {
         //  this.Teachers = res.lstTeachers;
         this.paymentFormCtrl.userId.setValue(res.model.userId);
+        this.paymentFormCtrl.yearId.setValue(res.model.yearId);
         this.getPaymentsHistory();
         this.paymentFormCtrl.userMobile.setValue(res.model.userMobile);
         this.paymentFormCtrl.userEmail.setValue(res.model.userEmail);
@@ -210,56 +211,65 @@ export class ManualCashPaymentComponent implements OnInit {
     );
   }
 
-  //get Stages By teacherId
-  getStageByTeacherId(teacherUserId: any) {
-    this.lessons = [];
-    this.units = [];
-    this.subjects = [];
-    this.years = [];
-    this.stages = [];
-    this.materials = [];
-    if (teacherUserId != "") {
-      this.EducationalService.getStageByTeacherId(teacherUserId).subscribe(
-        (res: any) => {
-          this.stages = res;
-          //console.log(res);
-        }
-      );
-    }
-  }
+  // getStageByTeacherId(teacherUserId: any) {
+  //   this.lessons = [];
+  //   this.units = [];
+  //   this.subjects = [];
+  //   this.years = [];
+  //   this.stages = [];
+  //   this.materials = [];
+  //   if (teacherUserId != "") {
+  //     this.EducationalService.getStageByTeacherId(teacherUserId).subscribe(
+  //       (res: any) => {
+  //         this.stages = res;
+  //       }
+  //     );
+  //   }
+  // }
 
-  //get Years BY stageId
-  getYearsByStageId(stageId: any) {
+  // getYearsByStageId(stageId: any) {
+  //   this.lessons = [];
+  //   this.units = [];
+  //   this.subjects = [];
+  //   this.years = [];
+  //   this.materials = [];
+  //   if (stageId != "") {
+  //     this.EducationalService.returnYears(stageId).subscribe((res: any) => {
+  //       this.years = res;
+  //     });
+  //   }
+  // }
+
+  //  getSubjectsByYearId(yearId: any, teacherUserId: any) {
+  //   this.lessons = [];
+  //   this.units = [];
+  //   this.subjects = [];
+  //   this.materials = [];
+  //   if (yearId != "") {
+  //     let data = {
+  //       yearId: yearId,
+  //       teacherUserId,
+  //     };
+  //     this.EducationalService.returnTeacherSubjects(data).subscribe(
+  //       (res: any) => {
+  //         this.subjects = res;
+  //        }
+  //     );
+  //   }
+  // }
+
+  getSubjectByTeacherId() {
     this.lessons = [];
     this.units = [];
     this.subjects = [];
-    this.years = [];
     this.materials = [];
-    if (stageId != "") {
-      this.EducationalService.returnYears(stageId).subscribe((res: any) => {
-        this.years = res;
-        //console.log(res);
+    if (this.paymentFormCtrl.yearId.value) {
+      this.GeneralService.getSubjectByTeacherId(
+        this.paymentFormCtrl.teacherUserId.value,
+        this.paymentFormCtrl.yearId.value
+      ).subscribe((res: any) => {
+        this.subjects = res.lsts;
       });
-    }
-  }
-
-  //return Teacher Subjects   //{ "yearId" : 36, "teacherId" : 17}
-  getSubjectsByYearId(yearId: any, teacherUserId: any) {
-    this.lessons = [];
-    this.units = [];
-    this.subjects = [];
-    this.materials = [];
-    if (yearId != "") {
-      let data = {
-        yearId: yearId,
-        teacherUserId,
-      };
-      this.EducationalService.returnTeacherSubjects(data).subscribe(
-        (res: any) => {
-          this.subjects = res;
-          //console.log(res);
-        }
-      );
     }
   }
 

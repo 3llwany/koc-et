@@ -8,8 +8,10 @@ import { environment } from "environments/environment";
 export class RolesService {
   constructor(private http: HttpClient) {}
 
-  getAllRoles<T>() {
-    return this.http.get<T>(environment.apiURL + "usermanagement/returnRoles");
+  getAllRoles<T>(EduCompId: number) {
+    return this.http.get<T>(
+      environment.apiURL + "usermanagement/returnRoles" + "/" + EduCompId
+    );
   }
 
   addEditRole<T, TV>(obj: T) {

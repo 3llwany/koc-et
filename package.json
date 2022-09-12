@@ -49,6 +49,7 @@
     "ngx-owl-carousel-o": "^7.0.4",
     "ngx-pagination": "^6.0.2",
     "ngx-perfect-scrollbar": "10.0.1",
+    "ngx-quill": "^15.0.0",
     "ngx-spinner": "^10.0.1",
     "ngx-swiper-wrapper": "^10.0.0",
     "ngx-take-until-destroy": "5.4.0",
