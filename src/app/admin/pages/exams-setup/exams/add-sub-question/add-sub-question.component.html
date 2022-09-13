@@ -5,6 +5,33 @@
 <div mat-dialog-content>
   <form [formGroup]="myForm">
     <div class="row">
+      <!-- main Question Editor  -->
+      <!-- <div class="col-12">
+        <mat-label>{{ "labels.mainQuestion" | translate }} </mat-label>
+        <quill-editor
+          formControlName="mainQuestion"
+          [placeholder]="'labels.mainQuestion' | translate"
+        >
+        </quill-editor>
+
+        <mat-hint
+          class="text-danger"
+          *ngIf="
+            mainQuestionCtrl.invalid && (mainQuestionCtrl.touched || submitted)
+          "
+        >
+          <span
+            *ngIf="
+              mainQuestionCtrl?.errors?.required ||
+              mainQuestionCtrl?.errors?.whiteSpace
+            "
+          >
+            {{ "labels.mustEnterValue" | translate }}
+          </span>
+        </mat-hint>
+      </div> -->
+
+      <!-- main Question  -->
       <div class="col-md-4 col-12">
         <mat-form-field appearance="legacy">
           <mat-label>{{ "labels.mainQuestion" | translate }} </mat-label>
@@ -28,6 +55,7 @@
         </mat-form-field>
       </div>
 
+      <!-- question type -->
       <div class="col-md-4 col-12">
         <mat-form-field appearance="legacy">
           <mat-label>
@@ -63,6 +91,7 @@
         </mat-form-field>
       </div>
 
+      <!-- question mark -->
       <div class="col-md-4 col-12">
         <mat-form-field appearance="legacy">
           <mat-label>
@@ -116,6 +145,17 @@
       </mat-form-field>
     </div> -->
 
+      <!-- question text editor -->
+      <!-- <div class="col-12">
+        <mat-label>{{ "labels.question_ar_text" | translate }} </mat-label>
+        <quill-editor
+          formControlName="mainQuestion"
+          [placeholder]="'labels.exam_question_text' | translate"
+        >
+        </quill-editor>
+      </div> -->
+
+      <!-- question text  -->
       <div class="col-md-8 col-12">
         <mat-form-field appearance="legacy">
           <mat-label>{{ "labels.question_ar_text" | translate }} </mat-label>
@@ -155,6 +195,7 @@
         </div>
       </div>
 
+      <!-- perfect answer -->
       <div class="col-12" *ngIf="questionTypeIdCtrl?.value == 1">
         <mat-form-field appearance="legacy">
           <mat-label>
@@ -183,6 +224,7 @@
 
     <hr />
 
+    <!-- MCQ questions -->
     <ng-container *ngIf="questionTypeIdCtrl?.value == 2" class="row">
       <!-- answer one -->
       <mat-card>
@@ -208,6 +250,13 @@
 
                 <input matInput type="text" formControlName="answerOne" />
               </mat-form-field>
+              <!--
+              <mat-label> {{ "labels.AnswerText" | translate }} (1) </mat-label>
+              <quill-editor
+                formControlName="answerOne"
+                [placeholder]="'labels.AnswerText' | translate"
+              >
+              </quill-editor> -->
             </div>
 
             <div class="col-12">
@@ -273,6 +322,13 @@
                 </mat-label>
                 <input matInput type="text" formControlName="answerTwo" />
               </mat-form-field>
+
+              <!-- <mat-label> {{ "labels.AnswerText" | translate }} (2) </mat-label>
+              <quill-editor
+                formControlName="answerTwo"
+                [placeholder]="'labels.AnswerText' | translate"
+              >
+              </quill-editor> -->
             </div>
 
             <div class="col-12">
@@ -335,9 +391,15 @@
                 <mat-label>
                   {{ "labels.AnswerText" | translate }} (3)
                 </mat-label>
-
                 <input matInput type="text" formControlName="answerThree" />
               </mat-form-field>
+              <!--
+              <mat-label> {{ "labels.AnswerText" | translate }} (3) </mat-label>
+              <quill-editor
+                formControlName="answerThree"
+                [placeholder]="'labels.AnswerText' | translate"
+              >
+              </quill-editor> -->
             </div>
 
             <div class="col-12">
@@ -404,6 +466,13 @@
                 </mat-label>
                 <input matInput type="text" formControlName="answerFour" />
               </mat-form-field>
+
+              <!-- <mat-label> {{ "labels.AnswerText" | translate }} (4) </mat-label>
+              <quill-editor
+                formControlName="answerFour"
+                [placeholder]="'labels.AnswerText' | translate"
+              >
+              </quill-editor> -->
             </div>
 
             <div class="col-12">

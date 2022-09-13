@@ -138,10 +138,22 @@
                           <tr>
                             <th scope="row">{{ question + 1 }}</th>
                             <td>
-                              {{ Question.QuestionDetails?.questionText }}
+                              <!-- {{ Question.QuestionDetails?.questionText }} -->
+                              <span
+                                [innerHTML]="
+                                  Question.QuestionDetails?.questionText
+                                "
+                              >
+                              </span>
                             </td>
                             <td>
-                              {{ Question.QuestionDetails?.questionText }}
+                              <!-- {{ Question.QuestionDetails?.questionText }} -->
+                              <span
+                                [innerHTML]="
+                                  Question.QuestionDetails?.questionText
+                                "
+                              >
+                              </span>
                             </td>
                           </tr>
                         </tbody>
@@ -345,10 +357,12 @@
                               </i>
                             </th>
                             <td>
-                              {{ mcq.MCQText }}
+                              <!-- {{ mcq.MCQText }} -->
+                              <span [innerHTML]="mcq.MCQText"></span>
                             </td>
                             <td>
-                              {{ mcq.MCQText }}
+                              <!-- {{ mcq.MCQText }} -->
+                              <span [innerHTML]="mcq.MCQText"></span>
                             </td>
                           </tr>
 
