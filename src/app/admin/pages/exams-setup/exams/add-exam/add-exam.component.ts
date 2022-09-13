@@ -25,7 +25,7 @@ import {
   IAddEditExamHeaderModel,
   IAddEditExamModel,
 } from "../../../../models/admin/addEditExam";
-import { forkJoin } from "rxjs";
+import { forkJoin, Observable } from "rxjs";
 import {
   IAddExamGroupHeaderModel,
   IEditExamGroupHeaderModel,
@@ -45,6 +45,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { AddSubQuestionComponent } from "../add-sub-question/add-sub-question.component";
 import { GeneralService } from "app/shared/services/General/general.service";
 import { QuillEditorComponent } from "ngx-quill";
+import { map, startWith } from "rxjs/operators";
 
 @Component({
   selector: "app-add-exam",
@@ -69,6 +70,8 @@ export class AddExamComponent implements OnInit {
 
   examGroups: any[] = [];
   examHeaders: any[] = [];
+  filteredExamGroups: Observable<any[]>;
+  filteredExamHeaders: Observable<any[]>;
 
   GroupsHeadersList: IExamGroupHeaderModel[] = [];
 
@@ -94,6 +97,7 @@ export class AddExamComponent implements OnInit {
   isRepeatableExam: boolean = false;
   isSendWhats: boolean = false;
   examGroupHeaderId: any = 0;
+
   get countryIdCtrl() {
     return this.myForm.get("countryId");
   }
@@ -291,6 +295,22 @@ export class AddExamComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  // filter question group
+  private filter_question_group(value: string): any[] {
+    const filterValue = value.toLowerCase();
+    return this.examGroups.filter((option) =>
+      option.question_group_ar_name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  // filter question header
+  private filter_question_header(value: string): any[] {
+    const filterValue = value.toLowerCase();
+    return this.examHeaders.filter((option) =>
+      option.question_head_ar_name.toLowerCase().includes(filterValue)
+    );
+  }
+
   getExamById() {
     this.spinner.show();
     this.examService
@@ -395,7 +415,11 @@ export class AddExamComponent implements OnInit {
     this.examService.getAllQuestionGroups<any>().subscribe((response) => {
       if (response) {
         this.examGroups = response;
-        //   console.log("examGroups", this.examGroups);
+        //  console.log("examGroups", this.examGroups);
+        this.filteredExamGroups = this.examGroupCtrl.valueChanges.pipe(
+          startWith(""),
+          map((value) => this.filter_question_group(value || ""))
+        );
       }
     });
   }
@@ -404,7 +428,10 @@ export class AddExamComponent implements OnInit {
     this.examService.getAllQuestionHeaders<any>().subscribe((response) => {
       if (response) {
         this.examHeaders = response;
-        // console.log("questionHeaders", this.examHeaders);
+        this.filteredExamHeaders = this.examHeaderCtrl.valueChanges.pipe(
+          startWith(""),
+          map((value) => this.filter_question_header(value || ""))
+        );
       }
     });
   }
