@@ -624,20 +624,25 @@
           <div class="row">
             <div class="col-md-6 col-12">
               <mat-form-field appearance="legacy">
-                <mat-label>{{
-                  "labels.َQuestionNumber" | translate
-                }}</mat-label>
-                <mat-select formControlName="examGroup">
-                  <mat-option value="">
-                    {{ "labels.َQuestionNumber" | translate }}
-                  </mat-option>
+                <mat-label>
+                  {{ "labels.َQuestionNumber" | translate }}
+                </mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="examGroup"
+                  [matAutocomplete]="autoExamGroup"
+                />
+
+                <mat-autocomplete #autoExamGroup="matAutocomplete">
                   <mat-option
+                    *ngFor="let val of filteredExamGroups | async"
                     [value]="val.question_group_ar_name"
-                    *ngFor="let val of examGroups"
                   >
                     {{ val.question_group_ar_name }}
                   </mat-option>
-                </mat-select>
+                </mat-autocomplete>
+
                 <mat-hint
                   class="danger"
                   *ngIf="
@@ -655,17 +660,23 @@
             <div class="col-md-6 col-12">
               <mat-form-field appearance="legacy">
                 <mat-label>{{ "labels.QuestionHeader" | translate }}</mat-label>
-                <mat-select formControlName="examHeader">
-                  <mat-option>{{
-                    "labels.QuestionHeader" | translate
-                  }}</mat-option>
+
+                <input
+                  type="text"
+                  matInput
+                  formControlName="examHeader"
+                  [matAutocomplete]="autoExamHeader"
+                />
+
+                <mat-autocomplete #autoExamHeader="matAutocomplete">
                   <mat-option
+                    *ngFor="let val of filteredExamHeaders | async"
                     [value]="val.question_head_ar_name"
-                    *ngFor="let val of examHeaders"
                   >
                     {{ val.question_head_ar_name }}
                   </mat-option>
-                </mat-select>
+                </mat-autocomplete>
+
                 <mat-hint
                   class="danger"
                   *ngIf="
@@ -682,19 +693,22 @@
 
             <div class="col-12">
               <mat-form-field appearance="legacy">
-                <mat-label>{{
-                  "labels.َQuestionContent" | translate
-                }}</mat-label>
+                <mat-label>
+                  {{ "labels.َQuestionContent" | translate }}
+                </mat-label>
                 <textarea matInput formControlName="examContent" cols="20">
                 </textarea>
               </mat-form-field>
             </div>
 
-            <div class="col-12">
-              <quill-editor formControlName="examContent"></quill-editor>
-              <div [innerHTML]="examContentCtrl.value"></div>
+            <!-- <div class="col-12">
+              <quill-editor
+                formControlName="examContent"
+                [placeholder]="'labels.َQuestionContent' | translate"
+              ></quill-editor>
+              <div [innerHTML]="examContentCtrl?.value"></div>
               {{ examContentCtrl.value }}
-            </div>
+            </div> -->
           </div>
         </form>
       </mat-card-content>
