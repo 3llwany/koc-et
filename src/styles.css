@@ -4,6 +4,7 @@
 @import "~quill/dist/quill.snow.css";
 quill-editor {
     display: block;
+    margin: 5px 0 15px;
 }
 
 

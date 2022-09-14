@@ -100,34 +100,30 @@
                                     <ng-container *ngFor="
                       let Question of head?.Questions;
                       let question = index
-                    ">
-                                        <h4 class="card-title questcolor">
-                                            {{ group.GroupName }} - {{ head.HeadName }}
-                                        </h4>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered quest">
-                                                <!-- <thead>
-                                                    <tr>
-                                                        <th scope="col">Ser</th>
-                                                        <th scope="col">English</th>
-                                                        <th scope="col">Arabic</th>
-                                                    </tr>
-                                                </thead> -->
-                                                <tbody>
-                                                    <tr>
-                                                        <th scope="row" class="sercell">{{ question + 1 }}</th>
-                                                        <td>
-                                                            {{ Question.QuestionDetails?.questionText }}
-                                                        </td>
-                                                        <!-- <td>
-                                                            {{ Question.QuestionDetails?.questionText }}
-                                                        </td> -->
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <ng-container *ngIf="!isSolved">
-                                            <div class="form-group row align-items-center" *ngIf="
+                    "></ng-container>
+                                    <h4 class="card-title questcolor">
+                                        {{ group.GroupName }} - {{ head.HeadName }}
+                                    </h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered quest">
+
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row " class="sercell">{{ question + 1 }}</th>
+                                                    <td>
+                                                        <!-- {{ Question.QuestionDetails?.questionText }} -->
+                                                        <span [innerHTML]="
+                                  Question.QuestionDetails?.questionText
+                                ">
+                              </span>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <ng-container *ngIf="!isSolved">
+                                        <div class="form-group row align-items-center" *ngIf="
                           (!isSolved &&
                             Question.QuestionDetails.StudentChoice == null) ||
                           (!isSolved &&
@@ -135,18 +131,18 @@
                             Question.QuestionDetails.StudentChoice.RESULT ==
                               'F')
                         ">
-                                                <div class="col-3">
-                                                    <label for="last-name" class="col-form-label questcolor">
+                                            <div class="col-3">
+                                                <label for="last-name" class="col-form-label questcolor">
                             Type in the correct answer
                           </label>
-                                                </div>
-                                                <div class="col-9">
-                                                    <input #answer (keyup)="onRadioChange(answer.value, Question)" type="number" class="form-control student-answer-input" placeholder="correct answer" />
-                                                </div>
                                             </div>
+                                            <div class="col-9">
+                                                <input #answer (keyup)="onRadioChange(answer.value, Question)" type="number" class="form-control student-answer-input" placeholder="correct answer" />
+                                            </div>
+                                        </div>
 
-                                            <div class="form-group row align-items-center">
-                                                <button *ngIf="
+                                        <div class="form-group row align-items-center">
+                                            <button *ngIf="
 													(!isSolved &&
 													Question.QuestionDetails.StudentChoice == null) ||
 													(!isSolved &&
@@ -163,7 +159,7 @@
 													)">
                           {{ "General.SaveQuestion" | translate }}
                         </button>
-                                                <span *ngIf="
+                                            <span *ngIf="
                           (!isSolved &&
                             Question.QuestionDetails.StudentChoice == null) ||
                           (!isSolved &&
@@ -174,14 +170,14 @@
                           {{ "labels.ansWillNotSave" | translate }}
                         </span>
 
-                                                <span *ngIf="
+                                            <span *ngIf="
                           !isSolved &&
                           Question.QuestionDetails.StudentChoice != null &&
                           Question.QuestionDetails.StudentChoice.RESULT == 'T'
                         " class="success">
                           تم حفظ الإجابة من قبل
                         </span>
-                                                <span *ngIf="
+                                            <span *ngIf="
                           (!isSolved &&
                             Question.QuestionDetails.StudentChoice == null) ||
                           (!isSolved &&
@@ -190,14 +186,14 @@
                               'F')
                         " id="stu-cho-{{ Question.QuestionDetails.questionId }}" class="warning">
                         </span>
-                                            </div>
+                                        </div>
 
 
-                                        </ng-container>
                                     </ng-container>
                                 </ng-container>
                             </ng-container>
                         </ng-container>
+
 
                     </div>
                 </div>
@@ -259,12 +255,12 @@
                                 " class="fa fa-times-circle-o danger ml-1" aria-hidden="true">
                               </i>
                                                         </th>
+
                                                         <td>
-                                                            {{ mcq.MCQText }}
+                                                            <!-- {{ mcq.MCQText }} -->
+                                                            <span [innerHTML]="mcq.MCQText"></span>
                                                         </td>
-                                                        <!-- <td>
-                                                            {{ mcq.MCQText }}
-                                                        </td> -->
+
                                                     </tr>
 
                                                     <span class="info" *ngIf="isSolved">
