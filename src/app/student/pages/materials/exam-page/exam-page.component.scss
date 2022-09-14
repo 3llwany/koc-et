@@ -1,21 +1,50 @@
-.media-body > h5 {
-  color: #fff;
-  margin-bottom: 0;
+.media-body>h5 {
+    color: #fff;
+    margin-bottom: 0;
 }
 
 .card {
-  padding: 10px;
+    padding: 10px;
 }
+
 .card .media {
-  padding: 0;
+    padding: 0;
 }
+
 .alert.bg-light-primary .badge {
-  color: #fff !important;
+    color: #fff !important;
 }
 
 .questionBtn.active {
-  background-color: #616d89 !important;
-  color: #fff !important;
+    background-color: #616d89 !important;
+    color: #fff !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-header {
+    padding: 0 !important;
+}
+
+.card {
+    margin: 3px 0 !important;
+}
+
+.table {
+    margin-bottom: .5rem;
+    margin-top: .5rem;
+}
+
+.sercell {
+    width: 100px !important;
+    text-align: center;
+}
+
+.table th,
+.table td {
+    padding: 0.5rem 1rem !important;
 }
 
 // .student-answer-input {
