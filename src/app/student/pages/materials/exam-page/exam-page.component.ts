@@ -90,7 +90,6 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
     this.spinner.show();
     this.studentServ.returnStudentExam(examId).subscribe((res: any) => {
       // console.log("exam: ", res);
-
       if (res.returnValue == -5) {
         this.spinner.hide();
         this.returnExamResults(res.examId);
@@ -171,7 +170,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   returnExamResults(examId: any) {
     this.spinner.show();
     this.studentServ.returnStudentExamResults(examId).subscribe((res: any) => {
-      //  console.log("resultes: ", res);
+      // console.log("resultes: ", res);
       this.isSolved = true;
       this.ExamGroups = res.item.groups;
       this.currentGroupId = res.item.groups[0].GroupId;
