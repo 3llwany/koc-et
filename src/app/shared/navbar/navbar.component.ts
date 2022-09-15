@@ -129,7 +129,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selectedLanguageFlag = "./assets/img/flags/us.png";
     } else if (language === "ar") {
       this.selectedLanguageText = "عربي";
-      this.selectedLanguageFlag = "./assets/img/flags/ar.png";
+      this.selectedLanguageFlag = "./assets/img/flags/kw.jpeg";
     }
   }
 

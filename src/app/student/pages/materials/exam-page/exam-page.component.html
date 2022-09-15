@@ -2,9 +2,9 @@
     (IsAvaliable && !isSolviedResultsOff) ||
     (IsResultAvalable && isSolviedResultsOff)
   ">
-  <div class="row">
-    <!-- Start Exam Header -->
-    <!-- <div class="col-12">
+    <div class="row">
+        <!-- Start Exam Header -->
+        <!-- <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title questcolor">
@@ -42,90 +42,88 @@
             </div>
         </div> -->
 
-    <!-- Question By Button -->
-    <div class="col-12">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-body btn-cont">
-            <div class="row">
-              <div class="col-2">
-                <div class=" questcolor">
-                  {{ "labels.ExamNm" | translate }}: {{ ExamName }}
-                </div>
-                <ng-container *ngIf="!isSolved">
-                  <div class=" ">
-                    {{ "labels.TotalMark" | translate }} : {{ examTotalMark }}
-                  </div>
+        <!-- Question By Button -->
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body btn-cont">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class=" questcolor">
+                                    {{ "labels.ExamNm" | translate }}: {{ ExamName }}
+                                </div>
+                                <ng-container *ngIf="!isSolved">
+                                    <div class=" ">
+                                        {{ "labels.TotalMark" | translate }} : {{ examTotalMark }}
+                                    </div>
 
-                  <div class=" ">
-                    {{ "labels.ExamStartTime" | translate }}: {{ ExamStarTime }}
-                  </div>
+                                    <div class=" ">
+                                        {{ "labels.ExamStartTime" | translate }}: {{ ExamStarTime }}
+                                    </div>
 
-                  <div class=" " *ngIf="exam_period_minute != 0">
-                    {{ "labels.ExamTime" | translate }}: {{ counter | Timer }}
-                  </div>
-                </ng-container>
+                                    <div class=" " *ngIf="exam_period_minute != 0">
+                                        {{ "labels.ExamTime" | translate }}: {{ counter | Timer }}
+                                    </div>
+                                </ng-container>
 
-                <ng-container *ngIf="isSolved">
-                  <div class=" ">
-                    {{ "labels.StudentMark" | translate }}: ({{ studentMark }} / {{ examTotalMark }})
-                  </div>
+                                <ng-container *ngIf="isSolved">
+                                    <div class=" ">
+                                        {{ "labels.StudentMark" | translate }}: ({{ studentMark }} / {{ examTotalMark }})
+                                    </div>
 
-                </ng-container>
-              </div>
+                                </ng-container>
+                            </div>
 
-              <div class="col-10">
-                <button *ngFor="let group of ExamGroups; let groupIndex = index" type="button"
-                  class="btn btn-secondary bg-light-secondary mr-1 mb-2 questionBtn"
-                  (click)="onSelectGroup(group.GroupId)" [class.active]="group.GroupId === currentGroupId">
+                            <div class="col-10">
+                                <button *ngFor="let group of ExamGroups; let groupIndex = index" type="button" class="btn btn-secondary bg-light-secondary mr-1 mb-2 questionBtn" (click)="onSelectGroup(group.GroupId)" [class.active]="group.GroupId === currentGroupId">
                   {{ groupIndex + 1 }}
                 </button>
-              </div>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Start get question text  and student answer  -->
-    <div class="col-12">
-      <div class="card overflow-hidden">
-        <!-- <div class="card-header">
+        <!-- Start get question text  and student answer  -->
+        <div class="col-12">
+            <div class="card overflow-hidden">
+                <!-- <div class="card-header">
                     <h4 class="card-title questcolor">Question</h4>
                 </div> -->
-        <div class="card-content">
-          <div class="card-body">
-            <ng-container *ngFor="let group of ExamGroups; let groupIndex = index">
-              <ng-container *ngIf="group.GroupId === currentGroupId">
-                <ng-container *ngFor="let head of group.Heads; let headIndex = index">
-                  <ng-container *ngFor="
+                <div class="card-content">
+                    <div class="card-body">
+                        <ng-container *ngFor="let group of ExamGroups; let groupIndex = index">
+                            <ng-container *ngIf="group.GroupId === currentGroupId">
+                                <ng-container *ngFor="let head of group.Heads; let headIndex = index">
+                                    <ng-container *ngFor="
                       let Question of head?.Questions;
                       let question = index
                     ">
-                    <h4 class="card-title questcolor">
-                      {{ group.GroupName }} - {{ head.HeadName }}
-                    </h4>
-                    <div class="table-responsive">
-                      <table class="table table-bordered quest">
+                                        <h4 class="card-title questcolor">
+                                            {{ group.GroupName }} - {{ head.HeadName }}
+                                        </h4>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered quest">
 
-                        <tbody>
-                          <tr>
-                            <th scope="row " class="sercell">{{ question + 1 }}</th>
-                            <td>
-                              <!-- {{ Question.QuestionDetails?.questionText }} -->
-                              <span [innerHTML]="
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row " class="sercell">{{ question + 1 }}</th>
+                                                        <td>
+                                                            <!-- {{ Question.QuestionDetails?.questionText }} -->
+                                                            <span [innerHTML]="
                                   Question?.QuestionDetails?.questionText
                                 ">
                               </span>
-                            </td>
+                                                        </td>
 
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <ng-container *ngIf="!isSolved">
-                      <div class="form-group row align-items-center" *ngIf="
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <ng-container *ngIf="!isSolved">
+                                            <div class="form-group row align-items-center" *ngIf="
                           (!isSolved &&
                             Question?.QuestionDetails?.StudentChoice == null) ||
                           (!isSolved &&
@@ -133,19 +131,18 @@
                             Question?.QuestionDetails?.StudentChoice.RESULT ==
                               'F')
                         ">
-                        <div class="col-3">
-                          <label for="last-name" class="col-form-label questcolor">
+                                                <div class="col-3">
+                                                    <label for="last-name" class="col-form-label questcolor">
                             Type in the correct answer
                           </label>
-                        </div>
-                        <div class="col-9">
-                          <input #answer (keyup)="onRadioChange(answer.value, Question)" type="number"
-                            class="form-control student-answer-input" placeholder="correct answer" />
-                        </div>
-                      </div>
+                                                </div>
+                                                <div class="col-9">
+                                                    <input #answer (keyup)="onRadioChange(answer.value, Question)" type="number" class="form-control student-answer-input" placeholder="correct answer" />
+                                                </div>
+                                            </div>
 
-                      <div class="form-group row align-items-center">
-                        <button *ngIf="
+                                            <div class="form-group row align-items-center">
+                                                <button *ngIf="
 													(!isSolved &&
 													Question?.QuestionDetails?.StudentChoice == null) ||
 													(!isSolved &&
@@ -162,7 +159,7 @@
 													)">
                           {{ "General.SaveQuestion" | translate }}
                         </button>
-                        <span *ngIf="
+                                                <span *ngIf="
                           (!isSolved &&
                             Question?.QuestionDetails?.StudentChoice == null) ||
                           (!isSolved &&
@@ -173,14 +170,14 @@
                           {{ "labels.ansWillNotSave" | translate }}
                         </span>
 
-                        <span *ngIf="
+                                                <span *ngIf="
                           !isSolved &&
                           Question?.QuestionDetails?.StudentChoice != null &&
                           Question?.QuestionDetails?.StudentChoice.RESULT == 'T'
                         " class="success">
                           تم حفظ الإجابة من قبل
                         </span>
-                        <span *ngIf="
+                                                <span *ngIf="
                           (!isSolved &&
                             Question?.QuestionDetails?.StudentChoice == null) ||
                           (!isSolved &&
@@ -189,53 +186,53 @@
                               'F')
                         " id="stu-cho-{{ Question?.QuestionDetails?.questionId }}" class="warning">
                         </span>
-                      </div>
+                                            </div>
 
 
-                    </ng-container>
-                  </ng-container>
-                </ng-container>
-              </ng-container>
-            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
 
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Start mcq questions Box -->
-    <div class="col-12">
-      <div class="card overflow-hidden">
-        <!-- <div class="card-header">
+        <!-- Start mcq questions Box -->
+        <div class="col-12">
+            <div class="card overflow-hidden">
+                <!-- <div class="card-header">
                     <h4 class="card-title questcolor">Answers</h4>
                 </div> -->
-        <div class="card-content">
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered quest">
-                <!-- <thead>
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered quest">
+                                <!-- <thead>
                                     <tr>
                                         <th scope="col">Ser</th>
                                         <th scope="col">English</th>
                                         <th scope="col">Arabic</th>
                                     </tr>
                                 </thead> -->
-                <tbody>
-                  <ng-container *ngFor="let group of ExamGroups; let groupIndex = index">
-                    <ng-container *ngIf="group.GroupId === currentGroupId">
-                      <ng-container *ngFor="let head of group.Heads; let headIndex = index">
-                        <ng-container *ngFor="
+                                <tbody>
+                                    <ng-container *ngFor="let group of ExamGroups; let groupIndex = index">
+                                        <ng-container *ngIf="group.GroupId === currentGroupId">
+                                            <ng-container *ngFor="let head of group.Heads; let headIndex = index">
+                                                <ng-container *ngFor="
                             let Question of head?.Questions;
                             let questionIndex = index
                           ">
-                          <tr *ngFor="
+                                                    <tr *ngFor="
                               let mcq of Question.MCQ;
                               let mcqIndex = index
                             ">
-                            <th scope="row" class="sercell">
-                              {{ mcqIndex + 1 }}
+                                                        <th scope="row" class="sercell">
+                                                            {{ mcqIndex + 1 }}
 
-                              <i *ngIf="
+                                                            <i *ngIf="
                                   (isSolved && mcq.IsCorrect) ||
                                   (isSolved &&
                                     mcq.IsCorrect &&
@@ -250,29 +247,29 @@
                                 " class="fa fa-check-circle success ml-1" aria-hidden="true">
                               </i>
 
-                              <i *ngIf="
+                                                            <i *ngIf="
                                   isSolved &&
                                   !mcq.IsCorrect &&
                                   Question?.QuestionDetails?.StudentChoice
                                     ?.student_choice_id == mcq.Id
                                 " class="fa fa-times-circle-o danger ml-1" aria-hidden="true">
                               </i>
-                            </th>
+                                                        </th>
 
-                            <td>
-                              <!-- {{ mcq.MCQText }} -->
-                              <span [innerHTML]="mcq?.MCQText"></span>
-                            </td>
+                                                        <td>
+                                                            <!-- {{ mcq.MCQText }} -->
+                                                            <span [innerHTML]="mcq?.MCQText"></span>
+                                                        </td>
 
-                          </tr>
+                                                    </tr>
 
-                          <span class="info" *ngIf="isSolved">
+                                                    <span class="info" *ngIf="isSolved">
                             {{ "labels.QuestionMark" | translate }}
                             :({{ Question.QuestionDetails?.questionMark }})
                           </span>
 
 
-                          <span class="info" *ngIf="isSolved">
+                                                    <span class="info" *ngIf="isSolved">
                             <span class="danger" *ngIf="
                                 Question.QuestionDetails?.StudentChoice
                                   ?.RESULT === 'F'
@@ -280,74 +277,74 @@
                               Your answer is (wrong)
                             </span>
 
-                            <span class="success" *ngIf="
+                                                    <span class="success" *ngIf="
                                 Question.QuestionDetails?.StudentChoice
                                   ?.RESULT === 'T'
                               ">
                               Your answer is (correct)
                             </span>
-                          </span>
+                                                    </span>
 
-                          <span class="danger" *ngIf="
+                                                    <span class="danger" *ngIf="
                               Question.QuestionDetails?.StudentChoice
                                 ?.student_choice_id == 0
                             " class="danger">
                             {{ "labels.QuestionNotAnswerd" | translate }}
                           </span>
-                        </ng-container>
-                      </ng-container>
-                    </ng-container>
-                  </ng-container>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="card-actions">
-          <button (click)="SubmitExam()" id="btnSubmit" type="submit" class="btn btn-primary" *ngIf="!solvidResults">
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button (click)="SubmitExam()" id="btnSubmit" type="submit" class="btn btn-primary" *ngIf="!solvidResults">
             {{ "General.SubmitAnswer" | translate }}
           </button>
 
-          <button *ngIf="isSolved" class="btn btn-warning" routerLink="/home">
+                    <button *ngIf="isSolved" class="btn btn-warning" routerLink="/student/mySpace">
             {{ "General.BackToHome" | translate }}
           </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <!-- Exam Not Avaliable Section -->
 <section *ngIf="!IsAvaliable">
-  <div class="row">
-    <div class="col-12 text-center">
-      <img src="assets/img/gallery/lock.png" alt="" class="img-fluid error-img mt-2" height="300" width="400" />
-      <h1 class="mt-4">
-        {{ "labels.ExamNotAvaliable" | translate }}
-      </h1>
-      <a [routerLink]="['/']" class="btn btn-warning my-2">
+    <div class="row">
+        <div class="col-12 text-center">
+            <img src="assets/img/gallery/lock.png" alt="" class="img-fluid error-img mt-2" height="300" width="400" />
+            <h1 class="mt-4">
+                {{ "labels.ExamNotAvaliable" | translate }}
+            </h1>
+            <a [routerLink]="['/student/mySpace']" class="btn btn-warning my-2">
         {{ "General.BackToHome" | translate }}</a>
+        </div>
     </div>
-  </div>
 </section>
 
 <!-- Exam Results not Avaliable Section -->
 <section *ngIf="!IsResultAvalable && isSolved">
-  <div class="row">
-    <div class="col-12 text-center">
-      <img src="assets/img/gallery/maintenance.png" alt="" class="img-fluid error-img mt-2" height="300" width="400" />
-      <h1 class="mt-4">
-        {{ "labels.ExamResultNotAvaliable" | translate }}
-      </h1>
-      <div class="w-75 error-text mx-auto mt-4">
-        <p>
-          {{ "labels.ExamResultDate" | translate }}: {{ examResultDate | date }}
-          <br /> {{ "labels.examResultTime" | translate }}: {{ examResultTime }}
-          <br /> {{ "labels.StudentMark" | translate }} : {{ studentMark }} / {{ examTotalMark }}
-          <br /> {{ "labels.StudentAnswerPeriod" | translate }} : {{ examDuration }}
-        </p>
-      </div>
-      <a [routerLink]="['/']" class="btn btn-warning my-2">Back To Home</a>
+    <div class="row">
+        <div class="col-12 text-center">
+            <img src="assets/img/gallery/maintenance.png" alt="" class="img-fluid error-img mt-2" height="300" width="400" />
+            <h1 class="mt-4">
+                {{ "labels.ExamResultNotAvaliable" | translate }}
+            </h1>
+            <div class="w-75 error-text mx-auto mt-4">
+                <p>
+                    {{ "labels.ExamResultDate" | translate }}: {{ examResultDate | date }}
+                    <br /> {{ "labels.examResultTime" | translate }}: {{ examResultTime }}
+                    <br /> {{ "labels.StudentMark" | translate }} : {{ studentMark }} / {{ examTotalMark }}
+                    <br /> {{ "labels.StudentAnswerPeriod" | translate }} : {{ examDuration }}
+                </p>
+            </div>
+            <a [routerLink]="['/student/mySpace']" class="btn btn-warning my-2">Back To Home</a>
+        </div>
     </div>
-  </div>
 </section>
