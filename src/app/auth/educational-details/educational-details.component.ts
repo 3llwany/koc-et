@@ -55,7 +55,7 @@ export class EducationalDetailsComponent
       stageID: ["", [Validators.required]],
       EduYearID: ["", [Validators.required]],
       parentName: [
-        "",
+        "parent",
         [
           Validators.required,
           CustomeValidator.whiteSpace,

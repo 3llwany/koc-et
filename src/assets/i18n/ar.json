@@ -137,9 +137,9 @@
     "ViewExams": "عرض الامتحانات"
   },
   "labels": {
-    "UnCorrectedQuestions":"أسئلة لم يتم تصحيحها",
-    "CorrectedQuestions":"أسئلة تم تصحيحها",
-    "ExamsCorrection":"تصحيح الامتحانات",
+    "UnCorrectedQuestions": "أسئلة لم يتم تصحيحها",
+    "CorrectedQuestions": "أسئلة تم تصحيحها",
+    "ExamsCorrection": "تصحيح الامتحانات",
     "AddTemplate": "إضافة نموذج",
     "UpdateTemplate": "تعديل النموذج",
     "Points": "النقاط",
@@ -361,7 +361,7 @@
     "mainQuestion": "السؤال الرئيسي",
     "AddRole": "إضافة صلاحية",
     "NumberMustStartWith": "رقم الموبايل يجب ان يبدا ب '01'",
-    "MobileLength": "رقم الموبايل يجب ان يكون 11 رقم ",
+    "MobileLength": "رقم الموبايل يجب ان يكون 8 ارقام ",
     "AddRoleFunctions": "إضافة وظائف الصلاحية",
     "questionChoose": "الاجابه الصحيحة",
     "question_ar_text": "نص السؤال",

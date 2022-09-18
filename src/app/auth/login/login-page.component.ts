@@ -1,9 +1,12 @@
+import { ToastrService } from "ngx-toastr";
+import { StudentService } from "app/student/services/student.service";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { loginMV } from "app/shared/models/auth/auth";
 import { AuthService } from "app/shared/services/auth/auth.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { EditEduDataVM } from "app/shared/models/general/general";
 
 @Component({
   selector: "app-login-page",
@@ -22,6 +25,8 @@ export class LoginPageComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private authService: AuthService,
+    private studentServ: StudentService,
+    private toaster: ToastrService,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute
   ) {}
@@ -29,7 +34,15 @@ export class LoginPageComponent implements OnInit {
   ngOnInit(): void {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"];
     this.loginForm = this.fb.group({
-      account_email: ["", [Validators.required, Validators.email]],
+      mobile: [
+        "",
+        [
+          Validators.required,
+          Validators.pattern(/^(\(?\+?[0-9]*\)?)?[0-9_ \-\(\)\S*$]*$/),
+          Validators.minLength(8),
+          Validators.maxLength(8),
+        ],
+      ],
       account_password: ["", [Validators.required]],
     });
   }
