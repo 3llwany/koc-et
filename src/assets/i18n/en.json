@@ -138,9 +138,9 @@
     "ViewExams": "View Exam"
   },
   "labels": {
-    "UnCorrectedQuestions":"UnCorrected Questions",
-    "CorrectedQuestions":"Corrected Questions",
-    "ExamsCorrection":"Exams Correction",
+    "UnCorrectedQuestions": "UnCorrected Questions",
+    "CorrectedQuestions": "Corrected Questions",
+    "ExamsCorrection": "Exams Correction",
     "Points": "Points",
     "AddTemplate": "إضافة نموذج",
     "UpdateTemplate": "تعديل النموذج",
@@ -397,7 +397,7 @@
     "AnswerThreePic": "Answer Three Picture",
     "AnswerFourPic": "Answer Four Picture",
     "NumberMustStartWith": "Number Must Start With '01'",
-    "MobileLength": "Mobile must by 11 number",
+    "MobileLength": "Mobile must by 8 numbers",
     "ChatNotAllowed": "Teacher not allowed chat this time"
   },
   "auth": {

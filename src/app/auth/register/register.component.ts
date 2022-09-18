@@ -1,7 +1,9 @@
+import { StudentService } from "app/student/services/student.service";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { RegisterMV } from "app/shared/models/auth/auth";
+import { EditEduDataVM } from "app/shared/models/general/general";
 import { AuthService } from "app/shared/services/auth/auth.service";
 import { CustomeValidator } from "app/shared/validators/customeValid.validator";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -20,8 +22,9 @@ export class RegisterComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private toastr: ToastrService,
     private authService: AuthService,
+    private studentServ: StudentService,
+    private toastr: ToastrService,
     private spinner: NgxSpinnerService
   ) {}
 
@@ -31,29 +34,19 @@ export class RegisterComponent implements OnInit {
         Id: [null],
         userTypeId: [2, Validators.required],
 
-        ar_name: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern(
-              /^[a-zA-Z \u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]+$/
-            ),
-            CustomeValidator.whiteSpace,
-          ],
-        ],
+        ar_name: [""],
 
         mobile: [
           "",
           [
             Validators.required,
             Validators.pattern(/^(\(?\+?[0-9]*\)?)?[0-9_ \-\(\)\S*$]*$/),
-            Validators.minLength(11),
-            Validators.maxLength(11),
-            CustomeValidator.startsWith,
+            Validators.minLength(8),
+            Validators.maxLength(8),
           ],
         ],
 
-        account_email: ["", [Validators.required, Validators.email]],
+        account_email: [""],
 
         account_password: [
           "",
@@ -77,7 +70,6 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.myForm.value);
 
     if (this.myForm.valid) {
       this.spinner.show();
@@ -88,11 +80,12 @@ export class RegisterComponent implements OnInit {
           this.spinner.hide();
           this.submitted = false;
           this.isFailed = false;
-          if (res.returnValue == 1) {
-            localStorage.setItem("token", res.token.token);
-            localStorage.setItem("user_type_Id", res.user_type_id);
-            if (res.user_type_id == "2") {
-              this.router.navigateByUrl("/auth/educational-details");
+          if (res.returnValue === 1) {
+            localStorage.setItem("token", res?.token?.token);
+            localStorage.setItem("user_type_Id", res?.user_type_id);
+            if (res.user_type_id === 2) {
+              //  this.router.navigateByUrl("/auth/educational-details");
+              this.SaveStudenStage();
             } else {
               this.router.navigateByUrl("/home");
             }
@@ -104,5 +97,31 @@ export class RegisterComponent implements OnInit {
           }
         });
     }
+  }
+
+  SaveStudenStage() {
+    let data: EditEduDataVM = {
+      stageID: 1004,
+      EduYearID: 1002,
+      parentName: "parent",
+      parentPhoneNumber: this.FormCtrls.mobile.value,
+    };
+    this.spinner.show();
+    this.studentServ
+      .SaveStudenStage<EditEduDataVM, any>(data)
+      .subscribe((res) => {
+        this.spinner.hide();
+        if (res.returnValue == 1) {
+          this.isFailed = false;
+          localStorage.setItem("yearId", String(data.EduYearID));
+
+          //this.authService.logout();
+          //this.router.navigateByUrl("/auth/login");
+          this.router.navigateByUrl("student");
+        } else {
+          this.isFailed = true;
+          this.errMsg = res.returnString;
+        }
+      });
   }
 }
