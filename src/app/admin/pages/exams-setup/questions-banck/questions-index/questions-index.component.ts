@@ -93,7 +93,6 @@ export class QuestionsIndexComponent implements OnInit {
       lessonId: [""],
       topicId: [""],
     });
-
     this.EduCompId = this.authService.getEduCompId();
     this.branchId = this.authService.getBranchId();
     this.getTeachersByEducompId(this.EduCompId);

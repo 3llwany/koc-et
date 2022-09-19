@@ -153,17 +153,22 @@ export interface IMcqChoiceVM {
 }
 export interface IQuestionVM {
   difficulty_level: 1;
-  lessonId: "1287";
-  main_subject_id: "123";
+  lessonId: string;
+  main_subject_id: string;
   mark: 4;
-  perfect_answer: null;
+  perfect_answer: string;
   picked_choice_index: 2;
-  question_ar_text: "asdasd dd ";
-  question_attach: "";
-  question_id: null;
+  question_ar_text: string;
+  question_attach: string;
+  question_id: number;
   question_type_id: 2;
   teacherUserId: 22;
-  topicId: "9";
-  unitId;
+  topicId: string;
+  unitId: string;
   choices: IMcqChoiceVM[];
+}
+export interface IDifficultyLevelVM {
+  Id: 1;
+  level_ar_name: string;
+  level_en_name: string;
 }

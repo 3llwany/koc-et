@@ -40,7 +40,7 @@ export class LoginPageComponent implements OnInit {
           Validators.required,
           Validators.pattern(/^(\(?\+?[0-9]*\)?)?[0-9_ \-\(\)\S*$]*$/),
           Validators.minLength(8),
-          Validators.maxLength(8),
+          // Validators.maxLength(8),
         ],
       ],
       account_password: ["", [Validators.required]],

@@ -224,7 +224,9 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 {{ "labels.question_ar_text" | translate }}
               </th>
-              <td mat-cell *matCellDef="let ele">{{ ele.questionName }}</td>
+              <td mat-cell *matCellDef="let ele">
+                <span [innerHtml]="ele.questionName"></span>
+              </td>
             </ng-container>
 
             <!-- questionType Column -->

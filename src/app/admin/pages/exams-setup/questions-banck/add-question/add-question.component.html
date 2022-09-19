@@ -197,9 +197,16 @@
                         <mat-option>
                           {{ "General.Choose" | translate }}
                         </mat-option>
-                        <mat-option [value]="1">سهل</mat-option>
-                        <mat-option [value]="5">متوسط</mat-option>
-                        <mat-option [value]="10">صعب</mat-option>
+                        <mat-option
+                          *ngFor="let level of DifficultyLevel"
+                          [value]="level.Id"
+                        >
+                          {{ level.level_ar_name }}
+                        </mat-option>
+                        <!-- <mat-option [value]="1">صعب</mat-option>
+                        <mat-option [value]="2">متوسط</mat-option>
+                        <mat-option [value]="3">كلمات </mat-option>
+                        <mat-option [value]="4"> قطع </mat-option> -->
                       </mat-select>
                     </mat-form-field>
                   </div>

@@ -66,6 +66,10 @@ export class ExamsService {
     );
   }
 
+  getDifficultyLevel<TV>() {
+    return this.http.get<TV>(`${environment.apiURL}Exam/returnExamLevels`);
+  }
+
   deleteExam<TV>(id: number) {
     return this.http.delete<TV>(`${environment.apiURL}Admin/RemoveExam/${id}`);
   }

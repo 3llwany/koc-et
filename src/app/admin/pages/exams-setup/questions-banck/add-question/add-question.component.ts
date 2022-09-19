@@ -13,7 +13,7 @@ import { AuthService } from "app/shared/services/auth/auth.service";
 import { GeneralService } from "app/shared/services/General/general.service";
 import { CustomeValidator } from "app/shared/validators/customeValid.validator";
 import { ToastrService } from "ngx-toastr";
-import { IMcqChoiceVM } from "app/admin/models/admin/exams";
+import { IDifficultyLevelVM, IMcqChoiceVM } from "app/admin/models/admin/exams";
 
 @Component({
   selector: "app-add-question",
@@ -32,6 +32,7 @@ export class AddQuestionComponent implements OnInit {
   units: GeneralDropdownVM[];
   lessons: GeneralDropdownVM[];
   topics: GeneralDropdownVM[];
+  DifficultyLevel: IDifficultyLevelVM[];
 
   functionId: number;
   rowFunctions: IRowFunctionVM[];
@@ -182,6 +183,7 @@ export class AddQuestionComponent implements OnInit {
     this.EduCompId = this.authService.getEduCompId();
     this.branchId = this.authService.getBranchId();
     this.getTeachersByEducompId(this.EduCompId);
+    this.getDifficultyLevel();
 
     this.myForm = this.fb.group({
       questionBank: this.fb.group({
@@ -385,6 +387,12 @@ export class AddQuestionComponent implements OnInit {
           this.spinner.hide();
         });
     }
+  }
+
+  getDifficultyLevel() {
+    this.examsService.getDifficultyLevel().subscribe((res: any) => {
+      this.DifficultyLevel = res;
+    });
   }
 
   getTeachersByEducompId(EduCompId: any) {

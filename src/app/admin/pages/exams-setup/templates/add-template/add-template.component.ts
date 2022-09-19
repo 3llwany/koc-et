@@ -2,7 +2,10 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { TemplateDetailsVM } from "app/admin/models/admin/exams";
+import {
+  IDifficultyLevelVM,
+  TemplateDetailsVM,
+} from "app/admin/models/admin/exams";
 import { EducationalService } from "app/admin/services/Admin/educational.service";
 import {
   teacherByEduCompId,
@@ -16,6 +19,7 @@ import { ToastrService } from "ngx-toastr";
 import { CustomeValidator } from "app/shared/validators/customeValid.validator";
 import { MatDialog } from "@angular/material/dialog";
 import { DeleteDialogComponent } from "app/shared/components/dialogs/delete-dialog/delete-dialog.component";
+import { ExamsService } from "app/admin/services/Admin/exams.service";
 
 @Component({
   selector: "app-add-template",
@@ -30,6 +34,7 @@ export class AddTemplateComponent implements OnInit {
   Teachers: teacherByEduCompId[] = [];
   QuestionDetails: TemplateDetailsVM[] = [];
   Presets: any = [];
+  DifficultyLevel: IDifficultyLevelVM[];
   stages: GeneralDropdownVM[] = [];
   years: GeneralDropdownVM[] = [];
   subjects: GeneralDropdownVM[] = [];
@@ -54,6 +59,7 @@ export class AddTemplateComponent implements OnInit {
     public spinner: NgxSpinnerService,
     public authserv: AuthService,
     private TemplatesService: TemplatesService,
+    private examsService: ExamsService,
     private dialog: MatDialog,
     private GeneralService: GeneralService,
     private EducationalService: EducationalService
@@ -80,6 +86,7 @@ export class AddTemplateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getDifficultyLevel();
     this.myForm = this.fb.group({
       EduCompId: [this.EduCompId],
       Id: [this.templateId],
@@ -279,6 +286,12 @@ export class AddTemplateComponent implements OnInit {
       // console.log('getPresets', res);
       this.Presets = res;
       this.spinner.hide();
+    });
+  }
+
+  getDifficultyLevel() {
+    this.examsService.getDifficultyLevel().subscribe((res: any) => {
+      this.DifficultyLevel = res;
     });
   }
 
