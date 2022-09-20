@@ -13,7 +13,7 @@ export class MySubjectsComponent implements OnInit {
   constructor(private StudentServ: StudentService) {}
 
   ngOnInit(): void {
-    this.returnStudentSubjects();
+    //  this.returnStudentSubjects();
   }
 
   //Start Return Student Subject List
