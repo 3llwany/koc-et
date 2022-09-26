@@ -26,24 +26,14 @@ export class UserDataComponent implements OnInit {
     this.returnProfile();
     this.myForm = this.fb.group(
       {
-        ar_name: [
-          "",
-          [
-            Validators.required,
-            Validators.pattern(
-              /^[a-zA-Z \u0600-\u065F\u066A-\u06EF\u06FA-\u06FF]+$/
-            ),
-            CustomeValidator.whiteSpace,
-          ],
-        ],
+        ar_name: ["", [Validators.required, CustomeValidator.whiteSpace]],
         mobile: [
           "",
           [
             Validators.required,
             Validators.pattern(/^(\(?\+?[0-9]*\)?)?[0-9_ \-\(\)\S*$]*$/),
-            Validators.minLength(11),
-            Validators.maxLength(11),
-            CustomeValidator.startsWith,
+            Validators.minLength(8),
+            //   Validators.maxLength(8),
           ],
         ],
         account_email: ["", [Validators.required, Validators.email]],
