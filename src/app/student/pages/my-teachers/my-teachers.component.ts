@@ -19,7 +19,7 @@ export class MyTeachersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getMyTeachers();
+    // this.getMyTeachers();
   }
 
   getMyTeachers() {
