@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { IExamVM, ITemplateVM } from "app/admin/models/admin/exams";
@@ -27,6 +27,9 @@ export class ReturnSubjectExamsComponent implements OnInit {
   @Input("teacherSubjectId") teacherSubjectId;
   @Input("subjectId") subjectId;
   @Input("teacherId") teacherId;
+  @ViewChild("buyexamBtn", { read: ElementRef }) buyexamBtn: ElementRef;
+  @ViewChild("buytemplatebtn", { read: ElementRef }) buytemplatebtn: ElementRef;
+
   lessonsChapters: IChaptersLessonsVM[] = [];
   unitRevisions: IChaptersUnitRevisionsVM[] = [];
   subjectRevisions: IChaptersSubjectRevisionsVM[] = [];
@@ -114,17 +117,36 @@ export class ReturnSubjectExamsComponent implements OnInit {
     );
   }
 
-  buyTemplate(id: any) {
+  payAmount(amount: any) {
     this.spinner.show();
-    this.MaterialsService.buyTemplate(id).subscribe((res: any) => {
+    this.StudentService.payAmountForDirectPay(amount, this.teacherId).subscribe(
+      (res: any) => {
+        if (res.returnValue == 1) {
+          console.log("payAmount", res);
+          window.open(res.returnURL, "target_blank");
+        } else {
+          //this.toaster.error('حدث  خطأ  ما حاول مره اخري لاحقاً');
+          this.toastr.error(res.returnString || res.message);
+        }
+        this.spinner.hide();
+      }
+    );
+  }
+
+  buyTemplate(templet: any) {
+    this.spinner.show();
+    this.MaterialsService.buyTemplate(templet.Id).subscribe((res: any) => {
+      console.log("buyTemplate", res);
       if (res.returnValue == 1) {
         this.toastr.success("تم شراء الإمتحان");
-        this.GenerateExamFromTemplate(id);
+        this.GenerateExamFromTemplate(templet.id);
         //this.router.navigateByUrl(`/student/exam/${id}`);
       } else if (res.returnValue == 0) {
         this.toastr.info(res.returnString, "خطأ");
       } else if (res.returnValue == 3) {
-        this.toastr.info("ليس لديك رصيد كافي", "خطأ");
+        this.payAmount(templet.price);
+        this.buytemplatebtn.nativeElement.innerText = "دخول";
+        //this.toastr.info("ليس لديك رصيد كافي", "خطأ");
       } else {
         this.toastr.info(res.returnString, "خطأ");
       }
@@ -132,17 +154,20 @@ export class ReturnSubjectExamsComponent implements OnInit {
     });
   }
 
-  buyExam(id: any) {
+  buyExam(exam: any) {
     this.spinner.show();
-    this.MaterialsService.buyExam(id).subscribe((res: any) => {
+    this.MaterialsService.buyExam(exam.id).subscribe((res: any) => {
+      console.log("buyExam", res);
       if (res.returnValue == 1) {
         this.toastr.success("تم شراء الإمتحان");
-        this.router.navigateByUrl(`/student/exam/${id}`);
+        this.router.navigateByUrl(`/student/exam/${exam.id}`);
         //  window.open(`/student/exam/${id}`);
       } else if (res.returnValue == 0) {
         this.toastr.info(res.returnString, "خطأ");
       } else if (res.returnValue == 3) {
-        this.toastr.info("ليس لديك رصيد كافي", "خطأ");
+        this.payAmount(exam.price);
+        this.buyexamBtn.nativeElement.innerText = "دخول";
+        //this.toastr.info("ليس لديك رصيد كافي", "خطأ");
       } else {
         this.toastr.info(res.returnString, "خطأ");
       }
@@ -210,7 +235,7 @@ export class ReturnSubjectExamsComponent implements OnInit {
     });
   }
 
-  openBuyDialog(id, type): void {
+  openBuyDialog(exam, type): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: "labels.ConfirmBuyExam",
@@ -219,8 +244,8 @@ export class ReturnSubjectExamsComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((confirm) => {
-      if (confirm && type == "Exam") this.buyExam(id);
-      if (confirm && type == "Template") this.buyTemplate(id);
+      if (confirm && type == "Exam") this.buyExam(exam);
+      if (confirm && type == "Template") this.buyTemplate(exam);
     });
   }
 }

@@ -68,12 +68,20 @@ export class StudentService {
   }
 
   //Request Fawry Code
-  payAmount(amount: any, teacherId: any, EduCompId: any, methodId: any) {
+  payAmount(amount: any, teacherId: any, EduCompId?: any, methodId?: any) {
     return this.http.post(
       `${environment.apiURL}AJAX/PayAmount/${amount}/${teacherId}/${EduCompId}/${methodId}`,
       null
     );
   }
+
+  payAmountForDirectPay(amount: any, teacherId: any) {
+    return this.http.post(
+      `${environment.apiURL}AJAX/PayAmount/${amount}/${teacherId}`,
+      null
+    );
+  }
+
   //Request Fawry Code For Tamer ElQady
   payAmountCowPay(amount: any, teacherId: any, EduCompId: any) {
     return this.http.post(

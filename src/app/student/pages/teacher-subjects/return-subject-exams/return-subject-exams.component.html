@@ -191,8 +191,9 @@
           </a>
 
           <button
+            #buyexamBtn
             mat-raised-button
-            (click)="openBuyDialog(exam.id, 'Exam')"
+            (click)="buyExam(exam)"
             id="buy-exam-{{ exam.id }}"
             class="btn btn-primary"
             *ngIf="!exam.Purchased"
@@ -289,8 +290,9 @@
           </a>
 
           <button
+            #buytemplatebtn
             mat-raised-button
-            (click)="openBuyDialog(templet.Id, 'Template')"
+            (click)="buyTemplate(templet)"
             id="buy-temp-{{ templet.Id }}"
             class="btn btn-primary"
             *ngIf="!templet.Purchased"
