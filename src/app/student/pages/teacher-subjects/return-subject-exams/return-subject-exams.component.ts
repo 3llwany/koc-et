@@ -122,10 +122,8 @@ export class ReturnSubjectExamsComponent implements OnInit {
     this.StudentService.payAmountForDirectPay(amount, this.teacherId).subscribe(
       (res: any) => {
         if (res.returnValue == 1) {
-          console.log("payAmount", res);
           window.open(res.returnURL, "target_blank");
         } else {
-          //this.toaster.error('حدث  خطأ  ما حاول مره اخري لاحقاً');
           this.toastr.error(res.returnString || res.message);
         }
         this.spinner.hide();
@@ -136,17 +134,18 @@ export class ReturnSubjectExamsComponent implements OnInit {
   buyTemplate(templet: any) {
     this.spinner.show();
     this.MaterialsService.buyTemplate(templet.Id).subscribe((res: any) => {
-      console.log("buyTemplate", res);
       if (res.returnValue == 1) {
-        this.toastr.success("تم شراء الإمتحان");
-        this.GenerateExamFromTemplate(templet.id);
-        //this.router.navigateByUrl(`/student/exam/${id}`);
-      } else if (res.returnValue == 0) {
-        this.toastr.info(res.returnString, "خطأ");
+        console.log("Exam purchased");
+        this.GenerateExamFromTemplate(templet.Id);
       } else if (res.returnValue == 3) {
         this.payAmount(templet.price);
         this.buytemplatebtn.nativeElement.innerText = "دخول";
-        //this.toastr.info("ليس لديك رصيد كافي", "خطأ");
+      } else if (res.returnValue == 0) {
+        if (
+          res.returnString == "This purchase operation has already been done"
+        ) {
+          this.GenerateExamFromTemplate(templet.Id);
+        } else this.toastr.info(res.returnString, "خطأ");
       } else {
         this.toastr.info(res.returnString, "خطأ");
       }
@@ -157,17 +156,14 @@ export class ReturnSubjectExamsComponent implements OnInit {
   buyExam(exam: any) {
     this.spinner.show();
     this.MaterialsService.buyExam(exam.id).subscribe((res: any) => {
-      console.log("buyExam", res);
       if (res.returnValue == 1) {
-        this.toastr.success("تم شراء الإمتحان");
+        console.log("Exam purchased");
         this.router.navigateByUrl(`/student/exam/${exam.id}`);
-        //  window.open(`/student/exam/${id}`);
       } else if (res.returnValue == 0) {
         this.toastr.info(res.returnString, "خطأ");
       } else if (res.returnValue == 3) {
         this.payAmount(exam.price);
         this.buyexamBtn.nativeElement.innerText = "دخول";
-        //this.toastr.info("ليس لديك رصيد كافي", "خطأ");
       } else {
         this.toastr.info(res.returnString, "خطأ");
       }

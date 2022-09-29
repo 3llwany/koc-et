@@ -5,7 +5,7 @@
       <div class="logo-img">
         <img [src]="logoUrl" alt="Mozakrety logo" />
       </div>
-      <span class="text align-middle">Mozakrety</span>
+      <span class="text align-middle">OGS-ET</span>
     </a>
     <a
       class="nav-toggle d-none d-lg-none d-xl-block"
@@ -80,6 +80,34 @@
           <i class="fa fa-money"></i>
 
           <span>{{ "Navbar.Recharge" | translate }}</span>
+        </a>
+      </li>
+
+      <li
+        appSidebarlink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a routerLink="/student/teacher/2/teacher-subject/896/1006">
+          <i class="fa fa-book"></i>
+
+          <span> قسم اللغة الانجليزية </span>
+        </a>
+      </li>
+
+      <li
+        appSidebarlink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a routerLink="/student/teacher/3/teacher-subject/897/1007">
+          <i class="fa fa-book"></i>
+
+          <span> قسم التخصصات </span>
         </a>
       </li>
 

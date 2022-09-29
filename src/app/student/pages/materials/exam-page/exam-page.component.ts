@@ -90,7 +90,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   returnStudentExam(examId: any) {
     this.spinner.show();
     this.studentServ.returnStudentExam(examId).subscribe((res: any) => {
-      console.log("exam: ", res);
+      // console.log("exam: ", res);
       if (res.returnValue == -5) {
         this.spinner.hide();
         this.returnExamResults(res.examId);
@@ -112,7 +112,6 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
         this.exam_period_minute = res.exam.details.exam_period_minute;
         this.solvedExamStudent_ID = res.mv.solvedExamStudent_ID;
         this.student_grade = res.mv.exam_student.student_grade;
-        // this.questionNumber = res.exam.groups[0].Heads[0].Questions.length;
 
         let GL = res.exam.groups.length, // length of Groups
           num = 0;
@@ -303,9 +302,8 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
         // AnswerText: AnswerText,
       };
 
-      // console.log("SingleQuestionData: ", data);
       this.studentServ.SubmitSingleQuestion(data).subscribe((res: any) => {
-        //    console.log("SubmitSingleQuestion", res);
+        // console.log("SubmitSingleQuestion", res);
 
         if (res.returnValue == 200) {
           //this.PickedChoiceId = null;
@@ -317,9 +315,18 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
           let ansMsg = document.getElementById(`stu-cho-${questionId}`);
           ansMsg.style.display = "block";
           ansMsg.innerHTML = `تم اختيار الإجابة : ("${res.returnedChoice}")`;
-          this.AnswerdGroups.push(groupId);
-          console.log("AnswerdGroups", this.AnswerdGroups);
 
+          // add groupId to AnswerdGroups to change solved group question color
+          this.AnswerdGroups.push(groupId);
+
+          // jumb to next question
+          let currentGroupIndex = this.ExamGroups.findIndex(
+            (e) => e.GroupId === this.currentGroupId
+          );
+          let nextGroupId = this.ExamGroups[currentGroupIndex + 1].GroupId;
+          this.currentGroupId = nextGroupId;
+
+          // add answerd question to answers list
           let founded = this.AnswerdQuestionsNumber.find(
             (x: any) => x.questionId === questionId
           );
@@ -327,6 +334,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
             this.AnswerdQuestionsNumber.push({ questionId: questionId });
           }
         }
+
         if (res.returnValue == 505) {
           document.querySelector("#alert-" + questionId).innerHTML =
             "من فضلك تأكد من إختيار إجابه";
@@ -358,7 +366,6 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
         ExamStarTime: this.ExamStarTime,
       };
       this.studentServ.SubmitExam(data).subscribe((res: any) => {
-        console.log("submited", res);
         if (res.returnValue == 0) {
           this.toastr.warning(" تم حل الإمتحان من قبل", "خطأ");
           this.spinner.hide();
