@@ -34,6 +34,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   ExamGroups: IExamGroupsVM[] = null;
   solvedQuestionNumberArr: any = []; // previously Solved Question
   AnswerdQuestionsNumber: any = []; // Current Answerd Question
+  AnswerdGroups: any = []; // Current Answerd Question
   questionNumber: any; // Number Of Question In Exam
   studentUserId: any;
   examId: any;
@@ -89,7 +90,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   returnStudentExam(examId: any) {
     this.spinner.show();
     this.studentServ.returnStudentExam(examId).subscribe((res: any) => {
-      // console.log("exam: ", res);
+      console.log("exam: ", res);
       if (res.returnValue == -5) {
         this.spinner.hide();
         this.returnExamResults(res.examId);
@@ -141,26 +142,17 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
         let ss = currentTime.getSeconds();
         this.ExamStarTime = hh + ":" + mm + ":" + ss;
 
-        // If Repeated Exam get number of solved questions
-        let j = res.exam.groups[0].Heads[0].Questions.length,
-          i;
-        for (i = 0; i <= j; i++) {
-          if (
-            res.exam.groups[0].Heads[0].Questions[i] &&
-            res.exam.groups[0].Heads[0].Questions[i].QuestionDetails &&
-            res.exam.groups[0].Heads[0].Questions[i].QuestionDetails
-              .StudentChoice
-          ) {
-            if (
-              res.exam.groups[0].Heads[0].Questions[i].QuestionDetails
-                .StudentChoice.RESULT == "T"
-            ) {
-              // console.log(i)
-              this.solvedQuestionNumberArr.push({ id: i });
-            }
-          }
-          this.spinner.hide();
-        }
+        res.exam.groups.forEach((group, index) => {
+          group.Heads.forEach((head) => {
+            head.Questions.forEach((question) => {
+              if (question.QuestionDetails.StudentChoice.RESULT == "T") {
+                this.solvedQuestionNumberArr.push({ id: index });
+                this.AnswerdGroups.push(group.GroupId);
+              }
+            });
+          });
+        });
+
         this.spinner.hide();
       }
     });
@@ -200,8 +192,8 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
     });
   }
 
+  /*
   PickedChoiceId: IPickedChoiceIdVM[] = [];
-
   onRadioChange(Studentanswer: number, question: IExamQuestionsVM) {
     // console.log("Studentanswer", Studentanswer);
 
@@ -260,6 +252,73 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
           let ansMsg = document.getElementById(`stu-cho-${questionId}`);
           ansMsg.style.display = "block";
           ansMsg.innerHTML = `تم اختيار الإجابة : ("${res.returnedChoice}")`;
+
+          let founded = this.AnswerdQuestionsNumber.find(
+            (x: any) => x.questionId === questionId
+          );
+          if (!founded) {
+            this.AnswerdQuestionsNumber.push({ questionId: questionId });
+          }
+        }
+        if (res.returnValue == 505) {
+          document.querySelector("#alert-" + questionId).innerHTML =
+            "من فضلك تأكد من إختيار إجابه";
+          this.toastr.error("من فضلك تأكد من إختيار إجابه", "خطأ");
+        }
+      });
+    }
+  }
+*/
+
+  PickedChoiceId: IPickedChoiceIdVM[] = [];
+  onRadioChange(event: MatRadioChange, questionID: number) {
+    // this.PickedChoices = event.value;
+
+    let answer: IPickedChoiceIdVM = {
+      questionId: questionID,
+      choiceId: event.value,
+    };
+
+    let question = this.PickedChoiceId.findIndex(
+      (e) => e.questionId === questionID
+    );
+    if (question >= 0) this.PickedChoiceId[question] = answer;
+    else this.PickedChoiceId.push(answer);
+
+    //  console.log("PickedChoiceId", this.PickedChoiceId);
+  }
+
+  SingleQuestionForm(questionId: number, groupId: number) {
+    let answer = this.PickedChoiceId.find((e) => e.questionId === questionId);
+    // console.log("answerFromSigleQ", answer);
+    if (answer?.choiceId == null || answer?.choiceId == undefined) {
+      this.toastr.warning("من فضلك اختر إجابة");
+      return;
+    } else {
+      let data = {
+        examId: this.examId,
+        studentUserId: this.studentUserId,
+        PickedChoiceId: answer.choiceId,
+        questionId: questionId,
+        // AnswerText: AnswerText,
+      };
+
+      // console.log("SingleQuestionData: ", data);
+      this.studentServ.SubmitSingleQuestion(data).subscribe((res: any) => {
+        //    console.log("SubmitSingleQuestion", res);
+
+        if (res.returnValue == 200) {
+          //this.PickedChoiceId = null;
+          document.getElementById(`alert-${questionId}`).style.display = "none";
+          let element = document.querySelector("#btn-" + questionId);
+          element.classList.remove("btn-primary");
+          element.classList.add("btn-success");
+          element.innerHTML = "تم حفظ الإجابة";
+          let ansMsg = document.getElementById(`stu-cho-${questionId}`);
+          ansMsg.style.display = "block";
+          ansMsg.innerHTML = `تم اختيار الإجابة : ("${res.returnedChoice}")`;
+          this.AnswerdGroups.push(groupId);
+          console.log("AnswerdGroups", this.AnswerdGroups);
 
           let founded = this.AnswerdQuestionsNumber.find(
             (x: any) => x.questionId === questionId

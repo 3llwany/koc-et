@@ -185,7 +185,7 @@
             target="_blank"
             id="exam-{{ exam.id }}"
             class="btn btn-primary"
-            *ngIf="exam.Purchased"
+            *ngIf="exam.Purchased || exam.price == 0"
           >
             {{ "General.View" | translate }}
           </a>
@@ -196,7 +196,7 @@
             (click)="buyExam(exam)"
             id="buy-exam-{{ exam.id }}"
             class="btn btn-primary"
-            *ngIf="!exam.Purchased"
+            *ngIf="!exam.Purchased && exam.price > 0"
           >
             {{ "Material.Buy" | translate }}
           </button>
@@ -284,7 +284,7 @@
             target="_blank"
             id="temp-{{ templet.Id }}"
             class="btn btn-primary"
-            *ngIf="templet.Purchased"
+            *ngIf="templet.Purchased || templet.price == 0"
           >
             {{ "General.View" | translate }}
           </a>
@@ -295,7 +295,7 @@
             (click)="buyTemplate(templet)"
             id="buy-temp-{{ templet.Id }}"
             class="btn btn-primary"
-            *ngIf="!templet.Purchased"
+            *ngIf="!templet.Purchased && templet.price > 0"
           >
             {{ "Material.Buy" | translate }}
           </button>
