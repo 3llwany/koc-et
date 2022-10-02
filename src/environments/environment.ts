@@ -6,6 +6,6 @@
 export const environment = {
   production: false,
   // apiURL: "http://localhost:18947/api/",
-  apiURL: "https://testproj2.cloudiax.com/api/", //Test;
-  //apiURL: "https://ogsetapi.cloudiax.com/api/", //Live;
+  // apiURL: "https://testproj2.cloudiax.com/api/", //Test;
+  apiURL: "https://ogsetapi.cloudiax.com/api/", //Live;
 };
