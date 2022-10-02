@@ -382,6 +382,9 @@ export class AddQuestionComponent implements OnInit {
             this.questionID = res.questionId;
             if (this.Id.value == 0) {
               this.FormCtrl.picked_choice_index.setValue("");
+              this.question_ar_text.setValue("");
+              this.thumbnailPic?.setValue(null);
+              this.QuestionAttachPath = null;
               this.choices.clear();
               this.setDefaultChoises();
             }
