@@ -83,6 +83,10 @@ export class AddQuestionComponent implements OnInit {
     return this.myForm.get("questionBank.question.id");
   }
 
+  get Id() {
+    return this.myForm.get("questionBank.Id");
+  }
+
   get question_type_id() {
     return this.myForm.get("questionBank.question.question_type_id");
   }
@@ -376,12 +380,11 @@ export class AddQuestionComponent implements OnInit {
           if (res.questionId != null) {
             this.question_id.setValue(res.questionId);
             this.questionID = res.questionId;
-            // this.router.navigate([], {
-            //   queryParams: {
-            //     questionId: res.questionId,
-            //   },
-            //   queryParamsHandling: "merge",
-            // });
+            if (this.Id.value == 0) {
+              this.FormCtrl.picked_choice_index.setValue("");
+              this.choices.clear();
+              this.setDefaultChoises();
+            }
             this.toastr.success("Question Added Successful");
           }
           this.spinner.hide();

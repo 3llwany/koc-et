@@ -312,7 +312,7 @@ export class AddSubQuestionComponent implements OnInit {
       let choice1: IMcqChoices = {
         choice_id: this.answerOneIdCtrl?.value ?? 0,
         choice_text: this.answerOneCtrl?.value,
-        is_correct: this.answerOneIsCorrectCtrl.value ? true : false,
+        is_correct: this.answerOneIsCorrectCtrl.value === 0 ? true : false,
         choice_image: imageOne,
         remove_image: this.answerOneRemove_imageCtrl?.value,
         path: this.answerOneImageCtrl?.value,
