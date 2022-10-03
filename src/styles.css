@@ -580,7 +580,7 @@ hr {
     bottom: 0;
     right: 0;
     overflow: hidden;
-    padding: 0 15px 0 0;
+    padding: 0 15px 0 15px;
 }
 
 .examimg img {
