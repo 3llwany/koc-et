@@ -632,6 +632,12 @@ hr {
     .horizontal-layout .chat-application .chat-app-window {
         height: calc(var(--vh, 1vh) * 100 - 20.23rem);
     }
+    .user-profile-text h4 {
+        font-size: 12px;
+    }
+    .user-profile-text small {
+        font-size: 12px;
+    }
 }
 
 
