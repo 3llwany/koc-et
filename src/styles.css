@@ -544,12 +544,12 @@ hr {
 .quest.table-bordered td {
     background-color: #e8e8e8/*c0c0c0*/
     ;
-    border-color: #85d4d4;
+    border-color: #ddd;
     color: #3b3997;
 }
 
 .quest.table-bordered th {
-    border-color: #85d4d4;
+    border-color: #ddd;
 }
 
 .quest.table-bordered {
@@ -566,6 +566,26 @@ hr {
 
 .page-user-profile .user-profile-text .profile-text-color {
     color: #33a7d5 !important;
+}
+
+.yes-direction {
+    direction: ltr;
+    text-align: left;
+}
+
+.examimg {
+    width: 100%;
+    height: 140px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    padding: 0 15px 0 0;
+}
+
+.examimg img {
+    width: 100%;
+    height: 100%;
 }
 
 
