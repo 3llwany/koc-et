@@ -56,8 +56,8 @@ export class HorizontalMenuComponent
     this.EduCompId = this.AuthService.getEduCompId();
     if (this.EduCompId) this.onChangeEduCompId(this.EduCompId);
     this.branchId = this.AuthService.getBranchId();
-    console.log("EduCompId: ", this.EduCompId);
-    console.log("branchId: ", this.branchId);
+    //  console.log("EduCompId: ", this.EduCompId);
+    //  console.log("branchId: ", this.branchId);
     if (
       AuthService.isUser() &&
       (!AuthService.isStudent() || !AuthService.isSupport())

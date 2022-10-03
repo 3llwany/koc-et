@@ -62,8 +62,6 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
     this.EduCompId = this.AuthService.getEduCompId();
     if (this.EduCompId) this.onChangeEduCompId(this.EduCompId);
     this.branchId = Number(this.AuthService.getBranchId());
-    console.log("EduCompId: ", this.EduCompId);
-    console.log("branchI-: ", this.branchId);
     if (
       AuthService.isUser() &&
       (!AuthService.isStudent() || !AuthService.isSupport())
@@ -71,7 +69,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
       this.getEduCompByUser();
     }
     if (AuthService.isUser()) {
-      console.log("branchId:getUserFunctions:  ", this.branchId);
+      // console.log("branchId:getUserFunctions:  ", this.branchId);
       this.getUserFunctions(this.branchId);
     }
   }

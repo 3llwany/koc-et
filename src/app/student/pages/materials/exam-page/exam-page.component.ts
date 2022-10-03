@@ -13,6 +13,8 @@ import {
   IExamQuestionsVM,
   IPickedChoiceIdVM,
 } from "app/admin/models/admin/exam";
+import { TranslateService } from "@ngx-translate/core";
+declare function changeStyle(): any;
 @Component({
   selector: "app-exam-page",
   templateUrl: "./exam-page.component.html",
@@ -72,11 +74,15 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
+    private translate: TranslateService,
     public dialog: MatDialog
   ) {
     this.route.paramMap.subscribe((params) => {
       this.examId = params.get("examId");
     });
+
+    this.translate.use("en");
+    changeStyle();
   }
 
   ngOnInit(): void {
