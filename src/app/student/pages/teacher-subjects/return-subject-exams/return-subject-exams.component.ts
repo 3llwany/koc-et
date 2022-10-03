@@ -24,7 +24,8 @@ import { ToastrService } from "ngx-toastr";
   styleUrls: ["./return-subject-exams.component.scss"],
 })
 export class ReturnSubjectExamsComponent implements OnInit {
-  @Input("teacherSubjectId") teacherSubjectId;
+  // @Input("teacherSubjectId")
+  teacherSubjectId: any;
   @Input("subjectId") subjectId;
   @Input("teacherId") teacherId;
   @ViewChild("buyexamBtn", { read: ElementRef }) buyexamBtn: ElementRef;
@@ -45,10 +46,21 @@ export class ReturnSubjectExamsComponent implements OnInit {
     private MaterialsService: MaterialsService,
     private StudentService: StudentService,
     private router: Router,
+    private route: ActivatedRoute,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.route.paramMap.subscribe((params) => {
+      this.teacherSubjectId = Number(params.get("teacherSubjectId"));
+      this.ReturnSubjectChapters(1);
+    });
+    // router.events.subscribe((val) => {
+    //   // console.log("teacherSubjectId", this.teacherSubjectId);
+    //   // console.log(val);
+    //   // this.ReturnSubjectChapters(1);
+    // });
+  }
 
   ngOnInit(): void {
     this.ReturnSubjectChapters(1);

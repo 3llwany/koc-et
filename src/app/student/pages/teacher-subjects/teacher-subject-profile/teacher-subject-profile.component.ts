@@ -1,7 +1,7 @@
 import { IMaterialVM } from "./../../../../admin/models/admin/educations";
 import { StudentService } from "app/student/services/student.service";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TeacherSubjectsService } from "app/student/services/teacherSubjects.service";
 import {
   IFileDocumentVM,
@@ -31,6 +31,7 @@ export class TeacherSubjectProfileComponent implements OnInit {
   constructor(
     private TeacherSubServ: TeacherSubjectsService,
     private route: ActivatedRoute,
+    private router: Router,
     private StudentService: StudentService
   ) {
     this.route.paramMap.subscribe((params) => {

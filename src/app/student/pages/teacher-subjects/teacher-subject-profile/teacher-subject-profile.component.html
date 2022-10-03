@@ -171,8 +171,8 @@
             <!-- Exams Tab -->
             <mat-tab label="{{ 'Navbar.Exams' | translate }}">
               <div class="mt pr-10">
+                <!-- [teacherSubjectId]="teacherSubjectId" -->
                 <app-return-subject-exams
-                  [teacherSubjectId]="teacherSubjectId"
                   [subjectId]="subjectId"
                   [teacherId]="teacherId"
                 ></app-return-subject-exams>
