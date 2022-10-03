@@ -150,7 +150,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
         res.exam.groups.forEach((group, index) => {
           group.Heads.forEach((head) => {
             head.Questions.forEach((question) => {
-              if (question.QuestionDetails.StudentChoice.RESULT == "T") {
+              if (question.QuestionDetails.StudentChoice?.RESULT == "T") {
                 this.solvedQuestionNumberArr.push({ id: index });
                 this.AnswerdGroups.push(group.GroupId);
               }
@@ -329,8 +329,8 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
           let currentGroupIndex = this.ExamGroups.findIndex(
             (e) => e.GroupId === this.currentGroupId
           );
-          let nextGroupId = this.ExamGroups[currentGroupIndex + 1].GroupId;
-          this.currentGroupId = nextGroupId;
+          let nextGroupId = this.ExamGroups[currentGroupIndex + 1]?.GroupId;
+          if (nextGroupId) this.currentGroupId = nextGroupId;
 
           // add answerd question to answers list
           let founded = this.AnswerdQuestionsNumber.find(
