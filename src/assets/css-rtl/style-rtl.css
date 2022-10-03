@@ -191,6 +191,11 @@ body.bodyrtl .mat-dialog-content {
     right: auto !important;
 }
 
+body.bodyrtl .yes-direction {
+    direction: rtl;
+    text-align: right;
+}
+
 @media (min-width: 320px) and (max-width: 750px) {
     body.bodyrtl .chat-application .chat-app-window,
     body.bodyrtl .chat-application .chat-app-form,
