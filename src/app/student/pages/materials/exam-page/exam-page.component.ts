@@ -80,7 +80,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
     this.route.paramMap.subscribe((params) => {
       this.examId = params.get("examId");
     });
-
+    sessionStorage.setItem("currentLang", "en");
     this.translate.use("en");
     changeStyle();
   }
