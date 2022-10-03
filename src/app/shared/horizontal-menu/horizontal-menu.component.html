@@ -66,23 +66,6 @@
         [routerLinkActiveOptions]="{ exact: true }"
       >
         <a
-          routerLink="/student/recharge"
-          class="dropdown-toggle nav-link d-flex align-items-center"
-        >
-          <i class="fa fa-money"></i>
-
-          <span>{{ "Navbar.Recharge" | translate }}</span>
-        </a>
-      </li>
-
-      <li
-        appTopMenulink
-        parent="Recharge"
-        class="dropdown nav-item"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        <a
           routerLink="/student/teacher/2/teacher-subject/896/1006"
           class="dropdown-toggle nav-link d-flex align-items-center"
         >
@@ -109,7 +92,27 @@
         </a>
       </li>
 
-      <!-- <li
+      <!--
+
+          <li
+        appTopMenulink
+        parent="Recharge"
+        class="dropdown nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          routerLink="/student/recharge"
+          class="dropdown-toggle nav-link d-flex align-items-center"
+        >
+          <i class="fa fa-money"></i>
+
+          <span>{{ "Navbar.Recharge" | translate }}</span>
+        </a>
+      </li>
+
+
+        <li
         appTopMenulink
         parent="Recharge"
         class="dropdown nav-item"
