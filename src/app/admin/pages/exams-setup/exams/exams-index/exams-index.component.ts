@@ -34,7 +34,7 @@ export class ExamsIndexComponent implements OnInit {
   totalItems: any;
   EduCompId: any;
   branchId: any;
-  exams: IExamViewModel[] = [];
+  //exams: IExamViewModel[] = [];
   countries: ICountrieDropModel[] = [];
   stages: IStageDropModel[] = [];
   educationYears: IEducationYearDropModel[] = [];
@@ -165,7 +165,7 @@ export class ExamsIndexComponent implements OnInit {
       if (response) {
         //  console.log('EXAMS: ', response);
         this.dataSource = new MatTableDataSource(response.examList.reverse());
-        this.exams = response.examList;
+        //  this.exams = response.examList;
         this.totalItems = response.totalCount;
       }
       this.spinner.hide();
@@ -174,12 +174,12 @@ export class ExamsIndexComponent implements OnInit {
 
   removeExam(exam: IExamViewModel) {
     this.examService.deleteExam<any>(exam.Id).subscribe((response) => {
-      if (response) {
-        //  console.log('deleted: ', response);
-        let deletedIndex = this.exams.findIndex((e) => e.Id == exam.Id);
-        this.exams.splice(deletedIndex, 1);
+      if (response.data == 1) {
+        let deletedIndex = this.dataSource.data.findIndex((e) => e === exam);
+        this.dataSource.data.splice(deletedIndex, 1);
+        this.dataSource.paginator = this.paginator;
         this.msg.success("تم حذف الإمتحان");
-      }
+      } else this.msg.warning(response.returnString);
     });
   }
 
@@ -200,7 +200,7 @@ export class ExamsIndexComponent implements OnInit {
     this.examService.publishExam<any>(exam.Id).subscribe((response) => {
       if (response) {
         //  console.log('published: ', response);
-        for (const obj of this.exams) {
+        for (const obj of this.dataSource.data) {
           if (obj.Id === exam.Id) {
             obj.IsPublish = !obj.IsPublish;
             break;
