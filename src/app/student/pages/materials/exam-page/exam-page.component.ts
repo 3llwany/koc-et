@@ -1,5 +1,11 @@
 import { StudentService } from "app/student/services/student.service";
-import { Component, HostListener, OnInit } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { Observable, timer } from "rxjs";
@@ -68,6 +74,8 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
   // Returned Res from submit exam
   solvidResults: any;
   currentGroupId: number = null;
+
+  @ViewChild("SubmitExamBtn") SubmitExamBtn: ElementRef;
   constructor(
     private studentServ: StudentService,
     private toastr: ToastrService,
@@ -364,6 +372,7 @@ export class ExamPageComponent implements OnInit, ComponentCanDeactivate {
         '" سؤال';
       this.toastr.error(msg);
     } else {
+      this.SubmitExamBtn.nativeElement.disabled = "true";
       this.spinner.show();
       let data = {
         examId: this.examId,

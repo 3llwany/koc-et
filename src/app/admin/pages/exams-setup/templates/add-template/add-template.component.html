@@ -892,9 +892,10 @@
 
                   <td>{{ detail?.questionsCount }}</td>
                   <td>{{ detail?.mark }}</td>
-                  <td *ngIf="detail?.questionsLevel == 1">سهل</td>
-                  <td *ngIf="detail?.questionsLevel == 5">متوسط</td>
-                  <td *ngIf="detail?.questionsLevel == 10">صعب</td>
+                  <td *ngIf="detail?.questionsLevel == 1">صعب</td>
+                  <td *ngIf="detail?.questionsLevel == 2">متوسط</td>
+                  <td *ngIf="detail?.questionsLevel == 3">كلمات</td>
+                  <td *ngIf="detail?.questionsLevel == 4">قطع</td>
                   <td>{{ detail?.SubjectName }}</td>
                   <td>{{ detail?.UnitName }}</td>
                   <td>{{ detail?.LessonName }}</td>
