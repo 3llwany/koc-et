@@ -344,23 +344,23 @@ export class AddQuestionComponent implements OnInit {
         return;
       }
 
-      //answer 3
-      if (
-        !this.choices.value[2].thumbnailPic &&
-        !this.choices.value[2].choice_text
-      ) {
-        this.toastr.warning("Must Enter answer 3 text or picture");
-        return;
-      }
+      // //answer 3
+      // if (
+      //   !this.choices.value[2].thumbnailPic &&
+      //   !this.choices.value[2].choice_text
+      // ) {
+      //   this.toastr.warning("Must Enter answer 3 text or picture");
+      //   return;
+      // }
 
-      //answer 4
-      if (
-        !this.choices.value[3].thumbnailPic &&
-        !this.choices.value[3].choice_text
-      ) {
-        this.toastr.warning("Must Enter answer 4 text or picture");
-        return;
-      }
+      // //answer 4
+      // if (
+      //   !this.choices.value[3].thumbnailPic &&
+      //   !this.choices.value[3].choice_text
+      // ) {
+      //   this.toastr.warning("Must Enter answer 4 text or picture");
+      //   return;
+      // }
 
       //Correct answer
       if (this.FormCtrl.picked_choice_index.value < 0) {

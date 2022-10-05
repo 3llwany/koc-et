@@ -425,37 +425,23 @@ export class AddSubQuestionComponent implements OnInit {
         return;
       }
 
-      // if mcq 3 no text or img
-      if (
-        choice3.choice_text === "" &&
-        choice3.choice_image === null &&
-        choice3.path == null
-      ) {
-        this.toastr.warning("يجب ادخال نص السؤال الثالث او اختيار صورة ");
-        return;
-      }
-
-      // if mcq 4 no text or img
-      if (
-        choice4.choice_text === "" &&
-        choice4.choice_image === null &&
-        choice4.path == null
-      ) {
-        this.toastr.warning("يجب ادخال نص السؤال الرابع او اختيار صورة ");
-        return;
-      }
-
+      // // if mcq 3 no text or img
       // if (
-      //   (choice1.choice_text === "" ||
-      //     choice1.choice_image?.FileAsBase64 === null) &&
-      //   (choice2.choice_text === "" ||
-      //     choice2.choice_image?.FileAsBase64 === null) &&
-      //   (choice3.choice_text === "" ||
-      //     choice3.choice_image?.FileAsBase64 === null) &&
-      //   (choice4.choice_text === "" ||
-      //     choice4.choice_image.FileAsBase64 === null)
+      //   choice3.choice_text === "" &&
+      //   choice3.choice_image === null &&
+      //   choice3.path == null
       // ) {
-      //   this.toastr.warning("يجب ادخال نص جميع الاجابات او اختيار صور ");
+      //   this.toastr.warning("يجب ادخال نص السؤال الثالث او اختيار صورة ");
+      //   return;
+      // }
+
+      // // if mcq 4 no text or img
+      // if (
+      //   choice4.choice_text === "" &&
+      //   choice4.choice_image === null &&
+      //   choice4.path == null
+      // ) {
+      //   this.toastr.warning("يجب ادخال نص السؤال الرابع او اختيار صورة ");
       //   return;
       // }
       else {
