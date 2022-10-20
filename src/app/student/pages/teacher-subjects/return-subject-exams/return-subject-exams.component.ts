@@ -170,7 +170,8 @@ export class ReturnSubjectExamsComponent implements OnInit {
     this.MaterialsService.buyExam(exam.id).subscribe((res: any) => {
       if (res.returnValue == 1) {
         console.log("Exam purchased");
-        this.router.navigateByUrl(`/student/exam/${exam.id}`);
+        window.open(`/student/exam/${exam.id}`, "_blank");
+        // this.router.navigateByUrl(`/student/exam/${exam.id}`);
       } else if (res.returnValue == 0) {
         this.toastr.info(res.returnString, "خطأ");
       } else if (res.returnValue == 3) {
@@ -187,7 +188,8 @@ export class ReturnSubjectExamsComponent implements OnInit {
     this.spinner.show();
     this.MaterialsService.ResetExamAsStudent(id).subscribe((res: any) => {
       if (res.returnValue == 1) {
-        this.router.navigateByUrl(`/student/exam/${id}`);
+        window.open(`/student/exam/${id}`, "_blank");
+        // this.router.navigateByUrl(`/student/exam/${id}`);
         // window.open(`/exam/${id}`);
       } else if (res.returnValue == 0) {
         this.toastr.info(res.returnString, "خطأ");
@@ -215,9 +217,13 @@ export class ReturnSubjectExamsComponent implements OnInit {
       (res: any) => {
         if ((res.returnValue = 200 && res.examId)) {
           // let url = "exam/Details/Template/" + templateId + "/" + res.examId;
-          this.router.navigate([`/student/exam/${res.examId}`], {
-            queryParams: { templateId: templateId },
-          });
+          window.open(
+            `/student/exam/${res.examId}?templateId=${templateId}`,
+            "_blank"
+          );
+          // this.router.navigate([`/student/exam/${res.examId}`], {
+          //   queryParams: { templateId: templateId },
+          // });
         } else {
           this.toastr.error(res.returnString);
         }
