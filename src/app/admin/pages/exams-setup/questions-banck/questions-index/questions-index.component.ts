@@ -5,7 +5,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute } from "@angular/router";
-import { question } from "app/admin/models/admin/exams";
+import { ISearchQuestion, question } from "app/admin/models/admin/exams";
 import { EducationalService } from "app/admin/services/Admin/educational.service";
 import { ExamsService } from "app/admin/services/Admin/exams.service";
 import { DeleteDialogComponent } from "app/shared/components/dialogs/delete-dialog/delete-dialog.component";
@@ -85,24 +85,25 @@ export class QuestionsIndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.myForm = this.fb.group({
-      teacherUserId: [""],
-      stageId: [""],
-      yearId: [""],
-      subjectId: [""],
-      unitId: [""],
-      lessonId: [""],
-      topicId: [""],
+      teacherUserId: [null],
+      stageId: [null],
+      yearId: [null],
+      subjectId: [null],
+      unitId: [null],
+      lessonId: [null],
+      topicId: [null],
+      questionString: [null],
     });
     this.EduCompId = this.authService.getEduCompId();
     this.branchId = this.authService.getBranchId();
     this.getTeachersByEducompId(this.EduCompId);
     this.getQuestions(1);
-    this.FormCtrl.stageId.disable();
-    this.FormCtrl.yearId.disable();
-    this.FormCtrl.subjectId.disable();
-    this.FormCtrl.unitId.disable();
-    this.FormCtrl.lessonId.disable();
-    this.FormCtrl.topicId.disable();
+    // this.FormCtrl.stageId.disable();
+    // this.FormCtrl.yearId.disable();
+    // this.FormCtrl.subjectId.disable();
+    // this.FormCtrl.unitId.disable();
+    // this.FormCtrl.lessonId.disable();
+    // this.FormCtrl.topicId.disable();
   }
 
   get FormCtrl() {
@@ -129,9 +130,18 @@ export class QuestionsIndexComponent implements OnInit {
   }
 
   getQuestions(page: any) {
+    let obj = {} as ISearchQuestion;
+    obj.teacherUserId = this.myForm.value.teacherUserId || null;
+    obj.lessonId = this.myForm.value.lessonId || null;
+    obj.questionString = this.myForm.value.questionString || null;
+    obj.stageId = this.myForm.value.stageId || null;
+    obj.subjectId = this.myForm.value.subjectId || null;
+    obj.topicId = this.myForm.value.unitId || null;
+    obj.unitId = this.myForm.value.questionString || null;
+    obj.yearId = this.myForm.value.yearId || null;
     this.spinner.show();
     this.examServ
-      .getQuestions(page, this.EduCompId, this.myForm.value)
+      .getQuestions(page, this.EduCompId, obj)
       .subscribe((res: any) => {
         this.dataSource = new MatTableDataSource(res.returnModel);
         this.itemsCount = res.itemsCount;
@@ -141,6 +151,7 @@ export class QuestionsIndexComponent implements OnInit {
 
   deleteQuestion(question: question) {
     this.spinner.show();
+
     this.examServ
       .deleteQuestion(this.EduCompId, question.questionID)
       .subscribe((res: any) => {
