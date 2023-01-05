@@ -114,7 +114,9 @@
                     <h4 class="card-title">{{ Chapter.lesson_ar_name }}</h4>
                     <p class="card-text">{{ "Material.ExamsCount" | translate }}: {{ Chapter.examCount }}</p>
 
-                    <button *ngIf="Chapter.examCount > 0" type="button" class="btn btn-primary" (click)="ReturneExamsList(Chapter.id, 3)">{{ "General.View" | translate }}</button>
+                    <button *ngIf="Chapter.examCount > 0" type="button" class="btn btn-primary" (click)="ReturneExamsList(Chapter.id, 3)">
+            {{ "General.View" | translate }}
+          </button>
                 </div>
             </div>
         </div>
@@ -182,16 +184,14 @@
                   </a>
 
                         <button #buyexamBtn mat-raised-button (click)="buyExam(exam)" id="buy-exam-{{ exam.id }}" class="btn btn-primary" *ngIf="!exam.Purchased && exam.price > 0">
-                    {{ "Material.Buy" | translate }}
-                  </button>
-
-
+              {{ "Material.Buy" | translate }}
+            </button>
                     </ng-container>
 
                     <ng-container *ngIf="!exam.IsAvaliable">
                         <span mat-raised-button class="btn btn-danger">
-                    {{ "General.Unavailable" | translate }}
-                  </span>
+              {{ "General.Unavailable" | translate }}
+            </span>
                     </ng-container>
                 </div>
             </div>
@@ -214,7 +214,7 @@
         src="assets/img/shadad.jpeg"
         [alt]="exam.exam_ar_name"
       />
-      
+
       <span mat-icon-button class="btn btn-danger rounded price-icon">
         {{ exam.price }} KWD
       </span>
@@ -228,7 +228,7 @@
       </mat-card-content>
       <mat-card-actions>
         <ng-container *ngIf="exam.IsAvaliable">
-          
+
           <a
             mat-raised-button
             routerLink="/student/exam/{{ exam.id }}"
@@ -251,7 +251,7 @@
             {{ "Material.Buy" | translate }}
           </button>
 
-           
+
         </ng-container>
 
         <ng-container *ngIf="!exam.IsAvaliable">
@@ -281,16 +281,14 @@
                   </a>
 
                         <button #buytemplatebtn mat-raised-button (click)="buyTemplate(templet)" id="buy-temp-{{ templet.Id }}" class="btn btn-primary" *ngIf="!templet.Purchased && templet.price > 0">
-                    {{ "Material.Buy" | translate }}
-                  </button>
-
-
+              {{ "Material.Buy" | translate }}
+            </button>
                     </ng-container>
 
                     <ng-container *ngIf="!templet.IsAvaliable">
                         <span mat-raised-button class="btn btn-danger">
-                    {{ "Material.Unavailable" | translate }}
-                  </span>
+              {{ "Material.Unavailable" | translate }}
+            </span>
                     </ng-container>
                 </div>
             </div>
@@ -313,7 +311,7 @@
         src="assets/img/shadad.jpeg"
         [alt]="templet.Name"
       />
-      
+
       <span mat-icon-button class="btn btn-danger rounded price-icon">
         {{ templet.price }} KWD
       </span>
@@ -327,7 +325,7 @@
       </mat-card-content>
       <mat-card-actions>
         <ng-container *ngIf="templet.IsAvaliable">
-          
+
 
           <a
             mat-raised-button
@@ -351,7 +349,7 @@
             {{ "Material.Buy" | translate }}
           </button>
 
-       
+
         </ng-container>
 
         <ng-container *ngIf="!templet.IsAvaliable">

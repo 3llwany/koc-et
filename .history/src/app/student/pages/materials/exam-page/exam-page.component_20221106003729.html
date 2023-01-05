@@ -349,7 +349,7 @@
                                   Question.QuestionDetails?.StudentChoice !=
                                     null &&
                                   Question.QuestionDetails?.StudentChoice
-                                    ?.student_choice_id == mcq.Id)
+                                    .student_choice_id == mcq.Id)
                               "
                             >
                               <span
@@ -359,22 +359,22 @@
                                     (isSolved &&
                                       mcq.IsCorrect &&
                                       Question.QuestionDetails?.StudentChoice
-                                        ?.student_choice_id == mcq.Id) ||
+                                        .student_choice_id == mcq.Id) ||
                                     (!isSolved &&
                                       mcq.IsCorrect &&
                                       Question.QuestionDetails?.StudentChoice !=
                                         null &&
                                       Question.QuestionDetails?.StudentChoice
-                                        ?.student_choice_id == mcq.Id),
+                                        .student_choice_id == mcq.Id),
 
                                   danger:
                                     isSolved &&
                                     !mcq.IsCorrect &&
                                     Question.QuestionDetails?.StudentChoice
-                                      ?.student_choice_id == mcq.Id
+                                      .student_choice_id == mcq.Id
                                 }"
                               >
-                                 <span [innerHTML]="mcq.MCQText"></span>
+                                {{ mcq.MCQText }}
                                 <img
                                   class="examimage"
                                   *ngIf="mcq.MCQAttach"

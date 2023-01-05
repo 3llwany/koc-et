@@ -374,7 +374,7 @@
                                       ?.student_choice_id == mcq.Id
                                 }"
                               >
-                                 <span [innerHTML]="mcq.MCQText"></span>
+                                {{ mcq.MCQText }}
                                 <img
                                   class="examimage"
                                   *ngIf="mcq.MCQAttach"

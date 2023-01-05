@@ -656,11 +656,6 @@ export class AddSubQuestionComponent implements OnInit {
             );
             this.fourIsCorrect = response.MCQ_Choices[3]?.Is_Correct;
           }
-
-          console.log("answer 1", this.oneIsCorrect);
-          console.log("answer 2", this.twoIsCorrect);
-          console.log("answer 3", this.threeIsCorrect);
-          console.log("answer 4", this.fourIsCorrect);
         }
         this.spinner.hide();
       });

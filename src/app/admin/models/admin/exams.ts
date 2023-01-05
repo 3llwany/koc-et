@@ -11,6 +11,16 @@ export interface question {
   topicName: string;
   unitName: string;
 }
+export interface ISearchQuestion {
+  teacherUserId: number;
+  stageId: number;
+  yearId: number;
+  subjectId: number;
+  unitId: number;
+  lessonId: number;
+  topicId: number;
+  questionString: number;
+}
 
 //Exam
 export interface IExamVM {
