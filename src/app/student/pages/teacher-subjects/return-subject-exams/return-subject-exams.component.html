@@ -6,8 +6,8 @@
     <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let Chapter of subjectRevisions">
         <div class="card overflow-hidden">
             <div class="card-content">
-                <img class="card-img-top img-fluid" *ngIf="teacherId == 22" src="assets/img/licpic.jpeg" [alt]="Chapter.subject_ar_name">
-                <img class="card-img-top img-fluid" *ngIf="teacherId != 22" src="assets/img/lectureBackground.jpeg" [alt]="Chapter.subject_ar_name">
+
+                <img class="card-img-top img-fluid" src="assets/img/shadad.jpeg" [alt]="Chapter.subject_ar_name">
                 <div class="card-body newcard">
                     <h4 class="card-title">{{ Chapter.subject_ar_name }}</h4>
                     <p class="card-text">{{ Chapter.subjectDescription }}</p>
@@ -28,10 +28,10 @@
       />
 
       <img
-        *ngIf="teacherId != 22"
+         
         mat-card-image
         class="card-img rounded mb-3"
-        src="assets/img/lectureBackground.jpeg"
+        src="assets/img/shadad.jpeg"
         [alt]="Chapter.subject_ar_name"
       />
       <mat-card-title>
@@ -58,8 +58,8 @@
     <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let Chapter of unitRevisions">
         <div class="card overflow-hidden">
             <div class="card-content">
-                <img class="card-img-top img-fluid" *ngIf="teacherId == 22" src="assets/img/licpic.jpeg" [alt]="Chapter.unit_ar_name">
-                <img class="card-img-top img-fluid" *ngIf="teacherId != 22" src="assets/img/lectureBackground.jpeg" [alt]="Chapter.unit_ar_name">
+
+                <img class="card-img-top img-fluid" src="assets/img/shadad.jpeg" [alt]="Chapter.unit_ar_name">
                 <div class="card-body newcard">
                     <h4 class="card-title">{{ Chapter.unit_ar_name }}</h4>
                     <p class="card-text">{{ Chapter.unitDescription }}</p>
@@ -80,10 +80,10 @@
       />
 
       <img
-        *ngIf="teacherId != 22"
+         
         mat-card-image
         class="card-img rounded mb-3"
-        src="assets/img/lectureBackground.jpeg"
+        src="assets/img/shadad.jpeg"
         [alt]="Chapter.unit_ar_name"
       />
       <mat-card-title> {{ Chapter.unit_ar_name }} </mat-card-title>
@@ -108,8 +108,8 @@
     <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let Chapter of lessonsChapters">
         <div class="card overflow-hidden">
             <div class="card-content">
-                <img class="card-img-top img-fluid" *ngIf="teacherId == 22" src="assets/img/licpic.jpeg" [alt]="Chapter.lesson_ar_name">
-                <img class="card-img-top img-fluid" *ngIf="teacherId != 22" src="assets/img/lectureBackground.jpeg" [alt]="Chapter.lesson_ar_name">
+
+                <img class="card-img-top img-fluid" src="assets/img/shadad.jpeg" [alt]="Chapter.lesson_ar_name">
                 <div class="card-body newcard">
                     <h4 class="card-title">{{ Chapter.lesson_ar_name }}</h4>
                     <p class="card-text">{{ "Material.ExamsCount" | translate }}: {{ Chapter.examCount }}</p>
@@ -130,10 +130,10 @@
       />
 
       <img
-        *ngIf="teacherId != 22"
+         
         mat-card-image
         class="card-img rounded mb-3"
-        src="assets/img/lectureBackground.jpeg"
+        src="assets/img/shadad.jpeg"
         [alt]="Chapter.lesson_ar_name"
       />
       <mat-card-title> {{ Chapter.lesson_ar_name }} </mat-card-title>
@@ -169,8 +169,8 @@
     <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let exam of ExamsList">
         <div class="card overflow-hidden" id="mat-{{ exam.id }}">
             <div class="card-content">
-                <img class="card-img-top img-fluid" *ngIf="teacherId == 22" src="assets/img/licpic.jpeg" [alt]="exam.exam_ar_name">
-                <img class="card-img-top img-fluid" *ngIf="teacherId != 22" src="assets/img/lectureBackground.jpeg" [alt]="exam.exam_ar_name">
+
+                <img class="card-img-top img-fluid" src="assets/img/shadad.jpeg" [alt]="exam.exam_ar_name">
                 <span class="btn btn-danger rounded price-icon">{{ exam.price }} KWD</span>
                 <div class="card-body newcard">
                     <h4 class="card-title"> {{ exam.exam_ar_name }}</h4>
@@ -208,10 +208,10 @@
       />
 
       <img
-        *ngIf="teacherId != 22"
+         
         mat-card-image
         class="card-img rounded mb-3"
-        src="assets/img/lectureBackground.jpeg"
+        src="assets/img/shadad.jpeg"
         [alt]="exam.exam_ar_name"
       />
       
@@ -267,8 +267,8 @@
     <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let templet of templatesList">
         <div class="card overflow-hidden" id="mat-{{ templet.Id }}">
             <div class="card-content">
-                <img class="card-img-top img-fluid" *ngIf="teacherId == 22" src="assets/img/licpic.jpeg" [alt]="templet.Name">
-                <img class="card-img-top img-fluid" *ngIf="teacherId != 22" src="assets/img/lectureBackground.jpeg" [alt]="templet.Name">
+
+                <img class="card-img-top img-fluid" src="assets/img/shadad.jpeg" [alt]="templet.Name">
                 <span class="btn btn-danger rounded price-icon">  {{ templet.price }} KWD</span>
                 <div class="card-body newcard">
                     <h4 class="card-title"> {{ templet.Name }}</h4>
@@ -307,10 +307,10 @@
       />
 
       <img
-        *ngIf="teacherId != 22"
+         
         mat-card-image
         class="card-img rounded mb-3"
-        src="assets/img/lectureBackground.jpeg"
+        src="assets/img/shadad.jpeg"
         [alt]="templet.Name"
       />
       
